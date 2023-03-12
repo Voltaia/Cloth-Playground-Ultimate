@@ -9,6 +9,8 @@ public partial class ClothController : Node2D
 	// Variables
 	private List<Joint> joints = new List<Joint>();
 	private List<Connection> connections = new List<Connection>();
+	private bool connectionEditMode = false;
+	private bool jointEditMode = false;
 	private bool isCutting = false;
 
 	// Settings
@@ -24,16 +26,25 @@ public partial class ClothController : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// Loop through connections for collisions
-		if (isCutting) {
-			Vector2 mousePosition = GetViewport().GetMousePosition();
-			for (int index = connections.Count - 1; index >= 0; index--) {
-				Connection connection = connections[index];
-				if (CollisionChecker.PointCollidesWithConnection(mousePosition, connection)) {
-					connection.QueueFree();
-					connections.Remove(connection);
-				}
+		// Switching modes
+		if (Input.IsActionPressed("Edit Connections")) {
+			connectionEditMode = true;
+			jointEditMode = false;
+		} else if (Input.IsActionPressed("Edit Joints")) {
+			jointEditMode = true;
+			connectionEditMode = false;
+		} else {
+			connectionEditMode = false;
+			jointEditMode = false;
+		}
+
+		// Checking edit modes
+		if (connectionEditMode) {
+			if (isCutting) {
+				AttemptConnectionCut();
 			}
+		} else if (jointEditMode) {
+
 		}
 
 		// Queue redraw
@@ -52,9 +63,21 @@ public partial class ClothController : Node2D
 		// Exit app
 		if (@event.IsActionPressed("Exit")) GetTree().Quit();
 
-		// Enable/disable cutting cloth
-		if (@event.IsActionPressed("Cut Cloth")) isCutting = true;
-		else if (@event.IsActionReleased("Cut Cloth")) isCutting = false;
+		// Enable/disable cutting
+		if (@event.IsActionPressed("Cut Item")) isCutting = true;
+		else if (@event.IsActionReleased("Cut Item")) isCutting = false;
+	}
+
+	// Attempt connection cut
+	private void AttemptConnectionCut() {
+		Vector2 mousePosition = GetViewport().GetMousePosition();
+		for (int index = connections.Count - 1; index >= 0; index--) {
+			Connection connection = connections[index];
+			if (CollisionChecker.PointCollidesWithConnection(mousePosition, connection)) {
+				connection.QueueFree();
+				connections.Remove(connection);
+			}
+		}
 	}
 
 	// Generate cloth
