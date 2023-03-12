@@ -6,7 +6,7 @@ using Godot;
 public static class CollisionChecker
 {
 	// Settings
-	private const float tolerance = 2.0f;
+	private const float Tolerance = 2.0f;
 
 	// Checks for a point/connection collision
 	public static bool PointCollidesWithConnection(Vector2 pointPosition, Connection connection) {
@@ -20,8 +20,8 @@ public static class CollisionChecker
 
 		// Check collision
 		bool collided =
-			distanceFromConnection >= distanceBetweenJoints - tolerance
-			&& distanceFromConnection <= distanceBetweenJoints + tolerance;
+			distanceFromConnection >= distanceBetweenJoints - Tolerance
+			&& distanceFromConnection <= distanceBetweenJoints + Tolerance;
 
 		// Return collision
 		return collided;

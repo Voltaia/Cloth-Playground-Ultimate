@@ -12,8 +12,8 @@ public partial class ClothController : Node2D
 	private bool isCutting = false;
 
 	// Settings
-	private const int separation = 50;
-	private const int padding = 50;
+	private const int Separation = 50;
+	private const int Padding = 50;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -36,24 +36,12 @@ public partial class ClothController : Node2D
 			}
 		}
 
-		// Queue redraw for lines
-		// NOTE: Maybe switch to line renderer in the future?
+		// Queue redraw
 		QueueRedraw();
 	}
 
 	// Draw stuff
 	public override void _Draw() {
-		// Draw connections
-		foreach (Connection connection in connections)
-		{
-			DrawLine(
-				connection.firstJoint.Position,
-				connection.secondJoint.Position,
-				Colors.LightBlue,
-				Connection.drawThickness
-			);
-		}
-
 		// Draw framerate
 		DrawString(new Label().GetThemeDefaultFont(), new Vector2(5, 20), Engine.GetFramesPerSecond().ToString());
 	}
@@ -74,9 +62,9 @@ public partial class ClothController : Node2D
 	{
 		// Calculate joints to create
 		Vector2 screenSize = GetViewportRect().Size;
-		int horizontalCount = ((int)screenSize.X - padding) / separation;
-		int verticalCount = ((int)screenSize.Y - padding) / separation;
-		Vector2 clothSize = new Vector2((horizontalCount - 1) * separation, (verticalCount - 1) * separation);
+		int horizontalCount = ((int)screenSize.X - Padding) / Separation;
+		int verticalCount = ((int)screenSize.Y - Padding) / Separation;
+		Vector2 clothSize = new Vector2((horizontalCount - 1) * Separation, (verticalCount - 1) * Separation);
 		Vector2 startPosition = screenSize / 2 - clothSize / 2;
 		Joint[,] jointArray = new Joint[horizontalCount, verticalCount];
 
@@ -86,7 +74,7 @@ public partial class ClothController : Node2D
 			for (int yIndex = 0; yIndex < verticalCount; yIndex++)
 			{
 				// Create joint
-				Vector2 newJointPosition = new Vector2(startPosition.X + xIndex * separation, startPosition.Y + yIndex * separation);
+				Vector2 newJointPosition = new Vector2(startPosition.X + xIndex * Separation, startPosition.Y + yIndex * Separation);
 				bool isFixed = yIndex == 0;
 				Joint newJoint = new Joint(newJointPosition, isFixed);
 				joints.Add(newJoint);

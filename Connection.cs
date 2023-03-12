@@ -2,7 +2,7 @@
 using Godot;
 
 // A cloth connection
-public partial class Connection : Node
+public partial class Connection : Node2D
 {
 	// Variables
 	public Joint firstJoint;
@@ -10,8 +10,8 @@ public partial class Connection : Node
 	public readonly float desiredLength;
 
 	// Settings
-	public const float drawThickness = 5.0f;
-	private const int simulationIterations = 10;
+	public const float DrawThickness = 5.0f;
+	private const int SimulationIterations = 10;
 
 	// Properties
 	public float actualLength {
@@ -24,12 +24,21 @@ public partial class Connection : Node
 		this.firstJoint = firstJoint;
 		this.secondJoint = secondJoint;
 		desiredLength = (firstJoint.Position - secondJoint.Position).Length();
+		Name = "Connection";
+	}
+
+	// Start
+	public override void _Ready()
+	{
+		// Reorder in hierarchy for draw order
+		GetParent().MoveChild(this, 0);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		for (int iteration = 0; iteration < simulationIterations; iteration++)
+		// Run through simulation
+		for (int iteration = 0; iteration < SimulationIterations; iteration++)
 		{
 			// Get connection values
 			Vector2 center = (firstJoint.Position + secondJoint.Position) / 2;
@@ -43,5 +52,18 @@ public partial class Connection : Node
 			if (!secondJoint.isFixed)
 				secondJoint.Position = center - direction * desiredLength / 2;
 		}
+
+		// Update drawing
+		QueueRedraw();
+	}
+
+	// Draw
+	public override void _Draw() {
+		DrawLine(
+				firstJoint.Position,
+				secondJoint.Position,
+				Colors.LightBlue,
+				DrawThickness
+			);
 	}
 }
