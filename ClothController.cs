@@ -16,7 +16,7 @@ public partial class ClothController : Node2D
 
 	// Settings
 	private const int Separation = 50;
-	private const int Padding = 50;
+	private const int Padding = 100;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
