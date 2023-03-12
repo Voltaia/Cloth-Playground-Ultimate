@@ -7,7 +7,7 @@ public partial class Connection : Node2D
 	// Variables
 	public Joint firstJoint;
 	public Joint secondJoint;
-	public readonly float desiredLength;
+	public float desiredLength;
 
 	// Settings
 	public const float DrawThickness = 5.0f;
@@ -24,7 +24,7 @@ public partial class Connection : Node2D
 	{
 		this.firstJoint = firstJoint;
 		this.secondJoint = secondJoint;
-		desiredLength = (firstJoint.Position - secondJoint.Position).Length();
+		if (firstJoint != null && secondJoint != null) ReadjustLength();
 		Name = "Connection";
 	}
 
@@ -85,5 +85,10 @@ public partial class Connection : Node2D
 
 		// Return collision
 		return collided;
+	}
+
+	// Re-adjust length
+	public void ReadjustLength() {
+		desiredLength = (firstJoint.Position - secondJoint.Position).Length();
 	}
 }

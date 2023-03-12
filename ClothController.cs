@@ -12,6 +12,7 @@ public partial class ClothController : Node2D
 	private bool connectionEditMode = false;
 	private bool jointEditMode = false;
 	private bool isCutting = false;
+	private Connection connectionBeingInserted = null;
 
 	// Settings
 	private const int Separation = 50;
@@ -69,8 +70,17 @@ public partial class ClothController : Node2D
 		if (@event.IsActionPressed("Cut Item")) isCutting = true;
 		else if (@event.IsActionReleased("Cut Item")) isCutting = false;
 
-		// Insert joint
-		if (jointEditMode && @event.IsActionPressed("Insert Item")) AttemptJointInsert();
+		// Insert pressed
+		if (@event.IsActionPressed("Insert Item")) {
+			if (jointEditMode) AttemptJointInsert();
+			else if (connectionEditMode) AttemptConnectionInsertStart();
+		}
+
+		// Insert released
+		if (@event.IsActionReleased("Insert Item") && connectionBeingInserted != null) {
+			if (connectionEditMode) AttemptConnectionInsertEnd();
+			connectionBeingInserted = null;
+		}
 	}
 
 	// Attempt to cut a connection
@@ -95,6 +105,30 @@ public partial class ClothController : Node2D
 		}
 	}
 
+	// Begin inserting a connection
+	private void AttemptConnectionInsertStart() {
+		Vector2 mousePosition = GetViewport().GetMousePosition();
+		foreach (Joint joint in joints) {
+			if (joint.CollidesWithPoint(mousePosition)) {
+				connectionBeingInserted = new Connection(joint, null);
+				return;
+			}
+		}
+	}
+
+	// Finish inserting a connection
+	private void AttemptConnectionInsertEnd() {
+		Vector2 mousePosition = GetViewport().GetMousePosition();
+		foreach (Joint joint in joints) {
+			if (joint.CollidesWithPoint(mousePosition)) {
+				connectionBeingInserted.secondJoint = joint;
+				connectionBeingInserted.ReadjustLength();
+				AddConnection(connectionBeingInserted);
+				return;
+			}
+		}
+	}
+
 	// Insert a joint
 	private void AttemptJointInsert() {
 		Vector2 mousePosition = GetViewport().GetMousePosition();
@@ -105,6 +139,19 @@ public partial class ClothController : Node2D
 			}
 		}
 		AddJoint(mousePosition, true);
+	}
+
+	// Add a connection
+	private Connection AddConnection(Joint firstJoint, Joint secondJoint) {
+		Connection newConnection = new Connection(firstJoint, secondJoint);
+		return AddConnection(newConnection);
+	}
+
+	// Add a connection
+	private Connection AddConnection(Connection connection) {
+		AddChild(connection);
+		connections.Add(connection);
+		return connection;
 	}
 
 	// Add a joint
@@ -156,23 +203,19 @@ public partial class ClothController : Node2D
 				// Create connection west
 				if (xIndex > 0)
 				{
-					Connection westConnection = new Connection(
+					AddConnection(
 						jointArray[xIndex - 1, yIndex],
 						jointArray[xIndex, yIndex]
 					);
-					AddChild(westConnection);
-					connections.Add(westConnection);
 				}
 
 				// Connect connection north
 				if (yIndex > 0)
 				{
-					Connection northConnection = new Connection(
+					AddConnection(
 						jointArray[xIndex, yIndex - 1],
 						jointArray[xIndex, yIndex]
 					);
-					AddChild(northConnection);
-					connections.Add(northConnection);
 				}
 			}
 		}
