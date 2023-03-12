@@ -12,6 +12,7 @@ public partial class Connection : Node2D
 	// Settings
 	public const float DrawThickness = 5.0f;
 	private const int SimulationIterations = 10;
+	private const float CollisionTolerance = 2.0f;
 
 	// Properties
 	public float actualLength {
@@ -65,5 +66,24 @@ public partial class Connection : Node2D
 				Colors.LightBlue,
 				DrawThickness
 			);
+	}
+
+	// Checks if a point collides with it
+	public bool CollidesWithPoint(Vector2 pointPosition) {
+		// Get distances from mouse to joints
+		float distanceFromFirstJoint = pointPosition.DistanceTo(firstJoint.Position);
+		float distanceFromSecondJoint = pointPosition.DistanceTo(secondJoint.Position);
+
+		// Calculate some distances
+		float distanceBetweenJoints = actualLength;
+		float distanceFromConnection = distanceFromFirstJoint + distanceFromSecondJoint;
+
+		// Check collision
+		bool collided =
+			distanceFromConnection >= distanceBetweenJoints - CollisionTolerance
+			&& distanceFromConnection <= distanceBetweenJoints + CollisionTolerance;
+
+		// Return collision
+		return collided;
 	}
 }

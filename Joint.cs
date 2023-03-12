@@ -41,4 +41,10 @@ public partial class Joint : Node2D
 		if (isFixed) DrawCircle(Vector2.Zero, Radius, Colors.DarkBlue);
 		else DrawCircle(Vector2.Zero, Radius, Colors.Blue);
 	}
+
+	// Colides with point
+	public bool CollidesWithPoint(Vector2 pointPosition) {
+		float distance = pointPosition.DistanceTo(Position);
+		return distance < Radius;
+	}
 }

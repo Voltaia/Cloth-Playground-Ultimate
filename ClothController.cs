@@ -38,13 +38,15 @@ public partial class ClothController : Node2D
 			jointEditMode = false;
 		}
 
-		// Checking edit modes
+		// Checking modes
 		if (connectionEditMode) {
 			if (isCutting) {
 				AttemptConnectionCut();
 			}
 		} else if (jointEditMode) {
-
+			if (isCutting) {
+				AttemptJointCut();
+			}
 		}
 
 		// Queue redraw
@@ -68,16 +70,43 @@ public partial class ClothController : Node2D
 		else if (@event.IsActionReleased("Cut Item")) isCutting = false;
 	}
 
-	// Attempt connection cut
+	// Attempt to cut a connection
 	private void AttemptConnectionCut() {
 		Vector2 mousePosition = GetViewport().GetMousePosition();
 		for (int index = connections.Count - 1; index >= 0; index--) {
 			Connection connection = connections[index];
-			if (CollisionChecker.PointCollidesWithConnection(mousePosition, connection)) {
-				connection.QueueFree();
-				connections.Remove(connection);
+			if (connection.CollidesWithPoint(mousePosition)) {
+				RemoveConnection(connection);
 			}
 		}
+	}
+
+	// Attempt to cut a joint
+	private void AttemptJointCut() {
+		Vector2 mousePosition = GetViewport().GetMousePosition();
+		for (int index = joints.Count - 1; index >= 0; index--) {
+			Joint joint = joints[index];
+			if (joint.CollidesWithPoint(mousePosition)) {
+				RemoveJoint(joint);
+			}
+		}
+	}
+
+	// Remove connection
+	private void RemoveConnection(Connection connection) {
+		connection.QueueFree();
+		connections.Remove(connection);
+	}
+
+	// Remove joint
+	private void RemoveJoint(Joint joint) {
+		for (int index = connections.Count - 1; index >= 0; index--) {
+			Connection connection = connections[index];
+			if (joint == connection.firstJoint) RemoveConnection(connection);
+			else if (joint == connection.secondJoint) RemoveConnection(connection);
+		}
+		joint.QueueFree();
+		joints.Remove(joint);
 	}
 
 	// Generate cloth
