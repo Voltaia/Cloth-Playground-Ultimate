@@ -58,6 +58,17 @@ public partial class ClothController : Node2D
 	public override void _Draw() {
 		// Draw framerate
 		DrawString(new Label().GetThemeDefaultFont(), new Vector2(5, 20), Engine.GetFramesPerSecond().ToString());
+
+		// Draw inserting new connection
+		if (connectionBeingInserted != null) {
+			Vector2 mousePosition = GetViewport().GetMousePosition();
+			DrawLine(
+				connectionBeingInserted.firstJoint.Position,
+				mousePosition,
+				Colors.Green,
+				Connection.DrawThickness
+			);
+		}
 	}
 
 	// Input

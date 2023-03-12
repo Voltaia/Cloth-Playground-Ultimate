@@ -61,11 +61,11 @@ public partial class Connection : Node2D
 	// Draw
 	public override void _Draw() {
 		DrawLine(
-				firstJoint.Position,
-				secondJoint.Position,
-				Colors.LightBlue,
-				DrawThickness
-			);
+			firstJoint.Position,
+			secondJoint.Position,
+			Colors.LightBlue,
+			DrawThickness
+		);
 	}
 
 	// Checks if a point collides with it
