@@ -7,7 +7,14 @@ public partial class Joint : Node2D
 {
 	// Variables
 	public Vector2 previousPosition;
-	public bool isFixed;
+	private bool _isFixed;
+	public bool isFixed {
+		get { return _isFixed; }
+		set {
+			_isFixed = value;
+			QueueRedraw();
+		}
+	}
 
 	// Settings
 	public const float Radius = 10.0f;
@@ -18,7 +25,7 @@ public partial class Joint : Node2D
 		// Set up
 		Position = position;
 		previousPosition = position;
-		this.isFixed = isFixed;
+		this._isFixed = isFixed;
 		Name = "Joint";
 	}
 

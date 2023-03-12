@@ -68,6 +68,9 @@ public partial class ClothController : Node2D
 		// Enable/disable cutting
 		if (@event.IsActionPressed("Cut Item")) isCutting = true;
 		else if (@event.IsActionReleased("Cut Item")) isCutting = false;
+
+		// Insert joint
+		if (jointEditMode && @event.IsActionPressed("Insert Item")) AttemptJointInsert();
 	}
 
 	// Attempt to cut a connection
@@ -90,6 +93,26 @@ public partial class ClothController : Node2D
 				RemoveJoint(joint);
 			}
 		}
+	}
+
+	// Insert a joint
+	private void AttemptJointInsert() {
+		Vector2 mousePosition = GetViewport().GetMousePosition();
+		foreach (Joint joint in joints) {
+			if (joint.CollidesWithPoint(mousePosition)) {
+				joint.isFixed = !joint.isFixed;
+				return;
+			}
+		}
+		AddJoint(mousePosition, true);
+	}
+
+	// Add a joint
+	private Joint AddJoint(Vector2 position, bool isFixed) {
+		Joint newJoint = new Joint(position, isFixed);
+		joints.Add(newJoint);
+		AddChild(newJoint);
+		return newJoint;
 	}
 
 	// Remove connection
@@ -128,10 +151,7 @@ public partial class ClothController : Node2D
 				// Create joint
 				Vector2 newJointPosition = new Vector2(startPosition.X + xIndex * Separation, startPosition.Y + yIndex * Separation);
 				bool isFixed = yIndex == 0;
-				Joint newJoint = new Joint(newJointPosition, isFixed);
-				joints.Add(newJoint);
-				AddChild(newJoint);
-				jointArray[xIndex, yIndex] = newJoint;
+				jointArray[xIndex, yIndex] = AddJoint(newJointPosition, isFixed);
 
 				// Create connection west
 				if (xIndex > 0)
