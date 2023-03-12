@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8cs7ywa0xcwy"]
+
+[ext_resource type="Script" path="res://ClothController.cs" id="1_faheh"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_faheh")
