@@ -75,7 +75,7 @@ public partial class ClothController : Node2D
 	public override void _Input(InputEvent @event)
 	{
 		// Exit app
-		if (@event.IsActionPressed("Exit")) GetTree().Quit();
+		//if (@event.IsActionPressed("Exit")) GetTree().Quit();
 
 		// Enable/disable cutting
 		if (@event.IsActionPressed("Cut Item")) isCutting = true;

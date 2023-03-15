@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8cs7ywa0xcwy"]
+[gd_scene load_steps=3 format=3 uid="uid://c8cs7ywa0xcwy"]
 
 [ext_resource type="Script" path="res://ClothController.cs" id="1_faheh"]
+[ext_resource type="Script" path="res://MainMenu.cs" id="2_pglch"]
 
-[node name="Playground" type="Node2D"]
+[node name="Playground" type="Node"]
+
+[node name="Cloth" type="Node2D" parent="."]
 script = ExtResource("1_faheh")
+
+[node name="Menu" type="Node2D" parent="."]
+script = ExtResource("2_pglch")
