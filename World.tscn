@@ -1,12 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbhmpbfpal8mr"]
+[gd_scene load_steps=2 format=3 uid="uid://dbhmpbfpal8mr"]
 
 [ext_resource type="Script" path="res://Scripts/ClothController.cs" id="1_l5q0d"]
-[ext_resource type="Script" path="res://Scripts/MenuGUI.cs" id="2_d672w"]
 
 [node name="Playground" type="Node"]
 
 [node name="Cloth" type="Node2D" parent="."]
 script = ExtResource("1_l5q0d")
 
-[node name="Menu" type="Node2D" parent="."]
-script = ExtResource("2_d672w")
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Pause Menu" type="VBoxContainer" parent="Menu"]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -47.5
+offset_right = 47.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Menu/Pause Menu"]
+layout_mode = 2
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="New Cloth" type="Button" parent="Menu/Pause Menu"]
+layout_mode = 2
+text = "New Cloth"
+
+[node name="Resume" type="Button" parent="Menu/Pause Menu"]
+layout_mode = 2
+text = "Resume"
