@@ -30,6 +30,7 @@ public partial class Joint : Node2D
 		previousPosition = position;
 		this._isFixed = isFixed;
 		Name = "Joint";
+		ZIndex = -1;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

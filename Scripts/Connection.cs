@@ -28,13 +28,7 @@ public partial class Connection : Node2D
 		this.secondJoint = secondJoint;
 		if (firstJoint != null && secondJoint != null) ReadjustLength();
 		Name = "Connection";
-	}
-
-	// Start
-	public override void _Ready()
-	{
-		// Reorder in hierarchy for draw order
-		GetParent().MoveChild(this, 0);
+		ZIndex = -2;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

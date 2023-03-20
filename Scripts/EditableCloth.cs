@@ -11,6 +11,7 @@ public partial class EditableCloth : Cloth
 	private bool jointEditMode = false;
 	private EditMode editMode = EditMode.Default;
 	private Connection connectionBeingInserted = null;
+	private Vector2 mousePosition;
 
 	// Edit modes
 	private enum EditMode {
@@ -28,6 +29,9 @@ public partial class EditableCloth : Cloth
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// Fill mouse position
+		mousePosition = GetViewport().GetMousePosition();
+
 		// Cutting logic
 		if (editMode == EditMode.Cut && Input.IsActionPressed("Apply Operation")) {
 			AttemptConnectionCut();
@@ -45,7 +49,6 @@ public partial class EditableCloth : Cloth
 
 		// Draw inserting new connection
 		if (connectionBeingInserted != null) {
-			Vector2 mousePosition = GetViewport().GetMousePosition();
 			DrawLine(
 				connectionBeingInserted.firstJoint.Position,
 				mousePosition,
@@ -53,6 +56,12 @@ public partial class EditableCloth : Cloth
 				Connection.DrawThickness
 			);
 		}
+
+		// Draw edit mode
+		Color editModeColor = Colors.Blue;
+		if (editMode == EditMode.Insert) editModeColor = Colors.Green;
+		else if (editMode == EditMode.Cut) editModeColor = Colors.Red;
+		DrawCircle(mousePosition, 3.5f, editModeColor);
 	}
 
 	// Input
@@ -81,9 +90,6 @@ public partial class EditableCloth : Cloth
 
 	// Insert start
 	private void AttemptInsertStart() {
-		// Get mouse position
-		Vector2 mousePosition = GetViewport().GetMousePosition();
-
 		// Check if there is a joint at mouse position
 		Joint jointFound = null;
 		foreach (Joint joint in joints) {
@@ -100,9 +106,6 @@ public partial class EditableCloth : Cloth
 	private void AttemptInsertEnd() {
 		// Check if there is a connection being created
 		if (connectionBeingInserted == null) return;
-
-		// Get mouse position
-		Vector2 mousePosition = GetViewport().GetMousePosition();
 
 		// Check if there is a joint at mouse position
 		Joint jointFound = null;
@@ -123,7 +126,6 @@ public partial class EditableCloth : Cloth
 
 	// Attempt to cut a connection
 	private void AttemptConnectionCut() {
-		Vector2 mousePosition = GetViewport().GetMousePosition();
 		for (int index = connections.Count - 1; index >= 0; index--) {
 			Connection connection = connections[index];
 			if (connection.CollidesWithPoint(mousePosition)) {
@@ -134,7 +136,6 @@ public partial class EditableCloth : Cloth
 
 	// Attempt to cut a joint
 	private void AttemptJointCut() {
-		Vector2 mousePosition = GetViewport().GetMousePosition();
 		for (int index = joints.Count - 1; index >= 0; index--) {
 			Joint joint = joints[index];
 			if (joint.CollidesWithPoint(mousePosition)) {
@@ -145,7 +146,6 @@ public partial class EditableCloth : Cloth
 
 	// Attempt to flip a joint
 	private void AttemptFlipJoint() {
-		Vector2 mousePosition = GetViewport().GetMousePosition();
 		foreach (Joint joint in joints) {
 			if (joint.CollidesWithPoint(mousePosition)) {
 				joint.isFixed = !joint.isFixed;
