@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbhmpbfpal8mr"]
+[gd_scene load_steps=4 format=3 uid="uid://dbhmpbfpal8mr"]
 
 [ext_resource type="Script" path="res://Scripts/ClothController.cs" id="1_l5q0d"]
+[ext_resource type="Script" path="res://Menu.cs" id="2_r7nb6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ocoqx"]
+font_size = 28
 
 [node name="Playground" type="Node"]
 
@@ -8,36 +12,64 @@
 script = ExtResource("1_l5q0d")
 
 [node name="Menu" type="Control" parent="."]
+process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_r7nb6")
+
+[node name="ColorRect" type="ColorRect" parent="Menu"]
+custom_minimum_size = Vector2(250, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -100.0
+offset_right = 125.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.392157)
 
 [node name="Pause Menu" type="VBoxContainer" parent="Menu"]
-custom_minimum_size = Vector2(250, 250)
+custom_minimum_size = Vector2(200, 250)
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -47.5
-offset_right = 47.5
+offset_left = -62.0
+offset_right = 62.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Title" type="Label" parent="Menu/Pause Menu"]
 layout_mode = 2
 text = "Paused"
+label_settings = SubResource("LabelSettings_ocoqx")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Resume" type="Button" parent="Menu/Pause Menu"]
+layout_mode = 2
+text = "Resume"
 
 [node name="New Cloth" type="Button" parent="Menu/Pause Menu"]
 layout_mode = 2
 text = "New Cloth"
 
-[node name="Resume" type="Button" parent="Menu/Pause Menu"]
+[node name="Quit Simulation" type="Button" parent="Menu/Pause Menu"]
 layout_mode = 2
-text = "Resume"
+text = "Quit Simulation"
+
+[connection signal="pressed" from="Menu/Pause Menu/Resume" to="Menu" method="Resume"]
+[connection signal="pressed" from="Menu/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
