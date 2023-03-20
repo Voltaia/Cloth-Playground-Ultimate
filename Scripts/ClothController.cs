@@ -79,7 +79,7 @@ public partial class ClothController : Node2D
 		}
 
 		// Modify joint
-		if (@event.IsActionPressed("Modify Joint")) AttemptFlipJoint();
+		if (editMode == EditMode.Insert && @event.IsActionPressed("Modify Joint")) AttemptFlipJoint();
 	}
 
 	// Insert start
