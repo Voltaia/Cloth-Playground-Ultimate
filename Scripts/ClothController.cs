@@ -11,12 +11,19 @@ public partial class ClothController : Node2D
 	private List<Connection> connections = new List<Connection>();
 	private bool connectionEditMode = false;
 	private bool jointEditMode = false;
-	private bool isCutting = false;
+	private EditMode editMode = EditMode.Default;
 	private Connection connectionBeingInserted = null;
 
 	// Settings
 	private const int Separation = 50;
 	private const int Padding = 100;
+
+	// Edit modes
+	private enum EditMode {
+		Default,
+		Cut,
+		Insert
+	}
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -27,27 +34,10 @@ public partial class ClothController : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// Switching modes
-		if (Input.IsActionPressed("Edit Connections")) {
-			connectionEditMode = true;
-			jointEditMode = false;
-		} else if (Input.IsActionPressed("Edit Joints")) {
-			jointEditMode = true;
-			connectionEditMode = false;
-		} else {
-			connectionEditMode = false;
-			jointEditMode = false;
-		}
-
-		// Checking modes
-		if (connectionEditMode) {
-			if (isCutting) {
-				AttemptConnectionCut();
-			}
-		} else if (jointEditMode) {
-			if (isCutting) {
-				AttemptJointCut();
-			}
+		// Cutting logic
+		if (editMode == EditMode.Cut && Input.IsActionPressed("Apply Operation")) {
+			AttemptConnectionCut();
+			AttemptJointCut();
 		}
 
 		// Queue redraw
@@ -74,24 +64,64 @@ public partial class ClothController : Node2D
 	// Input
 	public override void _Input(InputEvent @event)
 	{
-		// Exit app
-		//if (@event.IsActionPressed("Exit")) GetTree().Quit();
+		// Enable/disable modes
+		if (@event.IsActionPressed("Cut")) editMode = EditMode.Cut;
+		else if (@event.IsActionPressed("Insert")) editMode = EditMode.Insert;
+		else if (
+			@event.IsActionReleased("Cut")
+			|| @event.IsActionReleased("Insert")
+		) editMode = EditMode.Default;
 
-		// Enable/disable cutting
-		if (@event.IsActionPressed("Cut Item")) isCutting = true;
-		else if (@event.IsActionReleased("Cut Item")) isCutting = false;
-
-		// Insert pressed
-		if (@event.IsActionPressed("Insert Item")) {
-			if (jointEditMode) AttemptJointInsert();
-			else if (connectionEditMode) AttemptConnectionInsertStart();
+		// Inserting logic
+		if (editMode == EditMode.Insert) {
+			if (@event.IsActionPressed("Apply Operation")) AttemptInsertStart();
+			else if (@event.IsActionReleased("Apply Operation")) AttemptInsertEnd();
 		}
 
-		// Insert released
-		if (@event.IsActionReleased("Insert Item") && connectionBeingInserted != null) {
-			if (connectionEditMode) AttemptConnectionInsertEnd();
-			connectionBeingInserted = null;
+		// Modify joint
+		if (@event.IsActionPressed("Modify Joint")) AttemptFlipJoint();
+	}
+
+	// Insert start
+	private void AttemptInsertStart() {
+		// Get mouse position
+		Vector2 mousePosition = GetViewport().GetMousePosition();
+
+		// Check if there is a joint at mouse position
+		Joint jointFound = null;
+		foreach (Joint joint in joints) {
+			// If there is a joint
+			if (joint.CollidesWithPoint(mousePosition)) jointFound = joint;
 		}
+
+		// Create a connection with either a new or old joint attached
+		if (jointFound != null) connectionBeingInserted = new Connection(jointFound, null);
+		else connectionBeingInserted = new Connection(AddJoint(mousePosition, true), null);
+	}
+
+	// Insert end
+	private void AttemptInsertEnd() {
+		// Check if there is a connection being created
+		if (connectionBeingInserted == null) return;
+
+		// Get mouse position
+		Vector2 mousePosition = GetViewport().GetMousePosition();
+
+		// Check if there is a joint at mouse position
+		Joint jointFound = null;
+		foreach (Joint joint in joints) {
+			// If there is a joint
+			if (joint.CollidesWithPoint(mousePosition)) jointFound = joint;
+		}
+
+		// End connection with either an old or new joint
+		if (jointFound != null) connectionBeingInserted.secondJoint = jointFound;
+		else connectionBeingInserted.secondJoint = AddJoint(mousePosition, true);
+		connectionBeingInserted.ReadjustLength();
+		AddConnection(connectionBeingInserted);
+
+		// Wipe connection
+		connectionBeingInserted = null;
 	}
 
 	// Attempt to cut a connection
@@ -116,32 +146,8 @@ public partial class ClothController : Node2D
 		}
 	}
 
-	// Begin inserting a connection
-	private void AttemptConnectionInsertStart() {
-		Vector2 mousePosition = GetViewport().GetMousePosition();
-		foreach (Joint joint in joints) {
-			if (joint.CollidesWithPoint(mousePosition)) {
-				connectionBeingInserted = new Connection(joint, null);
-				return;
-			}
-		}
-	}
-
-	// Finish inserting a connection
-	private void AttemptConnectionInsertEnd() {
-		Vector2 mousePosition = GetViewport().GetMousePosition();
-		foreach (Joint joint in joints) {
-			if (joint.CollidesWithPoint(mousePosition)) {
-				connectionBeingInserted.secondJoint = joint;
-				connectionBeingInserted.ReadjustLength();
-				AddConnection(connectionBeingInserted);
-				return;
-			}
-		}
-	}
-
-	// Insert a joint
-	private void AttemptJointInsert() {
+	// Attempt to flip a joint
+	private void AttemptFlipJoint() {
 		Vector2 mousePosition = GetViewport().GetMousePosition();
 		foreach (Joint joint in joints) {
 			if (joint.CollidesWithPoint(mousePosition)) {
@@ -149,7 +155,6 @@ public partial class ClothController : Node2D
 				return;
 			}
 		}
-		AddJoint(mousePosition, true);
 	}
 
 	// Add a connection
