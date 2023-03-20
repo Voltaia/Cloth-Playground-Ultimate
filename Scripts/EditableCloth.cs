@@ -86,6 +86,9 @@ public partial class EditableCloth : Cloth
 
 		// Pause simulation
 		if (@event.IsActionPressed("Pause Simulation")) simulationPaused = !simulationPaused;
+
+		// Visualize stress
+		if (@event.IsActionPressed("Visualize Stress")) visualizeStress = !visualizeStress;
 	}
 
 	// Insert start

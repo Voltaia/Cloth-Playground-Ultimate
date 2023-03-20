@@ -14,6 +14,7 @@ public partial class Connection : Node2D
 	public const float DrawThickness = 5.0f;
 	private const int SimulationIterations = 10;
 	private const float CollisionTolerance = 2.0f;
+	private const float StressVisualRange = 20.0f;
 
 	// Properties
 	public float actualLength {
@@ -34,6 +35,9 @@ public partial class Connection : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// Redraw
+		QueueRedraw();
+
 		// Don't simulate if paused
 		if (parent.simulationPaused) return;
 
@@ -52,17 +56,24 @@ public partial class Connection : Node2D
 			if (!secondJoint.isFixed)
 				secondJoint.Position = center - direction * desiredLength / 2;
 		}
-
-		// Update drawing
-		QueueRedraw();
 	}
 
 	// Draw
 	public override void _Draw() {
+		// Color to draw
+		Color color = Colors.LightBlue;
+		if (parent.visualizeStress) {
+			float stress = (actualLength - desiredLength) / StressVisualRange;
+			stress = Mathf.Clamp(stress, 0, 1);
+			float inverseStress = 1.0f - stress;
+			color = new Color(stress, inverseStress, 0.0f);
+		}
+		
+		// Draw self
 		DrawLine(
 			firstJoint.Position,
 			secondJoint.Position,
-			Colors.LightBlue,
+			color,
 			DrawThickness
 		);
 	}

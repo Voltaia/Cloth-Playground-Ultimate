@@ -10,6 +10,7 @@ public partial class Cloth : Node2D
 	public List<Joint> joints = new List<Joint>();
 	public List<Connection> connections = new List<Connection>();
 	public bool simulationPaused = false;
+	public bool visualizeStress = false;
 
 	// Settings
 	private const int Separation = 50;
