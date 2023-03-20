@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bopbnu2w6dphf"]
+[gd_scene load_steps=6 format=3 uid="uid://c64tbs3davcw4"]
 
-[ext_resource type="Script" path="res://Scripts/ClothController.cs" id="1_l5q0d"]
+[ext_resource type="Script" path="res://Scripts/EditableCloth.cs" id="1_uomqc"]
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="2_1p4le"]
 [ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Pause Menu Theme.tres" id="3_yys3g"]
 
@@ -18,8 +18,8 @@ shadow_offset = Vector2(2, 2)
 
 [node name="Playground" type="Node"]
 
-[node name="Cloth Controller" type="Node2D" parent="."]
-script = ExtResource("1_l5q0d")
+[node name="Editable Cloth" type="Node2D" parent="."]
+script = ExtResource("1_uomqc")
 
 [node name="Menu" type="Control" parent="." node_paths=PackedStringArray("startFocus")]
 process_mode = 3

@@ -4,10 +4,9 @@ using System;
 using System.Collections.Generic;
 
 // Controls cloth!
-public partial class ClothController : Node2D
+public partial class EditableCloth : Cloth
 {
 	// Variables
-	private Cloth cloth = new Cloth();
 	private bool connectionEditMode = false;
 	private bool jointEditMode = false;
 	private EditMode editMode = EditMode.Default;
@@ -23,8 +22,7 @@ public partial class ClothController : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		AddChild(cloth);
-		cloth.GeneratePlainCloth(GetViewportRect().Size);
+		GeneratePlainCloth(GetViewportRect().Size);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -76,6 +74,9 @@ public partial class ClothController : Node2D
 
 		// Modify joint
 		if (editMode == EditMode.Insert && @event.IsActionPressed("Modify Joint")) AttemptFlipJoint();
+
+		// Pause simulation
+		if (@event.IsActionPressed("Pause Simulation")) simulationPaused = !simulationPaused;
 	}
 
 	// Insert start
@@ -85,14 +86,14 @@ public partial class ClothController : Node2D
 
 		// Check if there is a joint at mouse position
 		Joint jointFound = null;
-		foreach (Joint joint in cloth.joints) {
+		foreach (Joint joint in joints) {
 			// If there is a joint
 			if (joint.CollidesWithPoint(mousePosition)) jointFound = joint;
 		}
 
 		// Create a connection with either a new or old joint attached
-		if (jointFound != null) connectionBeingInserted = new Connection(jointFound, null);
-		else connectionBeingInserted = new Connection(cloth.AddJoint(mousePosition, true), null);
+		if (jointFound != null) connectionBeingInserted = new Connection(this, jointFound, null);
+		else connectionBeingInserted = new Connection(this, AddJoint(mousePosition, true), null);
 	}
 
 	// Insert end
@@ -105,16 +106,16 @@ public partial class ClothController : Node2D
 
 		// Check if there is a joint at mouse position
 		Joint jointFound = null;
-		foreach (Joint joint in cloth.joints) {
+		foreach (Joint joint in joints) {
 			// If there is a joint
 			if (joint.CollidesWithPoint(mousePosition)) jointFound = joint;
 		}
 
 		// End connection with either an old or new joint
 		if (jointFound != null) connectionBeingInserted.secondJoint = jointFound;
-		else connectionBeingInserted.secondJoint = cloth.AddJoint(mousePosition, true);
+		else connectionBeingInserted.secondJoint = AddJoint(mousePosition, true);
 		connectionBeingInserted.ReadjustLength();
-		cloth.AddConnection(connectionBeingInserted);
+		AddConnection(connectionBeingInserted);
 
 		// Wipe connection
 		connectionBeingInserted = null;
@@ -123,10 +124,10 @@ public partial class ClothController : Node2D
 	// Attempt to cut a connection
 	private void AttemptConnectionCut() {
 		Vector2 mousePosition = GetViewport().GetMousePosition();
-		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
-			Connection connection = cloth.connections[index];
+		for (int index = connections.Count - 1; index >= 0; index--) {
+			Connection connection = connections[index];
 			if (connection.CollidesWithPoint(mousePosition)) {
-				cloth.RemoveConnection(connection);
+				RemoveConnection(connection);
 			}
 		}
 	}
@@ -134,10 +135,10 @@ public partial class ClothController : Node2D
 	// Attempt to cut a joint
 	private void AttemptJointCut() {
 		Vector2 mousePosition = GetViewport().GetMousePosition();
-		for (int index = cloth.joints.Count - 1; index >= 0; index--) {
-			Joint joint = cloth.joints[index];
+		for (int index = joints.Count - 1; index >= 0; index--) {
+			Joint joint = joints[index];
 			if (joint.CollidesWithPoint(mousePosition)) {
-				cloth.RemoveJoint(joint);
+				RemoveJoint(joint);
 			}
 		}
 	}
@@ -145,7 +146,7 @@ public partial class ClothController : Node2D
 	// Attempt to flip a joint
 	private void AttemptFlipJoint() {
 		Vector2 mousePosition = GetViewport().GetMousePosition();
-		foreach (Joint joint in cloth.joints) {
+		foreach (Joint joint in joints) {
 			if (joint.CollidesWithPoint(mousePosition)) {
 				joint.isFixed = !joint.isFixed;
 				return;

@@ -9,10 +9,11 @@ public partial class Cloth : Node2D
 	// Variables
 	public List<Joint> joints = new List<Joint>();
 	public List<Connection> connections = new List<Connection>();
+	public bool simulationPaused = false;
 
 	// Settings
 	private const int Separation = 50;
-	private const int Padding = 100;
+	private const int SidesPadding = 100;
 
 	// Constructor
 	public Cloth() {
@@ -21,7 +22,7 @@ public partial class Cloth : Node2D
 
 	// Add a connection
 	public Connection AddConnection(Joint firstJoint, Joint secondJoint) {
-		Connection newConnection = new Connection(firstJoint, secondJoint);
+		Connection newConnection = new Connection(this, firstJoint, secondJoint);
 		return AddConnection(newConnection);
 	}
 
@@ -34,7 +35,7 @@ public partial class Cloth : Node2D
 
 	// Add a joint
 	public Joint AddJoint(Vector2 position, bool isFixed) {
-		Joint newJoint = new Joint(position, isFixed);
+		Joint newJoint = new Joint(this, position, isFixed);
 		joints.Add(newJoint);
 		AddChild(newJoint);
 		return newJoint;
@@ -61,8 +62,8 @@ public partial class Cloth : Node2D
 	public void GeneratePlainCloth(Vector2 size)
 	{
 		// Calculate joints to create
-		int horizontalCount = ((int)size.X - Padding) / Separation;
-		int verticalCount = ((int)size.Y - Padding) / Separation;
+		int horizontalCount = ((int)size.X - SidesPadding) / Separation;
+		int verticalCount = ((int)size.Y - SidesPadding) / Separation;
 		Vector2 clothSize = new Vector2((horizontalCount - 1) * Separation, (verticalCount - 1) * Separation);
 		Vector2 startPosition = size / 2 - clothSize / 2;
 		Joint[,] jointArray = new Joint[horizontalCount, verticalCount];

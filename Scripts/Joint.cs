@@ -7,6 +7,7 @@ public partial class Joint : Node2D
 {
 	// Variables
 	public Vector2 previousPosition;
+	public Cloth parent;
 	private bool _isFixed;
 	public bool isFixed {
 		get { return _isFixed; }
@@ -22,8 +23,9 @@ public partial class Joint : Node2D
 	private const float Gravity = 0.25f;
 
 	// Constructor
-	public Joint(Vector2 position, bool isFixed) {
+	public Joint(Cloth parent, Vector2 position, bool isFixed) {
 		// Set up
+		this.parent = parent;
 		Position = position;
 		previousPosition = position;
 		this._isFixed = isFixed;
@@ -33,8 +35,8 @@ public partial class Joint : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// If the joint is fixed, don't simulate
-		if (isFixed) return;
+		// Don't simulate if fixed or paused
+		if (isFixed || parent.simulationPaused) return;
 
 		// Movement
 		Vector2 velocity = Position - previousPosition;

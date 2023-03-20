@@ -8,6 +8,7 @@ public partial class Connection : Node2D
 	public Joint firstJoint;
 	public Joint secondJoint;
 	public float desiredLength;
+	public Cloth parent;
 
 	// Settings
 	public const float DrawThickness = 5.0f;
@@ -20,8 +21,9 @@ public partial class Connection : Node2D
 	}
 
 	// Constructor
-	public Connection(Joint firstJoint, Joint secondJoint)
+	public Connection(Cloth parent, Joint firstJoint, Joint secondJoint)
 	{
+		this.parent = parent;
 		this.firstJoint = firstJoint;
 		this.secondJoint = secondJoint;
 		if (firstJoint != null && secondJoint != null) ReadjustLength();
@@ -38,6 +40,9 @@ public partial class Connection : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// Don't simulate if paused
+		if (parent.simulationPaused) return;
+
 		// Run through simulation
 		for (int iteration = 0; iteration < SimulationIterations; iteration++)
 		{
