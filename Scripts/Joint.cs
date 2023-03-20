@@ -12,6 +12,7 @@ public partial class Joint : Node2D
 		get { return _isFixed; }
 		set {
 			_isFixed = value;
+			previousPosition = Position;
 			QueueRedraw();
 		}
 	}
