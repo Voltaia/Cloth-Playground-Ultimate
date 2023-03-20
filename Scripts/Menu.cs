@@ -6,7 +6,15 @@ using System;
 public partial class Menu : Control
 {
 	// Variables
-	private bool isPaused = false;
+	[Export] public BaseButton startFocus;
+	private bool isPaused;
+
+	// When started
+	public override void _Ready()
+	{
+		if (Visible) startFocus.GrabFocus();
+		isPaused = Visible;
+	}
 
 	// Input
 	public override void _UnhandledInput(InputEvent @event)
@@ -16,6 +24,7 @@ public partial class Menu : Control
 			isPaused = !isPaused;
 			GetTree().Paused = isPaused;
 			Visible = isPaused;
+			if (Visible) startFocus.GrabFocus();
 		}
 	}
 

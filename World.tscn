@@ -1,28 +1,38 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbhmpbfpal8mr"]
+[gd_scene load_steps=6 format=3 uid="uid://bopbnu2w6dphf"]
 
 [ext_resource type="Script" path="res://Scripts/ClothController.cs" id="1_l5q0d"]
-[ext_resource type="Script" path="res://Menu.cs" id="2_r7nb6"]
+[ext_resource type="Script" path="res://Scripts/Menu.cs" id="2_1p4le"]
+[ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Pause Menu Theme.tres" id="3_yys3g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcadd"]
+bg_color = Color(0, 0, 0, 0.784314)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="LabelSettings" id="LabelSettings_ocoqx"]
-font_size = 28
+font_size = 32
+shadow_color = Color(0.45098, 0.45098, 0.45098, 1)
+shadow_offset = Vector2(2, 2)
 
 [node name="Playground" type="Node"]
 
 [node name="Cloth" type="Node2D" parent="."]
 script = ExtResource("1_l5q0d")
 
-[node name="Menu" type="Control" parent="."]
+[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("startFocus")]
 process_mode = 3
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_r7nb6")
+script = ExtResource("2_1p4le")
+startFocus = NodePath("Pause Menu/Resume")
 
-[node name="ColorRect" type="ColorRect" parent="Menu"]
+[node name="Panel" type="Panel" parent="Menu"]
 custom_minimum_size = Vector2(250, 200)
 layout_mode = 1
 anchors_preset = 8
@@ -31,12 +41,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -125.0
-offset_top = -100.0
+offset_top = -112.5
 offset_right = 125.0
-offset_bottom = 100.0
+offset_bottom = 112.5
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.392157)
+theme_override_styles/panel = SubResource("StyleBoxFlat_dcadd")
 
 [node name="Pause Menu" type="VBoxContainer" parent="Menu"]
 custom_minimum_size = Vector2(200, 250)
@@ -49,7 +59,7 @@ offset_left = -62.0
 offset_right = 62.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 10
+theme = ExtResource("3_yys3g")
 alignment = 1
 
 [node name="Title" type="Label" parent="Menu/Pause Menu"]
@@ -60,16 +70,26 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Resume" type="Button" parent="Menu/Pause Menu"]
+custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
+focus_neighbor_bottom = NodePath("../New Cloth")
 text = "Resume"
+flat = true
 
 [node name="New Cloth" type="Button" parent="Menu/Pause Menu"]
+custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
+focus_neighbor_top = NodePath("../Resume")
+focus_neighbor_bottom = NodePath("../Quit Simulation")
 text = "New Cloth"
+flat = true
 
 [node name="Quit Simulation" type="Button" parent="Menu/Pause Menu"]
+custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
+focus_neighbor_top = NodePath("../New Cloth")
 text = "Quit Simulation"
+flat = true
 
 [connection signal="pressed" from="Menu/Pause Menu/Resume" to="Menu" method="Resume"]
 [connection signal="pressed" from="Menu/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
