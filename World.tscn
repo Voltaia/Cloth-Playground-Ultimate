@@ -18,7 +18,7 @@ shadow_offset = Vector2(2, 2)
 
 [node name="Playground" type="Node"]
 
-[node name="Cloth" type="Node2D" parent="."]
+[node name="Cloth Controller" type="Node2D" parent="."]
 script = ExtResource("1_l5q0d")
 
 [node name="Menu" type="Control" parent="." node_paths=PackedStringArray("startFocus")]
