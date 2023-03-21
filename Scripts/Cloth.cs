@@ -6,16 +6,18 @@ using System.Collections.Generic;
 // Cloth data structure
 public partial class Cloth : Node2D
 {
-	// Variables
+	// Functional variables
 	public List<Joint> joints = new List<Joint>();
 	public List<Connection> connections = new List<Connection>();
 	public bool simulationPaused = false;
 	public bool visualizeStress = false;
 	public Random rng = new Random();
 
-	// Settings
-	private const int Separation = 50;
-	private const int SidesPadding = 100;
+	// Generation settings
+	public bool generateRigid = false;
+	public Vector2 generationSize = Vector2.One * 250;
+	public int generationSeparation = 50;
+	private int generationSidesPadding = 100;
 
 	// Constructor
 	public Cloth() {
@@ -75,12 +77,12 @@ public partial class Cloth : Node2D
 	}
 
 	// Generate cloth
-	public void GeneratePlainCloth(Vector2 size)
+	public void Generate(Vector2 size)
 	{
 		// Calculate joints to create
-		int horizontalCount = ((int)size.X - SidesPadding) / Separation;
-		int verticalCount = ((int)size.Y - SidesPadding) / Separation;
-		Vector2 clothSize = new Vector2((horizontalCount - 1) * Separation, (verticalCount - 1) * Separation);
+		int horizontalCount = ((int)size.X - generationSidesPadding) / generationSeparation;
+		int verticalCount = ((int)size.Y - generationSidesPadding) / generationSeparation;
+		Vector2 clothSize = new Vector2((horizontalCount - 1) * generationSeparation, (verticalCount - 1) * generationSeparation);
 		Vector2 startPosition = size / 2 - clothSize / 2;
 		Joint[,] jointArray = new Joint[horizontalCount, verticalCount];
 
@@ -90,7 +92,7 @@ public partial class Cloth : Node2D
 			for (int yIndex = 0; yIndex < verticalCount; yIndex++)
 			{
 				// Create joint
-				Vector2 newJointPosition = new Vector2(startPosition.X + xIndex * Separation, startPosition.Y + yIndex * Separation);
+				Vector2 newJointPosition = new Vector2(startPosition.X + xIndex * generationSeparation, startPosition.Y + yIndex * generationSeparation);
 				jointArray[xIndex, yIndex] = AddJoint(newJointPosition, false);
 
 				// Create connection west
@@ -108,6 +110,14 @@ public partial class Cloth : Node2D
 					AddConnection(
 						jointArray[xIndex, yIndex - 1],
 						jointArray[xIndex, yIndex]
+					);
+				}
+
+				// Rigid connections
+				if (generateRigid && xIndex > 0 && yIndex > 0) {
+					AddConnection(
+						jointArray[xIndex, yIndex],
+						jointArray[xIndex - 1, yIndex - 1]
 					);
 				}
 			}

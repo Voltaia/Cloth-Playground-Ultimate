@@ -23,7 +23,6 @@ script = ExtResource("1_uomqc")
 
 [node name="Menu" type="Control" parent="." node_paths=PackedStringArray("startFocus")]
 process_mode = 3
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,9 +30,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_1p4le")
-startFocus = NodePath("Pause Menu/Resume")
+startFocus = NodePath("Pause Menu/Contents/Resume")
 
-[node name="Panel" type="Panel" parent="Menu"]
+[node name="Pause Menu" type="Panel" parent="Menu"]
 custom_minimum_size = Vector2(250, 200)
 layout_mode = 1
 anchors_preset = 8
@@ -49,48 +48,58 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dcadd")
 
-[node name="Pause Menu" type="VBoxContainer" parent="Menu"]
-custom_minimum_size = Vector2(200, 250)
+[node name="Contents" type="VBoxContainer" parent="Menu/Pause Menu"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -62.0
-offset_right = 62.0
+offset_left = -60.5
+offset_right = 60.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_yys3g")
 alignment = 1
 
-[node name="Title" type="Label" parent="Menu/Pause Menu"]
+[node name="Title" type="Label" parent="Menu/Pause Menu/Contents"]
 layout_mode = 2
 text = "Paused"
 label_settings = SubResource("LabelSettings_ocoqx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Resume" type="Button" parent="Menu/Pause Menu"]
+[node name="Resume" type="Button" parent="Menu/Pause Menu/Contents"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../New Cloth")
+focus_neighbor_bottom = NodePath("../Regenerate Cloth")
 text = "Resume"
 flat = true
 
-[node name="New Cloth" type="Button" parent="Menu/Pause Menu"]
+[node name="Regenerate Cloth" type="Button" parent="Menu/Pause Menu/Contents"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Resume")
-focus_neighbor_bottom = NodePath("../Quit Simulation")
-text = "New Cloth"
+focus_neighbor_bottom = NodePath("../Create New Cloth")
+text = "Regenerate Cloth
+"
 flat = true
 
-[node name="Quit Simulation" type="Button" parent="Menu/Pause Menu"]
+[node name="Create New Cloth" type="Button" parent="Menu/Pause Menu/Contents"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../New Cloth")
+focus_neighbor_top = NodePath("../Regenerate Cloth")
+focus_neighbor_bottom = NodePath("../Quit Simulation")
+text = "Create New Cloth"
+flat = true
+
+[node name="Quit Simulation" type="Button" parent="Menu/Pause Menu/Contents"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Create New Cloth")
 text = "Quit Simulation"
 flat = true
 
-[connection signal="pressed" from="Menu/Pause Menu/Resume" to="Menu" method="Resume"]
-[connection signal="pressed" from="Menu/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
+[connection signal="pressed" from="Menu/Pause Menu/Contents/Resume" to="Menu" method="Resume"]
+[connection signal="pressed" from="Menu/Pause Menu/Contents/Regenerate Cloth" to="Editable Cloth" method="GenerateNewCloth"]
+[connection signal="pressed" from="Menu/Pause Menu/Contents/Quit Simulation" to="Menu" method="Quit"]
