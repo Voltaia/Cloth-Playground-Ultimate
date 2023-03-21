@@ -91,8 +91,7 @@ public partial class Cloth : Node2D
 			{
 				// Create joint
 				Vector2 newJointPosition = new Vector2(startPosition.X + xIndex * Separation, startPosition.Y + yIndex * Separation);
-				bool isFixed = yIndex == 0;
-				jointArray[xIndex, yIndex] = AddJoint(newJointPosition, isFixed);
+				jointArray[xIndex, yIndex] = AddJoint(newJointPosition, false);
 
 				// Create connection west
 				if (xIndex > 0)
@@ -112,6 +111,22 @@ public partial class Cloth : Node2D
 					);
 				}
 			}
+		}
+
+		// Anchor some joints
+		if (horizontalCount % 2 == 0) {
+			jointArray[0, 0].isFixed = true;
+			jointArray[Mathf.FloorToInt(horizontalCount * 0.2f), 0].isFixed = true;
+			jointArray[Mathf.FloorToInt(horizontalCount * 0.4f), 0].isFixed = true;
+			jointArray[Mathf.FloorToInt(horizontalCount * 0.6f), 0].isFixed = true;
+			jointArray[Mathf.FloorToInt(horizontalCount * 0.8f), 0].isFixed = true;
+			jointArray[horizontalCount - 1, 0].isFixed = true;
+		} else {
+			jointArray[0, 0].isFixed = true;
+			jointArray[Mathf.FloorToInt(horizontalCount * 0.25f), 0].isFixed = true;
+			jointArray[horizontalCount / 2, 0].isFixed = true;
+			jointArray[Mathf.FloorToInt(horizontalCount * 0.75f), 0].isFixed = true;
+			jointArray[horizontalCount - 1, 0].isFixed = true;
 		}
 	}
 }
