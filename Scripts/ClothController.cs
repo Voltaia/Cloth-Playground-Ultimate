@@ -11,6 +11,14 @@ public partial class ClothController : Node2D
 	// Variables
 	public Cloth cloth;
 
+	// Cloth sizes
+	public enum ClothSize {
+		Small,
+		Medium,
+		Large,
+		Fullscreen
+	}
+
 	// On start
 	public override void _Ready()
 	{

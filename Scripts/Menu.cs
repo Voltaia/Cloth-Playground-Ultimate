@@ -11,13 +11,14 @@ public partial class Menu : Control
 	[Export] public Control newClothMenu;
 	[Export] public Control newClothMenuFocus;
 	private Control currentMenu;
-	private bool isPaused;
+	private bool isPaused = false;
 
 	// When started
 	public override void _Ready()
 	{
-		if (Visible) pauseMenuFocus.GrabFocus();
-		isPaused = Visible;
+		Visible = false;
+		pauseMenu.Visible = true;
+		newClothMenu.Visible = false;
 		currentMenu = pauseMenu;
 	}
 
