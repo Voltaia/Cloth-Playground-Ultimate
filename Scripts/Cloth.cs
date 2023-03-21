@@ -24,6 +24,11 @@ public partial class Cloth : Node2D
 		Name = "Cloth";
 	}
 
+	// On start
+	public override void _Ready() {
+		Generate(GetViewportRect().Size);
+	}
+
 	// Add a connection
 	public Connection AddConnection(Joint firstJoint, Joint secondJoint) {
 		Connection newConnection = new Connection(this, firstJoint, secondJoint);

@@ -4,8 +4,11 @@ using System;
 using System.Collections.Generic;
 
 // Controls cloth!
-public partial class EditableCloth : Cloth
+public partial class ClothEditor : Node2D
 {
+	// Inspector variable
+	[Export] public Cloth cloth;
+
 	// Variables
 	private bool connectionEditMode = false;
 	private bool jointEditMode = false;
@@ -18,12 +21,6 @@ public partial class EditableCloth : Cloth
 		Default,
 		Cut,
 		Insert
-	}
-
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		Generate(GetViewportRect().Size);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -85,24 +82,24 @@ public partial class EditableCloth : Cloth
 		if (editMode == EditMode.Insert && @event.IsActionPressed("Modify Joint")) AttemptFlipJoint();
 
 		// Pause simulation
-		if (@event.IsActionPressed("Pause Simulation")) simulationPaused = !simulationPaused;
+		if (@event.IsActionPressed("Pause Simulation")) cloth.simulationPaused = !cloth.simulationPaused;
 
 		// Visualize stress
-		if (@event.IsActionPressed("Visualize Stress")) visualizeStress = !visualizeStress;
+		if (@event.IsActionPressed("Visualize Stress")) cloth.visualizeStress = !cloth.visualizeStress;
 	}
 
 	// Insert start
 	private void AttemptInsertStart() {
 		// Check if there is a joint at mouse position
 		Joint jointFound = null;
-		foreach (Joint joint in joints) {
+		foreach (Joint joint in cloth.joints) {
 			// If there is a joint
 			if (joint.CollidesWithPoint(mousePosition)) jointFound = joint;
 		}
 
 		// Create a connection with either a new or old joint attached
-		if (jointFound != null) connectionBeingInserted = new Connection(this, jointFound, null);
-		else connectionBeingInserted = new Connection(this, AddJoint(mousePosition, true), null);
+		if (jointFound != null) connectionBeingInserted = new Connection(cloth, jointFound, null);
+		else connectionBeingInserted = new Connection(cloth, cloth.AddJoint(mousePosition, true), null);
 	}
 
 	// Insert end
@@ -112,16 +109,16 @@ public partial class EditableCloth : Cloth
 
 		// Check if there is a joint at mouse position
 		Joint jointFound = null;
-		foreach (Joint joint in joints) {
+		foreach (Joint joint in cloth.joints) {
 			// If there is a joint
 			if (joint.CollidesWithPoint(mousePosition)) jointFound = joint;
 		}
 
 		// End connection with either an old or new joint
 		if (jointFound != null) connectionBeingInserted.secondJoint = jointFound;
-		else connectionBeingInserted.secondJoint = AddJoint(mousePosition, true);
+		else connectionBeingInserted.secondJoint = cloth.AddJoint(mousePosition, true);
 		connectionBeingInserted.ReadjustLength();
-		AddConnection(connectionBeingInserted);
+		cloth.AddConnection(connectionBeingInserted);
 
 		// Wipe connection
 		connectionBeingInserted = null;
@@ -129,27 +126,27 @@ public partial class EditableCloth : Cloth
 
 	// Attempt to cut a connection
 	private void AttemptConnectionCut() {
-		for (int index = connections.Count - 1; index >= 0; index--) {
-			Connection connection = connections[index];
+		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
+			Connection connection = cloth.connections[index];
 			if (connection.CollidesWithPoint(mousePosition)) {
-				RemoveConnection(connection);
+				cloth.RemoveConnection(connection);
 			}
 		}
 	}
 
 	// Attempt to cut a joint
 	private void AttemptJointCut() {
-		for (int index = joints.Count - 1; index >= 0; index--) {
-			Joint joint = joints[index];
+		for (int index = cloth.joints.Count - 1; index >= 0; index--) {
+			Joint joint = cloth.joints[index];
 			if (joint.CollidesWithPoint(mousePosition)) {
-				RemoveJoint(joint);
+				cloth.RemoveJoint(joint);
 			}
 		}
 	}
 
 	// Attempt to flip a joint
 	private void AttemptFlipJoint() {
-		foreach (Joint joint in joints) {
+		foreach (Joint joint in cloth.joints) {
 			if (joint.CollidesWithPoint(mousePosition)) {
 				joint.isFixed = !joint.isFixed;
 				return;
