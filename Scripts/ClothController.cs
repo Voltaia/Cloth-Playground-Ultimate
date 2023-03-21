@@ -3,7 +3,7 @@ using Godot;
 using System;
 
 // Generates and holds values for the cloth
-public partial class ClothController : Node
+public partial class ClothController : Node2D
 {
 	// Inspector
 	[Export] public ClothEditor clothEditor;
@@ -15,6 +15,18 @@ public partial class ClothController : Node
 	public override void _Ready()
 	{
 		GenerateNewCloth();
+	}
+
+	// Every frame
+	public override void _Process(double delta)
+	{
+		QueueRedraw();
+	}
+
+	// Draw
+	public override void _Draw() {
+		// Draw framerate
+		DrawString(new Label().GetThemeDefaultFont(), new Vector2(5, 20), Engine.GetFramesPerSecond().ToString());
 	}
 
 	// Generate new

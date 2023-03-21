@@ -19,7 +19,7 @@ shadow_offset = Vector2(2, 2)
 
 [node name="Playground" type="Node"]
 
-[node name="Cloth Controller" type="Node" parent="." node_paths=PackedStringArray("clothEditor")]
+[node name="Cloth Controller" type="Node2D" parent="." node_paths=PackedStringArray("clothEditor")]
 script = ExtResource("1_l5q0d")
 clothEditor = NodePath("../Cloth Editor")
 
