@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c64tbs3davcw4"]
 
+[ext_resource type="Script" path="res://Scripts/ClothController.cs" id="1_l5q0d"]
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="2_1p4le"]
-[ext_resource type="Script" path="res://Scripts/Cloth.cs" id="2_yon0b"]
 [ext_resource type="Script" path="res://Scripts/ClothEditor.cs" id="3_mdrga"]
 [ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Pause Menu Theme.tres" id="3_yys3g"]
 
@@ -19,15 +19,16 @@ shadow_offset = Vector2(2, 2)
 
 [node name="Playground" type="Node"]
 
-[node name="Cloth Editor" type="Node2D" parent="." node_paths=PackedStringArray("cloth")]
-script = ExtResource("3_mdrga")
-cloth = NodePath("../Cloth")
+[node name="Cloth Controller" type="Node" parent="." node_paths=PackedStringArray("clothEditor")]
+script = ExtResource("1_l5q0d")
+clothEditor = NodePath("../Cloth Editor")
 
-[node name="Cloth" type="Node2D" parent="."]
-script = ExtResource("2_yon0b")
+[node name="Cloth Editor" type="Node2D" parent="."]
+script = ExtResource("3_mdrga")
 
 [node name="Menu" type="Control" parent="." node_paths=PackedStringArray("startFocus")]
 process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -106,4 +107,5 @@ text = "Quit Simulation"
 flat = true
 
 [connection signal="pressed" from="Menu/Pause Menu/Contents/Resume" to="Menu" method="Resume"]
+[connection signal="pressed" from="Menu/Pause Menu/Contents/Regenerate Cloth" to="Cloth Controller" method="GenerateNewCloth"]
 [connection signal="pressed" from="Menu/Pause Menu/Contents/Quit Simulation" to="Menu" method="Quit"]

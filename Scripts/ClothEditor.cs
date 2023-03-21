@@ -6,10 +6,8 @@ using System.Collections.Generic;
 // Controls cloth!
 public partial class ClothEditor : Node2D
 {
-	// Inspector variable
-	[Export] public Cloth cloth;
-
 	// Variables
+	public Cloth cloth;
 	private bool connectionEditMode = false;
 	private bool jointEditMode = false;
 	private EditMode editMode = EditMode.Default;
