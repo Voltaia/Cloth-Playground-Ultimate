@@ -26,7 +26,7 @@ clothEditor = NodePath("../Cloth Editor")
 [node name="Cloth Editor" type="Node2D" parent="."]
 script = ExtResource("3_mdrga")
 
-[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("startFocus")]
+[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseMenuFocus", "newClothMenu")]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -36,7 +36,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_1p4le")
-startFocus = NodePath("Pause Menu/Contents/Resume")
+pauseMenu = NodePath("Pause Menu")
+pauseMenuFocus = NodePath("Pause Menu/Contents/Resume")
+newClothMenu = NodePath("New Cloth Menu")
 
 [node name="Pause Menu" type="Panel" parent="Menu"]
 custom_minimum_size = Vector2(250, 200)
@@ -106,6 +108,101 @@ focus_neighbor_top = NodePath("../Create New Cloth")
 text = "Quit Simulation"
 flat = true
 
+[node name="New Cloth Menu" type="Panel" parent="Menu"]
+visible = false
+custom_minimum_size = Vector2(250, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -112.5
+offset_right = 125.0
+offset_bottom = 112.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dcadd")
+
+[node name="Contents" type="VBoxContainer" parent="Menu/New Cloth Menu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.5
+offset_right = 60.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_yys3g")
+alignment = 1
+
+[node name="Title" type="Label" parent="Menu/New Cloth Menu/Contents"]
+layout_mode = 2
+text = "New Cloth"
+label_settings = SubResource("LabelSettings_ocoqx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Size" type="HBoxContainer" parent="Menu/New Cloth Menu/Contents"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Menu/New Cloth Menu/Contents/Size"]
+layout_mode = 2
+text = "Size:"
+
+[node name="OptionButton" type="OptionButton" parent="Menu/New Cloth Menu/Contents/Size"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+alignment = 1
+item_count = 4
+popup/item_0/text = "Small"
+popup/item_0/id = 0
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "Large"
+popup/item_2/id = 2
+popup/item_3/text = "Fullscreen"
+popup/item_3/id = 3
+
+[node name="Type" type="HBoxContainer" parent="Menu/New Cloth Menu/Contents"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Menu/New Cloth Menu/Contents/Type"]
+layout_mode = 2
+text = "Type:"
+
+[node name="OptionButton" type="OptionButton" parent="Menu/New Cloth Menu/Contents/Type"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+alignment = 1
+item_count = 3
+popup/item_0/text = "Plain"
+popup/item_0/id = 0
+popup/item_1/text = "Rigid"
+popup/item_1/id = 1
+popup/item_2/text = "Triangular"
+popup/item_2/id = 2
+
+[node name="Generate" type="Button" parent="Menu/New Cloth Menu/Contents"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Generate"
+flat = true
+
+[node name="Back" type="Button" parent="Menu/New Cloth Menu/Contents"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../../Pause Menu/Contents/Regenerate Cloth")
+text = "Back"
+flat = true
+
 [connection signal="pressed" from="Menu/Pause Menu/Contents/Resume" to="Menu" method="Resume"]
 [connection signal="pressed" from="Menu/Pause Menu/Contents/Regenerate Cloth" to="Cloth Controller" method="GenerateNewCloth"]
+[connection signal="pressed" from="Menu/Pause Menu/Contents/Create New Cloth" to="Menu" method="EnterNewClothMenu"]
 [connection signal="pressed" from="Menu/Pause Menu/Contents/Quit Simulation" to="Menu" method="Quit"]
+[connection signal="pressed" from="Menu/New Cloth Menu/Contents/Back" to="Menu" method="LeaveNewClothMenu"]

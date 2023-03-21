@@ -6,14 +6,19 @@ using System;
 public partial class Menu : Control
 {
 	// Variables
-	[Export] public BaseButton startFocus;
+	[Export] public Control pauseMenu;
+	[Export] public Control pauseMenuFocus;
+	[Export] public Control newClothMenu;
+	[Export] public Control newClothMenuFocus;
+	private Control currentMenu;
 	private bool isPaused;
 
 	// When started
 	public override void _Ready()
 	{
-		if (Visible) startFocus.GrabFocus();
+		if (Visible) pauseMenuFocus.GrabFocus();
 		isPaused = Visible;
+		currentMenu = pauseMenu;
 	}
 
 	// Input
@@ -21,11 +26,30 @@ public partial class Menu : Control
 	{
 		// Check for pause
 		if (@event.IsActionPressed("Pause")) {
-			isPaused = !isPaused;
-			GetTree().Paused = isPaused;
-			Visible = isPaused;
-			if (Visible) startFocus.GrabFocus();
+			if (currentMenu == pauseMenu) {
+				isPaused = !isPaused;
+				GetTree().Paused = isPaused;
+				Visible = isPaused;
+				if (Visible) pauseMenuFocus.GrabFocus();
+			}
+			else if (currentMenu == newClothMenu) {
+				LeaveNewClothMenu();
+			}
 		}
+	}
+
+	// Create new cloth
+	public void EnterNewClothMenu() {
+		currentMenu = newClothMenu;
+		pauseMenu.Visible = false;
+		newClothMenu.Visible = true;
+	}
+
+	// Leave new cloth menu
+	public void LeaveNewClothMenu() {
+		newClothMenu.Visible = false;
+		pauseMenu.Visible = true;
+		currentMenu = pauseMenu;
 	}
 
 	// Resume
