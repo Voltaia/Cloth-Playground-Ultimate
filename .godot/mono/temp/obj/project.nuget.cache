@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "1ol02kyOO9xe1w+K4dH6tGi1bqlDePki4noGORzUmVArqc6AAhH/5LJ26G/Co3w5Q1z5l+rBE6mOtJ6JgBzpWg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\harpe\\Desktop\\Repositories\\Cloth Playground Ultimate\\Cloth Playground Ultimate.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\harpe\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder\\godot.sourcegenerators\\4.0.0\\godot.sourcegenerators.4.0.0.nupkg.sha512",
+    "C:\\Users\\harpe\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder\\godotsharp\\4.0.0\\godotsharp.4.0.0.nupkg.sha512",
+    "C:\\Users\\harpe\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder\\godotsharpeditor\\4.0.0\\godotsharpeditor.4.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

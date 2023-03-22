@@ -1,0 +1,17 @@
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\bin\Debug\Cloth Playground Ultimate.deps.json
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\bin\Debug\Cloth Playground Ultimate.runtimeconfig.json
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\bin\Debug\Cloth Playground Ultimate.dll
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\bin\Debug\Cloth Playground Ultimate.pdb
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\bin\Debug\GodotSharp.dll
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.csproj.AssemblyReference.cache
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.AssemblyInfoInputs.cache
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.AssemblyInfo.cs
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.csproj.CoreCompileInputs.cache
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.csproj.CopyComplete
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.dll
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\refint\Cloth Playground Ultimate.dll
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.pdb
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\Cloth Playground Ultimate.genruntimeconfig.cache
+C:\Users\harpe\Desktop\Repositories\Cloth Playground Ultimate\.godot\mono\temp\obj\Debug\ref\Cloth Playground Ultimate.dll
