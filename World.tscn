@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c64tbs3davcw4"]
+[gd_scene load_steps=7 format=3 uid="uid://2e703h047tch"]
 
-[ext_resource type="Script" path="res://Scripts/ClothController.cs" id="1_l5q0d"]
+[ext_resource type="Script" path="res://Scripts/PlaygroundController.cs" id="1_un8fw"]
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="2_1p4le"]
 [ext_resource type="Script" path="res://Scripts/ClothEditor.cs" id="3_mdrga"]
-[ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Pause Menu Theme.tres" id="3_yys3g"]
+[ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Menu Theme.tres" id="4_788g1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcadd"]
 bg_color = Color(0, 0, 0, 0.882353)
@@ -19,14 +19,14 @@ shadow_offset = Vector2(2, 2)
 
 [node name="Playground" type="Node"]
 
-[node name="Cloth Controller" type="Node2D" parent="." node_paths=PackedStringArray("clothEditor")]
-script = ExtResource("1_l5q0d")
+[node name="Playground Controller" type="Node2D" parent="." node_paths=PackedStringArray("clothEditor")]
+script = ExtResource("1_un8fw")
 clothEditor = NodePath("../Cloth Editor")
 
 [node name="Cloth Editor" type="Node2D" parent="."]
 script = ExtResource("3_mdrga")
 
-[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseMenuFocus", "newClothMenu")]
+[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseMenuFocus", "newPlaygroundMenu", "newPlaygroundMenuFocus")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -34,10 +34,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_neighbor_bottom = NodePath("Menu Panel/New Playground Menu/Width/HSlider")
+theme = ExtResource("4_788g1")
 script = ExtResource("2_1p4le")
 pauseMenu = NodePath("Menu Panel/Pause Menu")
 pauseMenuFocus = NodePath("Menu Panel/Pause Menu/Resume")
-newClothMenu = NodePath("Menu Panel/New Cloth Menu")
+newPlaygroundMenu = NodePath("Menu Panel/New Playground Menu")
+newPlaygroundMenuFocus = NodePath("Menu Panel/New Playground Menu/Fullscreen")
 
 [node name="Menu Panel" type="Panel" parent="Menu"]
 custom_minimum_size = Vector2(450, 450)
@@ -67,7 +70,6 @@ offset_left = -60.5
 offset_right = 60.5
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("3_yys3g")
 alignment = 1
 
 [node name="Title" type="Label" parent="Menu/Menu Panel/Pause Menu"]
@@ -88,27 +90,27 @@ flat = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Resume")
-focus_neighbor_bottom = NodePath("../Create New Cloth")
+focus_neighbor_bottom = NodePath("../New Playground")
 text = "Regenerate Cloth
 "
 flat = true
 
-[node name="Create New Cloth" type="Button" parent="Menu/Menu Panel/Pause Menu"]
+[node name="New Playground" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Regenerate Cloth")
 focus_neighbor_bottom = NodePath("../Quit Simulation")
-text = "Create New Cloth"
+text = "New Playground"
 flat = true
 
 [node name="Quit Simulation" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Create New Cloth")
+focus_neighbor_top = NodePath("../New Playground")
 text = "Quit Simulation"
 flat = true
 
-[node name="New Cloth Menu" type="VBoxContainer" parent="Menu/Menu Panel"]
+[node name="New Playground Menu" type="VBoxContainer" parent="Menu/Menu Panel"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 13
@@ -119,17 +121,16 @@ offset_left = -100.0
 offset_right = 100.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("3_yys3g")
 alignment = 1
 
-[node name="Title" type="Label" parent="Menu/Menu Panel/New Cloth Menu"]
+[node name="Title" type="Label" parent="Menu/Menu Panel/New Playground Menu"]
 layout_mode = 2
-text = "New Cloth"
+text = "New Playground"
 label_settings = SubResource("LabelSettings_ocoqx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Fullscreen" type="CheckButton" parent="Menu/Menu Panel/New Cloth Menu"]
+[node name="Fullscreen" type="CheckButton" parent="Menu/Menu Panel/New Playground Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -137,59 +138,64 @@ size_flags_vertical = 4
 text = "Fullscreen:"
 icon_alignment = 1
 
-[node name="Width" type="HBoxContainer" parent="Menu/Menu Panel/New Cloth Menu"]
+[node name="Width" type="HBoxContainer" parent="Menu/Menu Panel/New Playground Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="Menu/Menu Panel/New Cloth Menu/Width"]
+[node name="Label" type="Label" parent="Menu/Menu Panel/New Playground Menu/Width"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Width:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Menu/Menu Panel/New Cloth Menu/Width"]
+[node name="HSlider" type="HSlider" parent="Menu/Menu Panel/New Playground Menu/Width"]
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
+focus_neighbor_top = NodePath("../../Fullscreen")
+focus_neighbor_bottom = NodePath("../../Height/HSlider")
 min_value = 500.0
 max_value = 1500.0
 step = 50.0
 value = 750.0
 
-[node name="Height" type="HBoxContainer" parent="Menu/Menu Panel/New Cloth Menu"]
+[node name="Height" type="HBoxContainer" parent="Menu/Menu Panel/New Playground Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="Menu/Menu Panel/New Cloth Menu/Height"]
+[node name="Label" type="Label" parent="Menu/Menu Panel/New Playground Menu/Height"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Height:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Menu/Menu Panel/New Cloth Menu/Height"]
+[node name="HSlider" type="HSlider" parent="Menu/Menu Panel/New Playground Menu/Height"]
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
+focus_neighbor_top = NodePath("../../Width/HSlider")
+focus_neighbor_bottom = NodePath("../../Create")
 min_value = 500.0
 max_value = 1000.0
 step = 50.0
 value = 750.0
 
-[node name="Type" type="HBoxContainer" parent="Menu/Menu Panel/New Cloth Menu"]
+[node name="Type" type="HBoxContainer" parent="Menu/Menu Panel/New Playground Menu"]
+visible = false
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="Menu/Menu Panel/New Cloth Menu/Type"]
+[node name="Label" type="Label" parent="Menu/Menu Panel/New Playground Menu/Type"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Type:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="Menu/Menu Panel/New Cloth Menu/Type"]
+[node name="OptionButton" type="OptionButton" parent="Menu/Menu Panel/New Playground Menu/Type"]
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
 item_count = 3
@@ -201,22 +207,27 @@ popup/item_1/id = 1
 popup/item_2/text = "Triangular"
 popup/item_2/id = 2
 
-[node name="Generate" type="Button" parent="Menu/Menu Panel/New Cloth Menu"]
+[node name="Create" type="Button" parent="Menu/Menu Panel/New Playground Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-text = "Generate"
+focus_neighbor_top = NodePath("../Height/HSlider")
+focus_neighbor_bottom = NodePath("../Back")
+text = "Create"
 flat = true
 
-[node name="Back" type="Button" parent="Menu/Menu Panel/New Cloth Menu"]
+[node name="Back" type="Button" parent="Menu/Menu Panel/New Playground Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../../Pause Menu/Regenerate Cloth")
+focus_neighbor_top = NodePath("../Create")
 text = "Back"
 flat = true
 
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Resume" to="Menu" method="Resume"]
-[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Regenerate Cloth" to="Cloth Controller" method="GenerateNewCloth"]
-[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Create New Cloth" to="Menu" method="EnterNewClothMenu"]
+[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Regenerate Cloth" to="Playground Controller" method="GenerateNewCloth"]
+[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Playground" to="Menu" method="EnterNewClothMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
-[connection signal="pressed" from="Menu/Menu Panel/New Cloth Menu/Generate" to="Cloth Controller" method="GenerateNewCloth"]
-[connection signal="pressed" from="Menu/Menu Panel/New Cloth Menu/Back" to="Menu" method="LeaveNewClothMenu"]
+[connection signal="toggled" from="Menu/Menu Panel/New Playground Menu/Fullscreen" to="Playground Controller" method="SetFullscreen"]
+[connection signal="value_changed" from="Menu/Menu Panel/New Playground Menu/Width/HSlider" to="Playground Controller" method="SetWidth"]
+[connection signal="value_changed" from="Menu/Menu Panel/New Playground Menu/Height/HSlider" to="Playground Controller" method="SetHeight"]
+[connection signal="pressed" from="Menu/Menu Panel/New Playground Menu/Create" to="Playground Controller" method="NewPlayground"]
+[connection signal="pressed" from="Menu/Menu Panel/New Playground Menu/Back" to="Menu" method="LeaveNewClothMenu"]

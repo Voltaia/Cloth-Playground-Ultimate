@@ -8,8 +8,8 @@ public partial class Menu : Control
 	// Variables
 	[Export] public Control pauseMenu;
 	[Export] public Control pauseMenuFocus;
-	[Export] public Control newClothMenu;
-	[Export] public Control newClothMenuFocus;
+	[Export] public Control newPlaygroundMenu;
+	[Export] public Control newPlaygroundMenuFocus;
 	private Control currentMenu;
 	private bool isPaused = false;
 
@@ -18,7 +18,7 @@ public partial class Menu : Control
 	{
 		Visible = false;
 		pauseMenu.Visible = true;
-		newClothMenu.Visible = false;
+		newPlaygroundMenu.Visible = false;
 		currentMenu = pauseMenu;
 	}
 
@@ -31,9 +31,9 @@ public partial class Menu : Control
 				isPaused = !isPaused;
 				GetTree().Paused = isPaused;
 				Visible = isPaused;
-				if (Visible) pauseMenuFocus.GrabFocus();
+				if (isPaused) pauseMenuFocus.GrabFocus();
 			}
-			else if (currentMenu == newClothMenu) {
+			else if (currentMenu == newPlaygroundMenu) {
 				LeaveNewClothMenu();
 			}
 		}
@@ -41,16 +41,18 @@ public partial class Menu : Control
 
 	// Create new cloth
 	public void EnterNewClothMenu() {
-		currentMenu = newClothMenu;
+		currentMenu = newPlaygroundMenu;
 		pauseMenu.Visible = false;
-		newClothMenu.Visible = true;
+		newPlaygroundMenu.Visible = true;
+		newPlaygroundMenuFocus.GrabFocus();
 	}
 
 	// Leave new cloth menu
 	public void LeaveNewClothMenu() {
-		newClothMenu.Visible = false;
-		pauseMenu.Visible = true;
+		newPlaygroundMenu.Visible = false;
 		currentMenu = pauseMenu;
+		pauseMenu.Visible = true;
+		pauseMenuFocus.GrabFocus();
 	}
 
 	// Resume
