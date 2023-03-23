@@ -41,7 +41,6 @@ public partial class PlaygroundController : Node2D
 
 	// Set width
 	public void SetWidth(int width) {
-		GD.Print(width);
 		this.width = width;
 	}
 
