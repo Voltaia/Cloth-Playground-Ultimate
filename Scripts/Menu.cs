@@ -10,6 +10,8 @@ public partial class Menu : Control
 	[Export] public Control pauseMenuFocus;
 	[Export] public Control newPlaygroundMenu;
 	[Export] public Control newPlaygroundMenuFocus;
+	[Export] public Slider widthSlider;
+	[Export] public Slider heightSlider;
 	private Control currentMenu;
 	private bool isPaused = false;
 
@@ -53,6 +55,12 @@ public partial class Menu : Control
 		currentMenu = pauseMenu;
 		pauseMenu.Visible = true;
 		pauseMenuFocus.GrabFocus();
+	}
+
+	// Set window size options
+	public void SetWindowedOptions(bool enabled) {
+		widthSlider.Editable = enabled;
+		heightSlider.Editable = enabled;
 	}
 
 	// Resume

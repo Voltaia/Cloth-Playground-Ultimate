@@ -19,14 +19,15 @@ shadow_offset = Vector2(2, 2)
 
 [node name="Playground" type="Node"]
 
-[node name="Playground Controller" type="Node2D" parent="." node_paths=PackedStringArray("clothEditor")]
+[node name="Playground Controller" type="Node2D" parent="." node_paths=PackedStringArray("clothEditor", "menu")]
 script = ExtResource("1_un8fw")
 clothEditor = NodePath("../Cloth Editor")
+menu = NodePath("../Menu")
 
 [node name="Cloth Editor" type="Node2D" parent="."]
 script = ExtResource("3_mdrga")
 
-[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseMenuFocus", "newPlaygroundMenu", "newPlaygroundMenuFocus")]
+[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseMenuFocus", "newPlaygroundMenu", "newPlaygroundMenuFocus", "widthSlider", "heightSlider")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -41,6 +42,8 @@ pauseMenu = NodePath("Menu Panel/Pause Menu")
 pauseMenuFocus = NodePath("Menu Panel/Pause Menu/Resume")
 newPlaygroundMenu = NodePath("Menu Panel/New Playground Menu")
 newPlaygroundMenuFocus = NodePath("Menu Panel/New Playground Menu/Fullscreen")
+widthSlider = NodePath("Menu Panel/New Playground Menu/Width/HSlider")
+heightSlider = NodePath("Menu Panel/New Playground Menu/Height/HSlider")
 
 [node name="Menu Panel" type="Panel" parent="Menu"]
 custom_minimum_size = Vector2(450, 450)

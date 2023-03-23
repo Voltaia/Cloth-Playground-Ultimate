@@ -7,6 +7,7 @@ public partial class PlaygroundController : Node2D
 {
 	// Inspector
 	[Export] public ClothEditor clothEditor;
+	[Export] public Menu menu;
 
 	// Variables
 	public Cloth cloth;
@@ -29,12 +30,13 @@ public partial class PlaygroundController : Node2D
 	// Draw
 	public override void _Draw() {
 		// Draw framerate
-		DrawString(new Label().GetThemeDefaultFont(), new Vector2(5, 20), Engine.GetFramesPerSecond().ToString());
+		DrawString(new Label().GetThemeDefaultFont(), new Vector2(5, 20), "FPS: " + Engine.GetFramesPerSecond().ToString());
 	}
 
 	// Set fullscreen
 	public void SetFullscreen(bool isFullscreen) {
 		this.isFullscreen = isFullscreen;
+		menu.SetWindowedOptions(!isFullscreen);
 	}
 
 	// Set width
