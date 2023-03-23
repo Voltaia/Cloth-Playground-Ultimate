@@ -14,6 +14,7 @@ public partial class PlaygroundController : Node2D
 	public bool isFullscreen = false;
 	public int width = 750;
 	public int height = 750;
+	private Cloth.GenerationSettings generationSettings = new Cloth.GenerationSettings();
 
 	// On start
 	public override void _Ready()
@@ -49,6 +50,17 @@ public partial class PlaygroundController : Node2D
 		this.height = height;
 	}
 
+	// Set rigid
+	public void SetRigid(bool isRigid) {
+		generationSettings.rigid = isRigid;
+	}
+
+	// Set joint separation
+	public void SetJointSeparation(int settingIndex) {
+		generationSettings.jointSeparation
+			= (Cloth.GenerationSettings.JointSeparation)settingIndex;
+	}
+
 	// Create new playground
 	public void NewPlayground() {
 		// Window settings
@@ -70,7 +82,7 @@ public partial class PlaygroundController : Node2D
 		if (cloth != null) cloth.QueueFree();
 
 		// Create new cloth
-		cloth = new Cloth();
+		cloth = new Cloth(generationSettings);
 		AddChild(cloth);
 
 		// Attach cloth editor

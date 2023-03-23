@@ -19,7 +19,6 @@ public partial class Joint : Node2D
 	}
 
 	// Settings
-	public const float Radius = 10.0f;
 	private const float Gravity = 0.25f;
 
 	// Constructor
@@ -49,13 +48,13 @@ public partial class Joint : Node2D
 	// Draw
 	public override void _Draw()
 	{
-		if (isFixed) DrawCircle(Vector2.Zero, Radius, Colors.DarkBlue);
-		else DrawCircle(Vector2.Zero, Radius, Colors.Blue);
+		if (isFixed) DrawCircle(Vector2.Zero, parent.jointRadius, Colors.DarkBlue);
+		else DrawCircle(Vector2.Zero, parent.jointRadius, Colors.Blue);
 	}
 
 	// Colides with point
 	public bool CollidesWithPoint(Vector2 pointPosition) {
 		float distance = pointPosition.DistanceTo(Position);
-		return distance < Radius;
+		return distance < parent.jointRadius;
 	}
 }

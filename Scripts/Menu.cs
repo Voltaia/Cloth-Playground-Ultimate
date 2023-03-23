@@ -5,13 +5,17 @@ using System;
 // The menu system
 public partial class Menu : Control
 {
-	// Variables
+	// Inspector variables
 	[Export] public Control pauseMenu;
 	[Export] public Control pauseMenuFocus;
 	[Export] public Control newPlaygroundMenu;
 	[Export] public Control newPlaygroundMenuFocus;
 	[Export] public Slider widthSlider;
 	[Export] public Slider heightSlider;
+	[Export] public Control newClothMenu;
+	[Export] public Control newClothMenuFocus;
+
+	// Class variables
 	private Control currentMenu;
 	private bool isPaused = false;
 
@@ -21,6 +25,7 @@ public partial class Menu : Control
 		Visible = false;
 		pauseMenu.Visible = true;
 		newPlaygroundMenu.Visible = false;
+		newClothMenu.Visible = false;
 		currentMenu = pauseMenu;
 	}
 
@@ -36,25 +41,27 @@ public partial class Menu : Control
 				if (isPaused) pauseMenuFocus.GrabFocus();
 			}
 			else if (currentMenu == newPlaygroundMenu) {
-				LeaveNewClothMenu();
+				EnterPauseMenu();
 			}
 		}
 	}
 
-	// Create new cloth
-	public void EnterNewClothMenu() {
-		currentMenu = newPlaygroundMenu;
-		pauseMenu.Visible = false;
-		newPlaygroundMenu.Visible = true;
-		newPlaygroundMenuFocus.GrabFocus();
-	}
+	// Menu navigations
+	public void EnterPauseMenu()
+	{ EnterMenu(pauseMenu, pauseMenuFocus); }
 
-	// Leave new cloth menu
-	public void LeaveNewClothMenu() {
-		newPlaygroundMenu.Visible = false;
-		currentMenu = pauseMenu;
-		pauseMenu.Visible = true;
-		pauseMenuFocus.GrabFocus();
+	public void EnterNewPlaygroundMenu()
+	{ EnterMenu(newPlaygroundMenu, newPlaygroundMenuFocus); }
+
+	public void EnterNewClothMenu()
+	{ EnterMenu(newClothMenu, newClothMenuFocus); }
+
+	// Enter a menu
+	public void EnterMenu(Control menuToEnter, Control focus) {
+		currentMenu.Visible = false;
+		currentMenu = menuToEnter;
+		menuToEnter.Visible = true;
+		focus.GrabFocus();
 	}
 
 	// Set window size options

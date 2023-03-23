@@ -12,16 +12,14 @@ public partial class Cloth : Node2D
 	public bool simulationPaused = false;
 	public bool visualizeStress = false;
 	public Random rng = new Random();
-
-	// Generation settings
-	public bool generateRigid = false;
-	public Vector2 generationSize = Vector2.One * 250;
-	public int generationSeparation = 50;
-	private int generationSidesPadding = 100;
+	public GenerationSettings generationSettings;
+	public int jointRadius = 10;
 
 	// Constructor
-	public Cloth() {
+	public Cloth(GenerationSettings generationSettings) {
 		Name = "Cloth";
+		this.generationSettings = generationSettings;
+		jointRadius = this.generationSettings.GetJointRadius();
 	}
 
 	// On start
@@ -85,9 +83,9 @@ public partial class Cloth : Node2D
 	public void Generate(Vector2 size)
 	{
 		// Calculate joints to create
-		int horizontalCount = ((int)size.X - generationSidesPadding) / generationSeparation;
-		int verticalCount = ((int)size.Y - generationSidesPadding) / generationSeparation;
-		Vector2 clothSize = new Vector2((horizontalCount - 1) * generationSeparation, (verticalCount - 1) * generationSeparation);
+		int horizontalCount = ((int)size.X - generationSettings.borderPadding) / generationSettings.ConvertJointSeparation();
+		int verticalCount = ((int)size.Y - generationSettings.borderPadding) / generationSettings.ConvertJointSeparation();
+		Vector2 clothSize = new Vector2((horizontalCount - 1) * generationSettings.ConvertJointSeparation(), (verticalCount - 1) * generationSettings.ConvertJointSeparation());
 		Vector2 startPosition = size / 2 - clothSize / 2;
 		Joint[,] jointArray = new Joint[horizontalCount, verticalCount];
 
@@ -97,7 +95,10 @@ public partial class Cloth : Node2D
 			for (int yIndex = 0; yIndex < verticalCount; yIndex++)
 			{
 				// Create joint
-				Vector2 newJointPosition = new Vector2(startPosition.X + xIndex * generationSeparation, startPosition.Y + yIndex * generationSeparation);
+				Vector2 newJointPosition = new Vector2(
+					startPosition.X + xIndex * generationSettings.ConvertJointSeparation(),
+					startPosition.Y + yIndex * generationSettings.ConvertJointSeparation()
+				);
 				jointArray[xIndex, yIndex] = AddJoint(newJointPosition, false);
 
 				// Create connection west
@@ -119,7 +120,7 @@ public partial class Cloth : Node2D
 				}
 
 				// Rigid connections
-				if (generateRigid && xIndex > 0 && yIndex > 0) {
+				if (generationSettings.rigid && xIndex > 0 && yIndex > 0) {
 					AddConnection(
 						jointArray[xIndex, yIndex],
 						jointArray[xIndex - 1, yIndex - 1]
@@ -142,6 +143,50 @@ public partial class Cloth : Node2D
 			jointArray[horizontalCount / 2, 0].isFixed = true;
 			jointArray[Mathf.FloorToInt(horizontalCount * 0.75f), 0].isFixed = true;
 			jointArray[horizontalCount - 1, 0].isFixed = true;
+		}
+	}
+
+	// Generation settings
+	public class GenerationSettings
+	{
+		// Class variables
+		public bool rigid = false;
+		public JointSeparation jointSeparation = JointSeparation.Medium;
+		public int borderPadding = 100;
+
+		// Joint separation
+		public enum JointSeparation {
+			Small,
+			Medium,
+			Large
+		}
+
+		// Get joint separation
+		public int ConvertJointSeparation() {
+			switch (jointSeparation) {
+				case JointSeparation.Small:
+				return 40;
+
+				default:
+				return 50;
+
+				case JointSeparation.Large:
+				return 60;
+			}
+		}
+
+		// Get joint size
+		public int GetJointRadius() {
+			switch (jointSeparation) {
+				case JointSeparation.Small:
+				return 8;
+
+				default:
+				return 10;
+
+				case JointSeparation.Large:
+				return 12;
+			}
 		}
 	}
 }
