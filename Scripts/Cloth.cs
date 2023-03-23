@@ -85,11 +85,14 @@ public partial class Cloth : Node2D
 	public void Generate(Vector2 size)
 	{
 		// Calculate joints to create
-		int horizontalCount = ((int)size.X - generationSettings.borderPadding) / jointSeparation;
-		int verticalCount = ((int)size.Y - generationSettings.borderPadding) / jointSeparation;
+		int horizontalCount = ((int)size.X - generationSettings.sidePadding) / jointSeparation;
+		int verticalCount = ((int)size.Y - generationSettings.sidePadding) / jointSeparation;
 		Vector2 clothSize = new Vector2((horizontalCount - 1) * jointSeparation, (verticalCount - 1) * jointSeparation);
-		Vector2 startPosition = size / 2 - clothSize / 2;
+		Vector2 startPosition = new Vector2(size.X / 2 - clothSize.X / 2, generationSettings.sidePadding / 2);
 		Joint[,] jointArray = new Joint[horizontalCount, verticalCount];
+
+		// Adjust vertical count to make room for expansion
+		verticalCount = (int)(verticalCount * 0.9f);
 
 		// Create joints and connections one by one
 		for (int xIndex = 0; xIndex < horizontalCount; xIndex++)
@@ -154,7 +157,7 @@ public partial class Cloth : Node2D
 		// Class variables
 		public bool rigid = false;
 		public JointSeparation jointSeparation = JointSeparation.Medium;
-		public int borderPadding = 100;
+		public int sidePadding = 100;
 
 		// Joint separation
 		public enum JointSeparation {
