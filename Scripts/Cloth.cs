@@ -12,13 +12,15 @@ public partial class Cloth : Node2D
 	public bool simulationPaused = false;
 	public bool visualizeStress = false;
 	public Random rng = new Random();
-	public GenerationSettings generationSettings;
 	public int jointRadius = 10;
+	private GenerationSettings generationSettings;
+	private int jointSeparation = 50;
 
 	// Constructor
 	public Cloth(GenerationSettings generationSettings) {
 		Name = "Cloth";
 		this.generationSettings = generationSettings;
+		jointSeparation = this.generationSettings.ConvertJointSeparation();
 		jointRadius = this.generationSettings.GetJointRadius();
 	}
 
@@ -83,9 +85,9 @@ public partial class Cloth : Node2D
 	public void Generate(Vector2 size)
 	{
 		// Calculate joints to create
-		int horizontalCount = ((int)size.X - generationSettings.borderPadding) / generationSettings.ConvertJointSeparation();
-		int verticalCount = ((int)size.Y - generationSettings.borderPadding) / generationSettings.ConvertJointSeparation();
-		Vector2 clothSize = new Vector2((horizontalCount - 1) * generationSettings.ConvertJointSeparation(), (verticalCount - 1) * generationSettings.ConvertJointSeparation());
+		int horizontalCount = ((int)size.X - generationSettings.borderPadding) / jointSeparation;
+		int verticalCount = ((int)size.Y - generationSettings.borderPadding) / jointSeparation;
+		Vector2 clothSize = new Vector2((horizontalCount - 1) * jointSeparation, (verticalCount - 1) * jointSeparation);
 		Vector2 startPosition = size / 2 - clothSize / 2;
 		Joint[,] jointArray = new Joint[horizontalCount, verticalCount];
 
@@ -96,8 +98,8 @@ public partial class Cloth : Node2D
 			{
 				// Create joint
 				Vector2 newJointPosition = new Vector2(
-					startPosition.X + xIndex * generationSettings.ConvertJointSeparation(),
-					startPosition.Y + yIndex * generationSettings.ConvertJointSeparation()
+					startPosition.X + xIndex * jointSeparation,
+					startPosition.Y + yIndex * jointSeparation
 				);
 				jointArray[xIndex, yIndex] = AddJoint(newJointPosition, false);
 
