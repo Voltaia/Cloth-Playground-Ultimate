@@ -24,9 +24,14 @@ public partial class Cloth : Node2D
 		jointRadius = this.generationSettings.GetJointRadius();
 	}
 
+	// Constructor
+	public Cloth() {
+		Name = "Cloth";
+	}
+
 	// On start
 	public override void _Ready() {
-		Generate(GetViewportRect().Size);
+		if (generationSettings != null) Generate(GetViewportRect().Size);
 	}
 
 	// Add a connection

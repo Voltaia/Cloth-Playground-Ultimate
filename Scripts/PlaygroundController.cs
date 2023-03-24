@@ -14,6 +14,8 @@ public partial class PlaygroundController : Node2D
 	public bool isFullscreen = false;
 	public int width = 750;
 	public int height = 750;
+	public bool startEmpty = false;
+	public bool visualizeStress = false;
 	private Cloth.GenerationSettings generationSettings = new Cloth.GenerationSettings();
 
 	// On start
@@ -62,9 +64,15 @@ public partial class PlaygroundController : Node2D
 	}
 
 	// Visualize stress
-	public void VisualizeStress(bool isEnabled) {
-		cloth.visualizeStress = isEnabled;
+	public void VisualizeStress(bool visualizeStress) {
+		this.visualizeStress = visualizeStress;
+		cloth.visualizeStress = visualizeStress;
 		cloth.RedrawConnections();
+	}
+
+	// Set start empty
+	public void SetStartEmpty(bool startEmpty) {
+		this.startEmpty = startEmpty;
 	}
 
 	// Create new playground
@@ -84,15 +92,12 @@ public partial class PlaygroundController : Node2D
 
 	// Generate new cloth
 	public void GenerateNewCloth() {
-		// Free up old cloth
-		bool visualizeStress = false;
-		if (cloth != null) {
-			visualizeStress = cloth.visualizeStress;
-			cloth.QueueFree();
-		}
+		// Clear cloth
+		if (cloth != null) cloth.QueueFree();
 
 		// Create new cloth
-		cloth = new Cloth(generationSettings);
+		if (!startEmpty) cloth = new Cloth(generationSettings);
+		else cloth = new Cloth();
 		cloth.visualizeStress = visualizeStress;
 		AddChild(cloth);
 

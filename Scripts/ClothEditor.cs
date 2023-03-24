@@ -35,6 +35,16 @@ public partial class ClothEditor : Node2D
 
 	// Draw stuff
 	public override void _Draw() {
+		// Draw inserting new connection
+		if (connectionInserting != null) {
+			DrawLine(
+				connectionInserting.firstJoint.Position,
+				Game.MousePosition,
+				Colors.Green,
+				Connection.DrawThickness
+			);
+		}
+
 		// Draw edit mode
 		Color editModeColor = Colors.Blue;
 		if (editMode == EditMode.Create) editModeColor = Colors.Green;

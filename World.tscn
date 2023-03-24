@@ -202,16 +202,26 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Width/HSlider")
-focus_neighbor_bottom = NodePath("../../Create")
+focus_neighbor_bottom = NodePath("../../Start Empty")
 min_value = 500.0
 max_value = 1000.0
 step = 50.0
 value = 750.0
 
+[node name="Start Empty" type="CheckButton" parent="Menu/Menu Panel/New Playground Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../Height/HSlider")
+focus_neighbor_bottom = NodePath("../Create")
+text = "Start Empty:"
+icon_alignment = 1
+
 [node name="Create" type="Button" parent="Menu/Menu Panel/New Playground Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Height/HSlider")
+focus_neighbor_top = NodePath("../Start Empty")
 focus_neighbor_bottom = NodePath("../Back")
 text = "Create"
 flat = true
@@ -299,6 +309,7 @@ flat = true
 [connection signal="toggled" from="Menu/Menu Panel/New Playground Menu/Fullscreen" to="Playground Controller" method="SetFullscreen"]
 [connection signal="value_changed" from="Menu/Menu Panel/New Playground Menu/Width/HSlider" to="Playground Controller" method="SetWidth"]
 [connection signal="value_changed" from="Menu/Menu Panel/New Playground Menu/Height/HSlider" to="Playground Controller" method="SetHeight"]
+[connection signal="toggled" from="Menu/Menu Panel/New Playground Menu/Start Empty" to="Playground Controller" method="SetStartEmpty"]
 [connection signal="pressed" from="Menu/Menu Panel/New Playground Menu/Create" to="Playground Controller" method="NewPlayground"]
 [connection signal="pressed" from="Menu/Menu Panel/New Playground Menu/Back" to="Menu" method="EnterPauseMenu"]
 [connection signal="toggled" from="Menu/Menu Panel/New Cloth Menu/Rigid" to="Playground Controller" method="SetRigid"]
