@@ -33,7 +33,7 @@ public partial class ClothEditor : Node2D
 		mousePosition = GetViewport().GetMousePosition();
 
 		// Cutting logic
-		if (editMode == EditMode.Cut && Input.IsActionPressed("Apply Operation")) {
+		if (editMode == EditMode.Cut && Input.IsActionPressed("Primary Edit")) {
 			AttemptConnectionCut();
 			AttemptJointCut();
 		}
@@ -65,21 +65,22 @@ public partial class ClothEditor : Node2D
 	public override void _Input(InputEvent @event)
 	{
 		// Enable/disable modes
-		if (@event.IsActionPressed("Cut")) editMode = EditMode.Cut;
-		else if (@event.IsActionPressed("Insert")) editMode = EditMode.Insert;
+		if (@event.IsActionPressed("Destroy")) editMode = EditMode.Cut;
+		else if (@event.IsActionPressed("Create")) editMode = EditMode.Insert;
 		else if (
-			@event.IsActionReleased("Cut")
-			|| @event.IsActionReleased("Insert")
+			@event.IsActionReleased("Destroy")
+			|| @event.IsActionReleased("Create")
 		) editMode = EditMode.Default;
 
 		// Inserting logic
 		if (editMode == EditMode.Insert) {
-			if (@event.IsActionPressed("Apply Operation")) AttemptInsertStart();
-			else if (@event.IsActionReleased("Apply Operation")) AttemptInsertEnd();
+			if (@event.IsActionPressed("Primary Edit")) AttemptInsertStart();
+			else if (@event.IsActionReleased("Primary Edit")) AttemptInsertEnd();
+			else if (@event.IsActionPressed("Secondary Edit")) {
+				if (connectionBeingInserted != null) AttemptInsertMiddle();
+				else AttemptFlipJoint();
+			}
 		}
-
-		// Modify joint
-		if (editMode == EditMode.Insert && @event.IsActionPressed("Modify Joint")) AttemptFlipJoint();
 
 		// Pause simulation
 		if (@event.IsActionPressed("Pause Simulation")) cloth.simulationPaused = !cloth.simulationPaused;
@@ -97,6 +98,23 @@ public partial class ClothEditor : Node2D
 		// Create a connection with either a new or old joint attached
 		if (jointFound != null) connectionBeingInserted = new Connection(cloth, jointFound, null);
 		else connectionBeingInserted = new Connection(cloth, cloth.AddJoint(mousePosition, true), null);
+	}
+
+	// Insert middle
+	private void AttemptInsertMiddle() {
+		// Check if there is a joint at mouse position
+		Joint jointToConnect = JointCollidesWithMouse();
+		
+		// Create new joint if there is none
+		if (jointToConnect == null) jointToConnect = cloth.AddJoint(mousePosition, false);
+
+		// Finish connection
+		connectionBeingInserted.secondJoint = jointToConnect;
+		connectionBeingInserted.ReadjustLength();
+		cloth.AddConnection(connectionBeingInserted);
+
+		// Start new connection
+		connectionBeingInserted = new Connection(cloth, jointToConnect, null);
 	}
 
 	// Insert end
@@ -149,5 +167,15 @@ public partial class ClothEditor : Node2D
 				return;
 			}
 		}
+	}
+
+	// Check if joint collides with mouse position
+	private Joint JointCollidesWithMouse() {
+		// Check if there is a joint at mouse position
+		foreach (Joint joint in cloth.joints) {
+			// If there is a joint
+			if (joint.CollidesWithPoint(mousePosition)) return joint;
+		}
+		return null;
 	}
 }
