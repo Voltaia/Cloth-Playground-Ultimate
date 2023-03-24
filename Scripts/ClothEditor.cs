@@ -175,7 +175,10 @@ public partial class ClothEditor : Node2D
 	// Attempt to shrink connection
 	private void AttemptConnectionShrink() {
 		Connection connectionFound = ConnectionUnderMouse();
-		if (connectionFound != null) connectionFound.desiredLength -= 5.0f;
+		if (
+			connectionFound != null
+			&& connectionFound.desiredLength > 1.0f
+		) connectionFound.desiredLength -= 5.0f;
 	}
 
 	// Check if joint collides with mouse position
