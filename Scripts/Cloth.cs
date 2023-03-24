@@ -81,6 +81,13 @@ public partial class Cloth : Node2D
 		joints.Remove(joint);
 	}
 
+	// Redraw connections
+	public void RedrawConnections() {
+		foreach (Connection connection in connections) {
+			connection.QueueRedraw();
+		}
+	}
+
 	// Generate cloth
 	public void Generate(Vector2 size)
 	{

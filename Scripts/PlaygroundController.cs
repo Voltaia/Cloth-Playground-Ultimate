@@ -61,6 +61,12 @@ public partial class PlaygroundController : Node2D
 			= (Cloth.GenerationSettings.JointSeparation)settingIndex;
 	}
 
+	// Visualize stress
+	public void VisualizeStress(bool isEnabled) {
+		cloth.visualizeStress = isEnabled;
+		cloth.RedrawConnections();
+	}
+
 	// Create new playground
 	public void NewPlayground() {
 		// Window settings

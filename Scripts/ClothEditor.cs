@@ -78,9 +78,6 @@ public partial class ClothEditor : Node2D
 
 		// Pause simulation
 		if (@event.IsActionPressed("Pause Simulation")) cloth.simulationPaused = !cloth.simulationPaused;
-
-		// Visualize stress
-		if (@event.IsActionPressed("Visualize Stress")) cloth.visualizeStress = !cloth.visualizeStress;
 	}
 
 	// Insert start

@@ -64,7 +64,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dcadd")
 
 [node name="Pause Menu" type="VBoxContainer" parent="Menu/Menu Panel"]
-visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 13
@@ -87,14 +86,24 @@ vertical_alignment = 1
 [node name="Resume" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../Regenerate Cloth")
+focus_neighbor_bottom = NodePath("../Visualize Stress")
 text = "Resume"
 flat = true
+
+[node name="Visualize Stress" type="CheckButton" parent="Menu/Menu Panel/Pause Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../Resume")
+focus_neighbor_bottom = NodePath("../Regenerate Cloth")
+text = "Visualize Stress:"
+icon_alignment = 1
 
 [node name="Regenerate Cloth" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Resume")
+focus_neighbor_top = NodePath("../Visualize Stress")
 focus_neighbor_bottom = NodePath("../New Custom Cloth")
 text = "Regenerate Cloth
 "
@@ -213,6 +222,7 @@ text = "Back"
 flat = true
 
 [node name="New Cloth Menu" type="VBoxContainer" parent="Menu/Menu Panel"]
+visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 13
@@ -279,6 +289,7 @@ text = "Back"
 flat = true
 
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Resume" to="Menu" method="Resume"]
+[connection signal="toggled" from="Menu/Menu Panel/Pause Menu/Visualize Stress" to="Playground Controller" method="VisualizeStress"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Regenerate Cloth" to="Playground Controller" method="GenerateNewCloth"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Custom Cloth" to="Menu" method="EnterNewClothMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Playground" to="Menu" method="EnterNewPlaygroundMenu"]
