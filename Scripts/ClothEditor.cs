@@ -16,14 +16,14 @@ public partial class ClothEditor : Node2D
 	private bool connectionEditMode = false;
 	private bool jointEditMode = false;
 	private EditMode editMode = EditMode.Default;
-	private Connection connectionBeingInserted = null;
+	private Connection connectionInserting = null;
 	private Vector2 mousePosition;
 
 	// Edit modes
 	private enum EditMode {
 		Default,
-		Cut,
-		Insert
+		Destroy,
+		Create
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,7 +33,7 @@ public partial class ClothEditor : Node2D
 		mousePosition = GetViewport().GetMousePosition();
 
 		// Cutting logic
-		if (editMode == EditMode.Cut && Input.IsActionPressed("Primary Edit")) {
+		if (editMode == EditMode.Destroy && Input.IsActionPressed("Primary Edit")) {
 			AttemptConnectionCut();
 			AttemptJointCut();
 		}
@@ -45,9 +45,9 @@ public partial class ClothEditor : Node2D
 	// Draw stuff
 	public override void _Draw() {
 		// Draw inserting new connection
-		if (connectionBeingInserted != null) {
+		if (connectionInserting != null) {
 			DrawLine(
-				connectionBeingInserted.firstJoint.Position,
+				connectionInserting.firstJoint.Position,
 				mousePosition,
 				Colors.Green,
 				Connection.DrawThickness
@@ -56,8 +56,8 @@ public partial class ClothEditor : Node2D
 
 		// Draw edit mode
 		Color editModeColor = Colors.Blue;
-		if (editMode == EditMode.Insert) editModeColor = Colors.Green;
-		else if (editMode == EditMode.Cut) editModeColor = Colors.Red;
+		if (editMode == EditMode.Create) editModeColor = Colors.Green;
+		else if (editMode == EditMode.Destroy) editModeColor = Colors.Red;
 		DrawCircle(mousePosition, 3.5f, editModeColor);
 	}
 
@@ -65,19 +65,28 @@ public partial class ClothEditor : Node2D
 	public override void _Input(InputEvent @event)
 	{
 		// Enable/disable modes
-		if (@event.IsActionPressed("Destroy")) editMode = EditMode.Cut;
-		else if (@event.IsActionPressed("Create")) editMode = EditMode.Insert;
+		if (@event.IsActionPressed("Destroy")) {
+			editMode = EditMode.Destroy;
+			connectionInserting = null;
+		}
+		else if (@event.IsActionPressed("Create")) editMode = EditMode.Create;
 		else if (
-			@event.IsActionReleased("Destroy")
-			|| @event.IsActionReleased("Create")
+			(
+				editMode == EditMode.Destroy
+				&& @event.IsActionReleased("Destroy")
+			)
+			|| (
+				editMode == EditMode.Create
+				&& @event.IsActionReleased("Create")
+			)
 		) editMode = EditMode.Default;
 
 		// Inserting logic
-		if (editMode == EditMode.Insert) {
+		if (editMode == EditMode.Create) {
 			if (@event.IsActionPressed("Primary Edit")) AttemptInsertStart();
 			else if (@event.IsActionReleased("Primary Edit")) AttemptInsertEnd();
 			else if (@event.IsActionPressed("Secondary Edit")) {
-				if (connectionBeingInserted != null) AttemptInsertMiddle();
+				if (connectionInserting != null) AttemptInsertMiddle();
 				else AttemptFlipJoint();
 			}
 		}
@@ -96,8 +105,8 @@ public partial class ClothEditor : Node2D
 		}
 
 		// Create a connection with either a new or old joint attached
-		if (jointFound != null) connectionBeingInserted = new Connection(cloth, jointFound, null);
-		else connectionBeingInserted = new Connection(cloth, cloth.AddJoint(mousePosition, true), null);
+		if (jointFound != null) connectionInserting = new Connection(cloth, jointFound, null);
+		else connectionInserting = new Connection(cloth, cloth.AddJoint(mousePosition, true), null);
 	}
 
 	// Insert middle
@@ -109,18 +118,18 @@ public partial class ClothEditor : Node2D
 		if (jointToConnect == null) jointToConnect = cloth.AddJoint(mousePosition, false);
 
 		// Finish connection
-		connectionBeingInserted.secondJoint = jointToConnect;
-		connectionBeingInserted.ReadjustLength();
-		cloth.AddConnection(connectionBeingInserted);
+		connectionInserting.secondJoint = jointToConnect;
+		connectionInserting.ReadjustLength();
+		cloth.AddConnection(connectionInserting);
 
 		// Start new connection
-		connectionBeingInserted = new Connection(cloth, jointToConnect, null);
+		connectionInserting = new Connection(cloth, jointToConnect, null);
 	}
 
 	// Insert end
 	private void AttemptInsertEnd() {
 		// Check if there is a connection being created
-		if (connectionBeingInserted == null) return;
+		if (connectionInserting == null) return;
 
 		// Check if there is a joint at mouse position
 		Joint jointFound = null;
@@ -130,13 +139,13 @@ public partial class ClothEditor : Node2D
 		}
 
 		// End connection with either an old or new joint
-		if (jointFound != null) connectionBeingInserted.secondJoint = jointFound;
-		else connectionBeingInserted.secondJoint = cloth.AddJoint(mousePosition, true);
-		connectionBeingInserted.ReadjustLength();
-		cloth.AddConnection(connectionBeingInserted);
+		if (jointFound != null) connectionInserting.secondJoint = jointFound;
+		else connectionInserting.secondJoint = cloth.AddJoint(mousePosition, true);
+		connectionInserting.ReadjustLength();
+		cloth.AddConnection(connectionInserting);
 
 		// Wipe connection
-		connectionBeingInserted = null;
+		connectionInserting = null;
 	}
 
 	// Attempt to cut a connection
