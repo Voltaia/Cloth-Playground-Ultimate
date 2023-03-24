@@ -33,14 +33,14 @@ public partial class Menu : Control
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		// Check for pause
-		if (@event.IsActionPressed("Pause")) {
+		if (@event.IsActionPressed("Toggle Menu")) {
 			if (currentMenu == pauseMenu) {
 				isPaused = !isPaused;
 				GetTree().Paused = isPaused;
 				Visible = isPaused;
 				if (isPaused) pauseMenuFocus.GrabFocus();
 			}
-			else if (currentMenu == newPlaygroundMenu) {
+			else if (currentMenu != pauseMenu) {
 				EnterPauseMenu();
 			}
 		}
