@@ -98,7 +98,7 @@ public partial class ClothEditor : Node2D
 	// Insert start
 	private void AttemptInsertStart() {
 		// Check if there is a joint at mouse position
-		Joint jointFound = JointCollidesWithMouse();
+		Joint jointFound = JointUnderMouse();
 
 		// Create a connection with either a new or old joint attached
 		if (jointFound != null) connectionInserting = new Connection(cloth, jointFound, null);
@@ -108,7 +108,7 @@ public partial class ClothEditor : Node2D
 	// Insert middle
 	private void AttemptInsertMiddle() {
 		// Check if there is a joint at mouse position
-		Joint jointToConnect = JointCollidesWithMouse();
+		Joint jointToConnect = JointUnderMouse();
 		
 		// Create new joint if there is none
 		if (jointToConnect == null) jointToConnect = cloth.AddJoint(mousePosition, false);
@@ -128,7 +128,7 @@ public partial class ClothEditor : Node2D
 		if (connectionInserting == null) return;
 
 		// Check if there is a joint at mouse position
-		Joint jointFound = JointCollidesWithMouse();
+		Joint jointFound = JointUnderMouse();
 
 		// End connection with either an old or new joint
 		if (jointFound != null) connectionInserting.secondJoint = jointFound;
@@ -171,7 +171,7 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Check if joint collides with mouse position
-	private Joint JointCollidesWithMouse() {
+	private Joint JointUnderMouse() {
 		// Check if there is a joint at mouse position
 		foreach (Joint joint in cloth.joints) {
 			// If there is a joint
