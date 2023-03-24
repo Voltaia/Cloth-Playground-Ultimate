@@ -74,12 +74,17 @@ public partial class ClothEditor : Node2D
 
 		// Inserting logic
 		if (editMode == EditMode.Create) {
+			// Insertion
 			if (@event.IsActionPressed("Primary Edit")) AttemptInsertStart();
 			else if (@event.IsActionReleased("Primary Edit")) AttemptInsertEnd();
 			else if (@event.IsActionPressed("Secondary Edit")) {
 				if (connectionInserting != null) AttemptInsertMiddle();
-				else AttemptFlipJoint();
+				else AttemptJointFlip();
 			}
+
+			// Connection size edit
+			if (@event.IsActionPressed("Wheel Up")) AttemptConnectionExtend();
+			else if (@event.IsActionPressed("Wheel Down")) AttemptConnectionShrink();
 		}
 
 		// Pause simulation
@@ -152,7 +157,7 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Attempt to flip a joint
-	private void AttemptFlipJoint() {
+	private void AttemptJointFlip() {
 		foreach (Joint joint in cloth.joints) {
 			if (joint.CollidesWithPoint(Game.MousePosition)) {
 				joint.isFixed = !joint.isFixed;
@@ -161,12 +166,30 @@ public partial class ClothEditor : Node2D
 		}
 	}
 
+	// Attempt to extend connection
+	private void AttemptConnectionExtend() {
+		Connection connectionFound = ConnectionUnderMouse();
+		if (connectionFound != null) connectionFound.desiredLength += 5.0f;
+	}
+
+	// Attempt to shrink connection
+	private void AttemptConnectionShrink() {
+		Connection connectionFound = ConnectionUnderMouse();
+		if (connectionFound != null) connectionFound.desiredLength -= 5.0f;
+	}
+
 	// Check if joint collides with mouse position
 	private Joint JointUnderMouse() {
-		// Check if there is a joint at mouse position
 		foreach (Joint joint in cloth.joints) {
-			// If there is a joint
 			if (joint.CollidesWithPoint(Game.MousePosition)) return joint;
+		}
+		return null;
+	}
+
+	// Check if a connection is under the mouse
+	private Connection ConnectionUnderMouse() {
+		foreach (Connection connection in cloth.connections) {
+			if (connection.CollidesWithPoint(Game.MousePosition)) return connection;
 		}
 		return null;
 	}
