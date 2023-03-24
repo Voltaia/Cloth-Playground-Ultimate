@@ -85,10 +85,15 @@ public partial class PlaygroundController : Node2D
 	// Generate new cloth
 	public void GenerateNewCloth() {
 		// Free up old cloth
-		if (cloth != null) cloth.QueueFree();
+		bool visualizeStress = false;
+		if (cloth != null) {
+			visualizeStress = cloth.visualizeStress;
+			cloth.QueueFree();
+		}
 
 		// Create new cloth
 		cloth = new Cloth(generationSettings);
+		cloth.visualizeStress = visualizeStress;
 		AddChild(cloth);
 
 		// Attach cloth editor
