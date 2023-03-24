@@ -3,6 +3,11 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+// Awesome note:
+// Make it so when you're creating a new joint-connection-joint that:
+// Holding LMB creates one with unfixed joints
+// Holding RMB creates one with fixed joints
+
 // Controls cloth!
 public partial class ClothEditor : Node2D
 {
