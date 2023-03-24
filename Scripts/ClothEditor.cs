@@ -12,6 +12,7 @@ public partial class ClothEditor : Node2D
 	private bool jointEditMode = false;
 	private EditMode editMode = EditMode.Default;
 	private Connection connectionInserting = null;
+	private Joint jointGrabbed = null;
 
 	// Edit modes
 	private enum EditMode {
@@ -23,6 +24,9 @@ public partial class ClothEditor : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// Grabbing logic
+		if (jointGrabbed != null) jointGrabbed.Position = Game.MousePosition;
+
 		// Cutting logic
 		if (editMode == EditMode.Destroy && Input.IsActionPressed("Primary Edit")) {
 			AttemptConnectionCut();
@@ -59,8 +63,12 @@ public partial class ClothEditor : Node2D
 		if (@event.IsActionPressed("Destroy")) {
 			editMode = EditMode.Destroy;
 			connectionInserting = null;
+			jointGrabbed = null;
 		}
-		else if (@event.IsActionPressed("Create")) editMode = EditMode.Create;
+		else if (@event.IsActionPressed("Create")) {
+			editMode = EditMode.Create;
+			jointGrabbed = null;
+		}
 		else if (
 			(
 				editMode == EditMode.Destroy
@@ -72,8 +80,12 @@ public partial class ClothEditor : Node2D
 			)
 		) editMode = EditMode.Default;
 
-		// Inserting logic
-		if (editMode == EditMode.Create) {
+		// Different modes
+		if (editMode == EditMode.Default) {
+			// Grab
+			if (@event.IsActionPressed("Primary Edit")) AttemptGrabJoint();
+			else if (@event.IsActionReleased("Primary Edit")) AttemptReleaseJoint();
+		} else if (editMode == EditMode.Create) {
 			// Insertion
 			if (@event.IsActionPressed("Primary Edit")) AttemptInsertStart();
 			else if (@event.IsActionReleased("Primary Edit")) AttemptInsertEnd();
@@ -89,6 +101,16 @@ public partial class ClothEditor : Node2D
 
 		// Pause simulation
 		if (@event.IsActionPressed("Pause Simulation")) cloth.simulationPaused = !cloth.simulationPaused;
+	}
+
+	// Attempt grab joint
+	private void AttemptGrabJoint() {
+		jointGrabbed = JointUnderMouse();
+	}
+	
+	// Attempt to release joint
+	private void AttemptReleaseJoint() {
+		jointGrabbed = null;
 	}
 
 	// Insert start
