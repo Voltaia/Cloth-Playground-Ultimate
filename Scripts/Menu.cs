@@ -7,13 +7,15 @@ public partial class Menu : Control
 {
 	// Inspector variables
 	[Export] public Control pauseMenu;
-	[Export] public Control pauseMenuFocus;
+	[Export] public Control pauseFocus;
 	[Export] public Control newPlaygroundMenu;
-	[Export] public Control newPlaygroundMenuFocus;
+	[Export] public Control newPlaygroundFocus;
 	[Export] public Slider widthSlider;
 	[Export] public Slider heightSlider;
 	[Export] public Control newClothMenu;
-	[Export] public Control newClothMenuFocus;
+	[Export] public Control newClothFocus;
+	[Export] public Control editVisualsMenu;
+	[Export] public Control editVisualsFocus;
 
 	// Class variables
 	private Control currentMenu;
@@ -38,7 +40,7 @@ public partial class Menu : Control
 				isPaused = !isPaused;
 				GetTree().Paused = isPaused;
 				Visible = isPaused;
-				if (isPaused) pauseMenuFocus.GrabFocus();
+				if (isPaused) pauseFocus.GrabFocus();
 			}
 			else if (currentMenu != pauseMenu) {
 				EnterPauseMenu();
@@ -48,13 +50,16 @@ public partial class Menu : Control
 
 	// Menu navigations
 	public void EnterPauseMenu()
-	{ EnterMenu(pauseMenu, pauseMenuFocus); }
+	{ EnterMenu(pauseMenu, pauseFocus); }
+
+	public void EnterEditVisualsMenu()
+	{ EnterMenu(editVisualsMenu, editVisualsFocus); }
 
 	public void EnterNewPlaygroundMenu()
-	{ EnterMenu(newPlaygroundMenu, newPlaygroundMenuFocus); }
+	{ EnterMenu(newPlaygroundMenu, newPlaygroundFocus); }
 
 	public void EnterNewClothMenu()
-	{ EnterMenu(newClothMenu, newClothMenuFocus); }
+	{ EnterMenu(newClothMenu, newClothFocus); }
 
 	// Enter a menu
 	public void EnterMenu(Control menuToEnter, Control focus) {
