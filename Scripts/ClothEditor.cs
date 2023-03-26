@@ -29,17 +29,17 @@ public partial class ClothEditor : Node2D
 		// Fill in joint under mouse
 		jointUnderMouse = null;
 		foreach (Joint joint in cloth.joints) {
-			if (joint.CollidesWithPoint(Game.MousePosition)) jointUnderMouse = joint;
+			if (joint.CollidesWithPoint(Simulation.MousePosition)) jointUnderMouse = joint;
 		}
 
 		// Fill in connection under mouse
 		connectionUnderMouse = null;
 		foreach (Connection connection in cloth.connections) {
-			if (connection.CollidesWithPoint(Game.MousePosition)) connectionUnderMouse = connection;
+			if (connection.CollidesWithPoint(Simulation.MousePosition)) connectionUnderMouse = connection;
 		}
 
 		// Grabbing logic
-		if (jointGrabbed != null) jointGrabbed.Position = Game.MousePosition;
+		if (jointGrabbed != null) jointGrabbed.Position = Simulation.MousePosition;
 
 		// Cutting logic
 		if (editMode == EditMode.Destroy && Input.IsActionPressed("Primary Edit")) {
@@ -57,7 +57,7 @@ public partial class ClothEditor : Node2D
 		if (connectionInserting != null) {
 			DrawLine(
 				connectionInserting.firstJoint.Position,
-				Game.MousePosition,
+				Simulation.MousePosition,
 				Colors.Green,
 				Connection.DrawThickness
 			);
@@ -67,7 +67,7 @@ public partial class ClothEditor : Node2D
 		Color editModeColor = Colors.Blue;
 		if (editMode == EditMode.Create) editModeColor = Colors.Green;
 		else if (editMode == EditMode.Destroy) editModeColor = Colors.Red;
-		DrawCircle(Game.MousePosition, 3.5f, editModeColor);
+		DrawCircle(Simulation.MousePosition, 3.5f, editModeColor);
 	}
 
 	// Input
@@ -134,7 +134,7 @@ public partial class ClothEditor : Node2D
 
 		// Create a connection with either a new or old joint attached
 		if (jointFound != null) connectionInserting = new Connection(cloth, jointFound, null);
-		else connectionInserting = new Connection(cloth, cloth.AddJoint(Game.MousePosition, true), null);
+		else connectionInserting = new Connection(cloth, cloth.AddJoint(Simulation.MousePosition, true), null);
 	}
 
 	// Insert middle
@@ -143,7 +143,7 @@ public partial class ClothEditor : Node2D
 		Joint jointToConnect = jointUnderMouse;
 		
 		// Create new joint if there is none
-		if (jointToConnect == null) jointToConnect = cloth.AddJoint(Game.MousePosition, false);
+		if (jointToConnect == null) jointToConnect = cloth.AddJoint(Simulation.MousePosition, false);
 
 		// Finish connection
 		connectionInserting.secondJoint = jointToConnect;
@@ -164,7 +164,7 @@ public partial class ClothEditor : Node2D
 
 		// End connection with either an old or new joint
 		if (jointFound != null) connectionInserting.secondJoint = jointFound;
-		else connectionInserting.secondJoint = cloth.AddJoint(Game.MousePosition, true);
+		else connectionInserting.secondJoint = cloth.AddJoint(Simulation.MousePosition, true);
 		connectionInserting.ReadjustLength();
 		cloth.AddConnection(connectionInserting);
 
@@ -176,7 +176,7 @@ public partial class ClothEditor : Node2D
 	private void AttemptConnectionCut() {
 		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
 			Connection connection = cloth.connections[index];
-			if (connection.CollidesWithPoint(Game.MousePosition)) {
+			if (connection.CollidesWithPoint(Simulation.MousePosition)) {
 				cloth.RemoveConnection(connection);
 			}
 		}
@@ -186,7 +186,7 @@ public partial class ClothEditor : Node2D
 	private void AttemptJointCut() {
 		for (int index = cloth.joints.Count - 1; index >= 0; index--) {
 			Joint joint = cloth.joints[index];
-			if (joint.CollidesWithPoint(Game.MousePosition)) {
+			if (joint.CollidesWithPoint(Simulation.MousePosition)) {
 				cloth.RemoveJoint(joint);
 			}
 		}
@@ -195,7 +195,7 @@ public partial class ClothEditor : Node2D
 	// Attempt to flip a joint
 	private void AttemptJointFlip() {
 		foreach (Joint joint in cloth.joints) {
-			if (joint.CollidesWithPoint(Game.MousePosition)) {
+			if (joint.CollidesWithPoint(Simulation.MousePosition)) {
 				joint.isFixed = !joint.isFixed;
 				return;
 			}

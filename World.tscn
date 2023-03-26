@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://2e703h047tch"]
+[gd_scene load_steps=8 format=3 uid="uid://cacoghfmruqxe"]
 
-[ext_resource type="Script" path="res://Scripts/Game.cs" id="1_grxj0"]
+[ext_resource type="Script" path="res://Scripts/Simulation.cs" id="1_4fnk0"]
 [ext_resource type="Script" path="res://Scripts/PlaygroundController.cs" id="1_un8fw"]
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="2_1p4le"]
 [ext_resource type="Script" path="res://Scripts/ClothEditor.cs" id="3_mdrga"]
@@ -19,7 +19,7 @@ shadow_color = Color(0.45098, 0.45098, 0.45098, 1)
 shadow_offset = Vector2(2, 2)
 
 [node name="Playground" type="Node"]
-script = ExtResource("1_grxj0")
+script = ExtResource("1_4fnk0")
 
 [node name="Playground Controller" type="Node2D" parent="." node_paths=PackedStringArray("clothEditor", "menu")]
 script = ExtResource("1_un8fw")
