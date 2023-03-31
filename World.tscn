@@ -90,23 +90,14 @@ vertical_alignment = 1
 [node name="Resume" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../Regenerate Cloth")
-text = "Resume"
-flat = true
-
-[node name="Regenerate Cloth" type="Button" parent="Menu/Menu Panel/Pause Menu"]
-custom_minimum_size = Vector2(0, 35)
-layout_mode = 2
-focus_neighbor_top = NodePath("../Resume")
 focus_neighbor_bottom = NodePath("../Edit Visuals")
-text = "Regenerate Cloth
-"
+text = "Resume"
 flat = true
 
 [node name="Edit Visuals" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Regenerate Cloth")
+focus_neighbor_top = NodePath("../Resume")
 focus_neighbor_bottom = NodePath("../New Custom Cloth")
 text = "Edit Visuals
 "
@@ -125,14 +116,31 @@ flat = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../New Custom Cloth")
-focus_neighbor_bottom = NodePath("../Quit Simulation")
+focus_neighbor_bottom = NodePath("../Regenerate Cloth")
 text = "New Playground"
+flat = true
+
+[node name="Regenerate Cloth" type="Button" parent="Menu/Menu Panel/Pause Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../New Playground")
+focus_neighbor_bottom = NodePath("../Clear Cloth")
+text = "Regenerate Cloth
+"
+flat = true
+
+[node name="Clear Cloth" type="Button" parent="Menu/Menu Panel/Pause Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Regenerate Cloth")
+focus_neighbor_bottom = NodePath("../Quit Simulation")
+text = "Clear Cloth"
 flat = true
 
 [node name="Quit Simulation" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../New Playground")
+focus_neighbor_top = NodePath("../Clear Cloth")
 text = "Quit Simulation"
 flat = true
 
@@ -339,10 +347,11 @@ text = "Back"
 flat = true
 
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Resume" to="Menu" method="Resume"]
-[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Regenerate Cloth" to="Playground Controller" method="GenerateNewCloth"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Edit Visuals" to="Menu" method="EnterEditVisualsMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Custom Cloth" to="Menu" method="EnterNewClothMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Playground" to="Menu" method="EnterNewPlaygroundMenu"]
+[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Regenerate Cloth" to="Playground Controller" method="GenerateNewCloth" binds= [false]]
+[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Clear Cloth" to="Playground Controller" method="GenerateNewCloth" binds= [true]]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
 [connection signal="toggled" from="Menu/Menu Panel/Edit Visuals Menu/Visualize Stress" to="Playground Controller" method="VisualizeStress"]
 [connection signal="pressed" from="Menu/Menu Panel/Edit Visuals Menu/Back" to="Menu" method="EnterPauseMenu"]

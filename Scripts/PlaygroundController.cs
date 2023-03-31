@@ -21,7 +21,7 @@ public partial class PlaygroundController : Node2D
 	// On start
 	public override void _Ready()
 	{
-		GenerateNewCloth();
+		GenerateNewCloth(false);
 		RenderingServer.SetDefaultClearColor(Palette.backgroundColor);
 	}
 
@@ -88,16 +88,16 @@ public partial class PlaygroundController : Node2D
 		}
 
 		// Generate new cloth
-		GenerateNewCloth();
+		GenerateNewCloth(startEmpty);
 	}
 
 	// Generate new cloth
-	public void GenerateNewCloth() {
+	public void GenerateNewCloth(bool isEmpty) {
 		// Clear cloth
 		if (cloth != null) cloth.QueueFree();
 
 		// Create new cloth
-		if (!startEmpty) cloth = new Cloth(generationSettings);
+		if (!isEmpty) cloth = new Cloth(generationSettings);
 		else cloth = new Cloth();
 		cloth.visualizeStress = visualizeStress;
 		AddChild(cloth);

@@ -13,8 +13,8 @@ public static class Palette
 
 	// Palette variations
 	public enum Theme {
-		Default,
-		Dark
+		Classic,
+		Marine
 	}
 
 	// Set palette
@@ -27,7 +27,7 @@ public static class Palette
 			connectionColor = Colors.LightBlue;
 			break;
 
-			case Theme.Dark:
+			case Theme.Marine:
 			backgroundColor = new Color("060608");
 			jointColor = new Color("285cc4");
 			fixedJointColor = new Color("143464");
