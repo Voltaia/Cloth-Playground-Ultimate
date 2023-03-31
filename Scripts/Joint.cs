@@ -48,8 +48,8 @@ public partial class Joint : Node2D
 	// Draw
 	public override void _Draw()
 	{
-		if (isFixed) DrawCircle(Vector2.Zero, parent.jointRadius, Simulation.Palette.fixedJointColor);
-		else DrawCircle(Vector2.Zero, parent.jointRadius, Simulation.Palette.jointColor);
+		if (isFixed) DrawCircle(Vector2.Zero, parent.jointRadius, Palette.fixedJointColor);
+		else DrawCircle(Vector2.Zero, parent.jointRadius, Palette.jointColor);
 	}
 
 	// Colides with point

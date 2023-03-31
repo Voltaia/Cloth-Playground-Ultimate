@@ -61,7 +61,7 @@ public partial class Connection : Node2D
 	// Draw
 	public override void _Draw() {
 		// Color to draw
-		Color color = Simulation.Palette.connectionColor;
+		Color color = Palette.connectionColor;
 		if (parent.visualizeStress) {
 			float stress = (actualLength - desiredLength) / StressVisualRange;
 			stress = Mathf.Clamp(stress, 0, 1);

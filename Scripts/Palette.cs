@@ -3,21 +3,28 @@ using Godot;
 using System;
 
 // Color palette
-public class Palette
+public static class Palette
 {
-	public Color backgroundColor;
-	public Color jointColor;
-	public Color fixedJointColor;
-	public Color connectionColor;
-}
+	// Colors
+	public static Color backgroundColor;
+	public static Color jointColor;
+	public static Color fixedJointColor;
+	public static Color connectionColor;
 
-// Default
-public class DefaultPalette : Palette
-{
-	public DefaultPalette() {
-		backgroundColor = Colors.DimGray;
-		jointColor = Colors.Blue;
-		fixedJointColor = Colors.DarkBlue;
-		connectionColor = Colors.LightBlue;
+	// Palette variations
+	public enum Theme {
+		Default
+	}
+
+	// Set palette
+	public static void Set(Theme theme) {
+		switch (theme) {
+			default:
+			backgroundColor = Colors.DimGray;
+			jointColor = Colors.Blue;
+			fixedJointColor = Colors.DarkBlue;
+			connectionColor = Colors.LightBlue;
+			break;
+		}
 	}
 }

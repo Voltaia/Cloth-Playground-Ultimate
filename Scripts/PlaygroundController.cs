@@ -22,7 +22,7 @@ public partial class PlaygroundController : Node2D
 	public override void _Ready()
 	{
 		GenerateNewCloth();
-		RenderingServer.SetDefaultClearColor(Simulation.Palette.backgroundColor);
+		RenderingServer.SetDefaultClearColor(Palette.backgroundColor);
 	}
 
 	// Every frame

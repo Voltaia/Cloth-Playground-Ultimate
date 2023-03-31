@@ -7,11 +7,10 @@ public partial class Simulation : Node
 {
 	// Variables
 	public static Vector2 MousePosition;
-	public static Palette Palette;
 
 	// Constructor
 	public Simulation() {
-		Palette = new DefaultPalette();
+		Palette.Set(Palette.Theme.Default);
 	}
 
 	// Process
