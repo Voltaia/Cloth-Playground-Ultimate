@@ -93,6 +93,13 @@ public partial class Cloth : Node2D
 		}
 	}
 
+	// Redraw joints
+	public void RedrawJoints() {
+		foreach (Joint joint in joints) {
+			joint.QueueRedraw();
+		}
+	}
+
 	// Generate cloth
 	public void Generate(Vector2 size)
 	{

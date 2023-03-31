@@ -76,6 +76,14 @@ public partial class PlaygroundController : Node2D
 		this.startEmpty = startEmpty;
 	}
 
+	// Set palette
+	public void SetPalette(int index) {
+		Palette.Set((Palette.Theme)index);
+		cloth.RedrawConnections();
+		cloth.RedrawJoints();
+		RenderingServer.SetDefaultClearColor(Palette.backgroundColor);
+	}
+
 	// Create new playground
 	public void NewPlayground() {
 		// Window settings

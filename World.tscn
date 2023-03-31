@@ -170,14 +170,38 @@ custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-focus_neighbor_bottom = NodePath("../Back")
+focus_neighbor_bottom = NodePath("../Palette/OptionButton")
 text = "Visualize Stress:"
 icon_alignment = 1
+
+[node name="Palette" type="HBoxContainer" parent="Menu/Menu Panel/Edit Visuals Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Menu/Menu Panel/Edit Visuals Menu/Palette"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Palette:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Menu/Menu Panel/Edit Visuals Menu/Palette"]
+custom_minimum_size = Vector2(125, 35)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Visualize Stress")
+focus_neighbor_bottom = NodePath("../../Back")
+item_count = 2
+selected = 0
+popup/item_0/text = "Classic"
+popup/item_0/id = 0
+popup/item_1/text = "Marine"
+popup/item_1/id = 1
 
 [node name="Back" type="Button" parent="Menu/Menu Panel/Edit Visuals Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Visualize Stress")
+focus_neighbor_top = NodePath("../Palette/OptionButton")
 text = "Back"
 flat = true
 
@@ -327,7 +351,7 @@ item_count = 3
 selected = 1
 popup/item_0/text = "Small"
 popup/item_0/id = 0
-popup/item_1/text = "Mediun"
+popup/item_1/text = "Medium"
 popup/item_1/id = 1
 popup/item_2/text = "Large"
 popup/item_2/id = 2
@@ -354,6 +378,7 @@ flat = true
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Clear Cloth" to="Playground Controller" method="GenerateNewCloth" binds= [true]]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
 [connection signal="toggled" from="Menu/Menu Panel/Edit Visuals Menu/Visualize Stress" to="Playground Controller" method="VisualizeStress"]
+[connection signal="item_selected" from="Menu/Menu Panel/Edit Visuals Menu/Palette/OptionButton" to="Playground Controller" method="SetPalette"]
 [connection signal="pressed" from="Menu/Menu Panel/Edit Visuals Menu/Back" to="Menu" method="EnterPauseMenu"]
 [connection signal="toggled" from="Menu/Menu Panel/New Playground Menu/Fullscreen" to="Playground Controller" method="SetFullscreen"]
 [connection signal="value_changed" from="Menu/Menu Panel/New Playground Menu/Width/HSlider" to="Playground Controller" method="SetWidth"]
