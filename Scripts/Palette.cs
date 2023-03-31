@@ -13,7 +13,8 @@ public static class Palette
 
 	// Palette variations
 	public enum Theme {
-		Default
+		Default,
+		Dark
 	}
 
 	// Set palette
@@ -24,6 +25,13 @@ public static class Palette
 			jointColor = Colors.Blue;
 			fixedJointColor = Colors.DarkBlue;
 			connectionColor = Colors.LightBlue;
+			break;
+
+			case Theme.Dark:
+			backgroundColor = new Color("060608");
+			jointColor = new Color("285cc4");
+			fixedJointColor = new Color("143464");
+			connectionColor = new Color("6d758d");
 			break;
 		}
 	}

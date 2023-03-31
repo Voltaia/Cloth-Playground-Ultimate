@@ -10,7 +10,9 @@ public partial class Simulation : Node
 
 	// Constructor
 	public Simulation() {
-		Palette.Set(Palette.Theme.Default);
+		RandomNumberGenerator rng = new RandomNumberGenerator();
+		Palette.Set((Palette.Theme)rng.RandiRange(0, Enum.GetNames(typeof(Palette.Theme)).Length));
+		Palette.Set(Palette.Theme.Dark);
 	}
 
 	// Process
