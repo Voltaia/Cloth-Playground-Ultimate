@@ -8,7 +8,7 @@ public partial class ClothEditor : Node2D
 {
 	// Variables
 	public Cloth cloth;
-	private bool connectionEditMode = false;
+	public bool connectionEditMode { get; private set; } = false;
 	private bool jointEditMode = false;
 	private EditMode editMode = EditMode.Default;
 	private Connection connectionInserting = null;

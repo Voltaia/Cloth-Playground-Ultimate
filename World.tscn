@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cacoghfmruqxe"]
+[gd_scene load_steps=9 format=3 uid="uid://by0rc6566ufxx"]
 
 [ext_resource type="Script" path="res://Scripts/Simulation.cs" id="1_4fnk0"]
 [ext_resource type="Script" path="res://Scripts/PlaygroundController.cs" id="1_un8fw"]
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="2_1p4le"]
 [ext_resource type="Script" path="res://Scripts/ClothEditor.cs" id="3_mdrga"]
+[ext_resource type="Script" path="res://Scripts/Overlay.cs" id="4_0lvcc"]
 [ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Menu Theme.tres" id="4_788g1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcadd"]
@@ -28,6 +29,34 @@ menu = NodePath("../Menu")
 
 [node name="Cloth Editor" type="Node2D" parent="."]
 script = ExtResource("3_mdrga")
+
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_0lvcc")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Overlay"]
+clip_contents = false
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -46.0
+offset_right = 1.0
+grow_vertical = 0
+theme_override_font_sizes/normal_font_size = 0
+bbcode_enabled = true
+text = "Hold SHIFT: [color=green]Insert[/color]
+Hold CTRL: [color=red]Remove[/color]
+LMB: [color=blue]Grab Cloth Joints[/color]"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
 
 [node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newPlaygroundMenu", "newPlaygroundFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editVisualsMenu", "editVisualsFocus")]
 process_mode = 3
