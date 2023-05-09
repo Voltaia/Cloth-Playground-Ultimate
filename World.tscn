@@ -46,14 +46,16 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -46.0
-offset_right = 1.0
+offset_left = 5.0
+offset_top = -92.0
+offset_right = 505.0
 grow_vertical = 0
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
-text = "Hold SHIFT: [color=green]Insert[/color]
-Hold CTRL: [color=red]Remove[/color]
-LMB: [color=blue]Grab Cloth Joints[/color]"
+text = "Hold SHIFT: [color=green]Create Mode[/color]
+Hold CTRL: [color=red]Destroy Mode[/color]
+LMB: [color=blue]Grab Cloth Joints[/color]
+SPACE: [color=black]Freeze Simulation[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
