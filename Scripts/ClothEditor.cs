@@ -141,6 +141,9 @@ public partial class ClothEditor : Node2D
 		// Create a connection with either a new or old joint attached
 		if (jointFound != null) connectionInserting = new Connection(cloth, jointFound, null);
 		else connectionInserting = new Connection(cloth, cloth.AddJoint(Simulation.MousePosition, true), null);
+
+		// Update tool tip
+		overlay.UpdateToolTip(EditMode.Create, true);
 	}
 
 	// Insert middle
@@ -176,6 +179,7 @@ public partial class ClothEditor : Node2D
 
 		// Wipe connection
 		connectionInserting = null;
+		overlay.UpdateToolTip(EditMode.Create, false);
 	}
 
 	// Attempt to cut a connection

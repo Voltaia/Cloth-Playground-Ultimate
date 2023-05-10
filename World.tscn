@@ -31,7 +31,7 @@ menu = NodePath("../Menu")
 script = ExtResource("3_mdrga")
 overlay = NodePath("../Overlay")
 
-[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("defaultToolTip", "createToolTip", "destroyToolTip")]
+[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("defaultToolTip", "createToolTip", "destroyToolTip", "createDragToolTip")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,6 +42,7 @@ script = ExtResource("4_0lvcc")
 defaultToolTip = NodePath("Default Tool Tip")
 createToolTip = NodePath("Create Tool Tip")
 destroyToolTip = NodePath("Destroy Tool Tip")
+createDragToolTip = NodePath("Create Drag Tool Tip")
 
 [node name="Default Tool Tip" type="RichTextLabel" parent="Overlay"]
 clip_contents = false
@@ -101,6 +102,26 @@ grow_vertical = 0
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "LMB: [color=red]Destroy Cloth[/color]"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="Create Drag Tool Tip" type="RichTextLabel" parent="Overlay"]
+visible = false
+clip_contents = false
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -23.0
+offset_right = 505.0
+grow_vertical = 0
+theme_override_font_sizes/normal_font_size = 0
+bbcode_enabled = true
+text = "Release LMB: [color=green]End Connection[/color]
+RMB: [color=green]Insert Fixed Joint[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false

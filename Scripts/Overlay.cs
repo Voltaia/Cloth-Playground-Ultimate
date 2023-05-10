@@ -9,10 +9,12 @@ public partial class Overlay : Control
 	[Export] public Control defaultToolTip;
 	[Export] public Control createToolTip;
 	[Export] public Control destroyToolTip;
+	[Export] public Control createDragToolTip;
 
 	// General
 	private Control currentToolTip;
 
+	// On start
 	public override void _Ready() {
 		currentToolTip = defaultToolTip;
 	}
@@ -21,7 +23,8 @@ public partial class Overlay : Control
 	public void UpdateToolTip(ClothEditor.EditMode editMode, bool isDragging) {
 		switch (editMode) {
 			case ClothEditor.EditMode.Create:
-				SetToolTip(createToolTip);
+				if (!isDragging) SetToolTip(createToolTip);
+				else SetToolTip(createDragToolTip);
 				break;
 
 			case ClothEditor.EditMode.Destroy:
