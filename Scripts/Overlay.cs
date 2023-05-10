@@ -7,8 +7,8 @@ public partial class Overlay : Control
 {
 	// Inspector variables
 	[Export] public Control defaultToolTip;
-	[Export] public Control createModeToolTip;
-	[Export] public Control destroyModeToolTip;
+	[Export] public Control createToolTip;
+	[Export] public Control destroyToolTip;
 
 	// General
 	private Control currentToolTip;
@@ -21,11 +21,11 @@ public partial class Overlay : Control
 	public void UpdateToolTip(ClothEditor.EditMode editMode, bool isDragging) {
 		switch (editMode) {
 			case ClothEditor.EditMode.Create:
-				SetToolTip(createModeToolTip);
+				SetToolTip(createToolTip);
 				break;
 
 			case ClothEditor.EditMode.Destroy:
-				SetToolTip(destroyModeToolTip);
+				SetToolTip(destroyToolTip);
 				break;
 
 			default:

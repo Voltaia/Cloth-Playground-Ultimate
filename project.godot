@@ -26,6 +26,10 @@ window/size/resizable=false
 
 project/assembly_name="Cloth Playground Ultimate"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 "Toggle Menu"={
