@@ -6,6 +6,9 @@ using System.Collections.Generic;
 // Controls cloth!
 public partial class ClothEditor : Node2D
 {
+	// Inspector
+	[Export] private Overlay overlay;
+
 	// Variables
 	public Cloth cloth;
 	private EditMode editMode = EditMode.Default;
@@ -15,7 +18,7 @@ public partial class ClothEditor : Node2D
 	private Connection connectionUnderMouse;
 
 	// Edit modes
-	private enum EditMode {
+	public enum EditMode {
 		Default,
 		Destroy,
 		Create
@@ -76,10 +79,12 @@ public partial class ClothEditor : Node2D
 			editMode = EditMode.Destroy;
 			connectionInserting = null;
 			jointGrabbed = null;
+			overlay.UpdateToolTip(editMode, false);
 		}
 		else if (@event.IsActionPressed("Create")) {
 			editMode = EditMode.Create;
 			jointGrabbed = null;
+			overlay.UpdateToolTip(editMode, false);
 		}
 		else if (
 			(
@@ -90,7 +95,10 @@ public partial class ClothEditor : Node2D
 				editMode == EditMode.Create
 				&& @event.IsActionReleased("Create")
 			)
-		) editMode = EditMode.Default;
+		) {
+			editMode = EditMode.Default;
+			overlay.UpdateToolTip(editMode, false);
+		}
 
 		// Different modes
 		if (editMode == EditMode.Default) {
