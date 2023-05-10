@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://by0rc6566ufxx"]
+[gd_scene load_steps=10 format=3 uid="uid://by0rc6566ufxx"]
 
 [ext_resource type="Script" path="res://Scripts/Simulation.cs" id="1_4fnk0"]
 [ext_resource type="Script" path="res://Scripts/PlaygroundController.cs" id="1_un8fw"]
@@ -6,6 +6,14 @@
 [ext_resource type="Script" path="res://Scripts/ClothEditor.cs" id="3_mdrga"]
 [ext_resource type="Script" path="res://Scripts/Overlay.cs" id="4_0lvcc"]
 [ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Menu Theme.tres" id="4_788g1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2s0s4"]
+content_margin_left = 5.0
+content_margin_top = 2.0
+content_margin_right = 5.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 0.882353)
+corner_radius_top_right = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcadd"]
 bg_color = Color(0, 0, 0, 0.882353)
@@ -39,44 +47,42 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_0lvcc")
-defaultToolTip = NodePath("Default Tool Tip")
-createToolTip = NodePath("Create Tool Tip")
-destroyToolTip = NodePath("Destroy Tool Tip")
-createDragToolTip = NodePath("Create Drag Tool Tip")
+defaultToolTip = NodePath("PanelContainer/Default Tool Tip")
+createToolTip = NodePath("PanelContainer/Create Tool Tip")
+destroyToolTip = NodePath("PanelContainer/Destroy Tool Tip")
+createDragToolTip = NodePath("PanelContainer/Create Drag Tool Tip")
 
-[node name="Default Tool Tip" type="RichTextLabel" parent="Overlay"]
-clip_contents = false
-custom_minimum_size = Vector2(500, 0)
+[node name="PanelContainer" type="PanelContainer" parent="Overlay"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = -92.0
-offset_right = 505.0
+offset_top = -27.0
+offset_right = 255.0
 grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2s0s4")
+
+[node name="Default Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 8
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "Hold SHIFT: [color=green]Create Mode[/color]
 Hold CTRL: [color=red]Destroy Mode[/color]
-LMB [color=blue]Grab Cloth[/color]
-SPACE: [color=black]Freeze Simulation[/color]"
+LMB: [color=blue]Grab Joint[/color]
+SPACE: [color=orange]Freeze Simulation[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Create Tool Tip" type="RichTextLabel" parent="Overlay"]
+[node name="Create Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
 visible = false
 clip_contents = false
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = -23.0
-offset_right = 505.0
-grow_vertical = 0
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 8
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "LMB: [color=green]Create Fixed Joint[/color]
@@ -87,18 +93,12 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Destroy Tool Tip" type="RichTextLabel" parent="Overlay"]
+[node name="Destroy Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
 visible = false
 clip_contents = false
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = -23.0
-offset_right = 505.0
-grow_vertical = 0
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 8
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "LMB: [color=red]Destroy Cloth[/color]"
@@ -106,18 +106,12 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Create Drag Tool Tip" type="RichTextLabel" parent="Overlay"]
+[node name="Create Drag Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
 visible = false
 clip_contents = false
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = -23.0
-offset_right = 505.0
-grow_vertical = 0
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 8
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "Release LMB: [color=green]End Connection[/color]
