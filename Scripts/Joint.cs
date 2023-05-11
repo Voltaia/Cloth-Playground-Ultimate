@@ -18,9 +18,6 @@ public partial class Joint : Node2D
 		}
 	}
 
-	// Settings
-	private const float Gravity = 0.25f;
-
 	// Constructor
 	public Joint(Cloth parent, Vector2 position, bool isFixed) {
 		// Set up
@@ -42,7 +39,7 @@ public partial class Joint : Node2D
 		Vector2 velocity = Position - previousPosition;
 		previousPosition = new Vector2(Position.X, Position.Y);
 		Position = Position + velocity;
-		Position = Position + Vector2.Down * Gravity;
+		Position = Position + Vector2.Down * PlaygroundController.gravity;
 	}
 
 	// Draw

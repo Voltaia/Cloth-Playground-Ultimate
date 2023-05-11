@@ -9,14 +9,18 @@ public partial class PlaygroundController : Node2D
 	[Export] public ClothEditor clothEditor;
 	[Export] public Menu menu;
 
-	// Variables
+	// General
 	public Cloth cloth;
 	public bool isFullscreen = false;
 	public int width = 750;
 	public int height = 750;
 	public bool startEmpty = false;
 	public bool visualizeStress = false;
+	public static float gravity = DefaultGravity;
 	private Cloth.GenerationSettings generationSettings = new Cloth.GenerationSettings();
+
+	// Settings
+	private const float DefaultGravity = 0.25f;
 
 	// On start
 	public override void _Ready()
@@ -56,6 +60,12 @@ public partial class PlaygroundController : Node2D
 	// Set rigid
 	public void SetRigid(bool isRigid) {
 		generationSettings.rigid = isRigid;
+	}
+
+	// Set zero G
+	public void SetZeroG(bool isZeroG) {
+		if (isZeroG) gravity = 0.0f;
+		else gravity = DefaultGravity;
 	}
 
 	// Set joint separation
