@@ -43,7 +43,6 @@ public partial class Cloth : Node2D
 		foreach (Joint joint in joints) joint.Simulate(delta);
 
 		// Simulate connections
-		
 		foreach (Connection connection in connections)
 			for (int iteration = 0; iteration < 10; iteration++)
 				connection.Simulate(delta);
