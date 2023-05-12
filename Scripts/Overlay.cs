@@ -13,28 +13,49 @@ public partial class Overlay : Control
 
 	// General
 	private Control currentToolTip;
+	private Color cursorColor = Colors.Blue;
+	private float cursorAlpha = 0.5f;
 
 	// On start
 	public override void _Ready() {
 		currentToolTip = defaultToolTip;
 	}
 
+	// Every frame
+	public override void _Process(double delta)
+	{
+		QueueRedraw();
+	}
+
+	// Draw
+	public override void _Draw()
+	{
+		DrawCircle(Simulation.MousePosition, 3.5f, new Color(cursorColor, cursorAlpha));
+	}
+
 	// Set tool tip mode
-	public void UpdateToolTip(ClothEditor.EditMode editMode, bool isDragging) {
+	public void Update(ClothEditor.EditMode editMode, bool isDragging) {
+		// Change tool tips
 		switch (editMode) {
 			case ClothEditor.EditMode.Create:
+				cursorColor = Colors.Green;
 				if (!isDragging) SetToolTip(createToolTip);
 				else SetToolTip(createDragToolTip);
 				break;
 
 			case ClothEditor.EditMode.Destroy:
+				cursorColor = Colors.Red;
 				SetToolTip(destroyToolTip);
 				break;
 
 			default:
+				cursorColor = Colors.Blue;
 				SetToolTip(defaultToolTip);
 				break;
 		}
+
+		// Change cursor alpha
+		cursorAlpha = isDragging ? 1.0f : 0.5f;
 	}
 
 	// Set tool tip

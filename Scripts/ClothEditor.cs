@@ -79,12 +79,12 @@ public partial class ClothEditor : Node2D
 			editMode = EditMode.Destroy;
 			connectionInserting = null;
 			jointGrabbed = null;
-			overlay.UpdateToolTip(editMode, false);
+			overlay.Update(editMode, false);
 		}
 		else if (@event.IsActionPressed("Create")) {
 			editMode = EditMode.Create;
 			jointGrabbed = null;
-			overlay.UpdateToolTip(editMode, false);
+			overlay.Update(editMode, false);
 		}
 		else if (
 			(
@@ -97,7 +97,7 @@ public partial class ClothEditor : Node2D
 			)
 		) {
 			editMode = EditMode.Default;
-			overlay.UpdateToolTip(editMode, false);
+			overlay.Update(editMode, false);
 			connectionInserting = null;
 		}
 
@@ -144,7 +144,7 @@ public partial class ClothEditor : Node2D
 		else connectionInserting = new Connection(cloth, cloth.AddJoint(Simulation.MousePosition, true), null);
 
 		// Update tool tip
-		overlay.UpdateToolTip(EditMode.Create, true);
+		overlay.Update(EditMode.Create, true);
 	}
 
 	// Insert middle
@@ -180,7 +180,7 @@ public partial class ClothEditor : Node2D
 
 		// Wipe connection
 		connectionInserting = null;
-		overlay.UpdateToolTip(EditMode.Create, false);
+		overlay.Update(EditMode.Create, false);
 	}
 
 	// Attempt to cut a connection
