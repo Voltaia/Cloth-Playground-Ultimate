@@ -14,8 +14,8 @@ public partial class Menu : Control
 	[Export] public Slider heightSlider;
 	[Export] public Control newClothMenu;
 	[Export] public Control newClothFocus;
-	[Export] public Control editVisualsMenu;
-	[Export] public Control editVisualsFocus;
+	[Export] public Control editPropertiesMenu;
+	[Export] public Control editPropertiesFocus;
 
 	// Class variables
 	private Control currentMenu;
@@ -53,7 +53,7 @@ public partial class Menu : Control
 	{ EnterMenu(pauseMenu, pauseFocus); }
 
 	public void EnterEditVisualsMenu()
-	{ EnterMenu(editVisualsMenu, editVisualsFocus); }
+	{ EnterMenu(editPropertiesMenu, editPropertiesFocus); }
 
 	public void EnterNewPlaygroundMenu()
 	{ EnterMenu(newPlaygroundMenu, newPlaygroundFocus); }

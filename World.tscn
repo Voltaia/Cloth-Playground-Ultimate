@@ -120,7 +120,7 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newPlaygroundMenu", "newPlaygroundFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editVisualsMenu", "editVisualsFocus")]
+[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newPlaygroundMenu", "newPlaygroundFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editPropertiesMenu", "editPropertiesFocus")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -139,8 +139,8 @@ widthSlider = NodePath("Menu Panel/New Playground Menu/Width/HSlider")
 heightSlider = NodePath("Menu Panel/New Playground Menu/Height/HSlider")
 newClothMenu = NodePath("Menu Panel/New Cloth Menu")
 newClothFocus = NodePath("Menu Panel/New Cloth Menu/Rigid")
-editVisualsMenu = NodePath("Menu Panel/Edit Visuals Menu")
-editVisualsFocus = NodePath("Menu Panel/Edit Visuals Menu/Visualize Stress")
+editPropertiesMenu = NodePath("Menu Panel/Edit Properties Menu")
+editPropertiesFocus = NodePath("Menu Panel/Edit Properties Menu/Visualize Stress")
 
 [node name="Menu Panel" type="Panel" parent="Menu"]
 custom_minimum_size = Vector2(450, 450)
@@ -181,33 +181,22 @@ vertical_alignment = 1
 [node name="Resume" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../ZeroG")
+focus_neighbor_bottom = NodePath("../Edit Properties")
 text = "Resume"
 flat = true
 
-[node name="ZeroG" type="CheckButton" parent="Menu/Menu Panel/Pause Menu"]
+[node name="Edit Properties" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 focus_neighbor_top = NodePath("../Resume")
-focus_neighbor_bottom = NodePath("../Edit Visuals")
-text = "Zero G:"
-icon_alignment = 1
-
-[node name="Edit Visuals" type="Button" parent="Menu/Menu Panel/Pause Menu"]
-custom_minimum_size = Vector2(0, 35)
-layout_mode = 2
-focus_neighbor_top = NodePath("../ZeroG")
 focus_neighbor_bottom = NodePath("../New Custom Cloth")
-text = "Edit Visuals
-"
+text = "Edit Properties"
 flat = true
 
 [node name="New Custom Cloth" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Edit Visuals")
+focus_neighbor_top = NodePath("../Edit Properties")
 focus_neighbor_bottom = NodePath("../New Playground")
 text = "New Custom Cloth
 "
@@ -245,7 +234,7 @@ focus_neighbor_top = NodePath("../Clear Cloth")
 text = "Quit Simulation"
 flat = true
 
-[node name="Edit Visuals Menu" type="VBoxContainer" parent="Menu/Menu Panel"]
+[node name="Edit Properties Menu" type="VBoxContainer" parent="Menu/Menu Panel"]
 visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
@@ -259,38 +248,48 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="Menu/Menu Panel/Edit Visuals Menu"]
+[node name="Title" type="Label" parent="Menu/Menu Panel/Edit Properties Menu"]
 layout_mode = 2
-text = "Edit Visuals"
+text = "Properties"
 label_settings = SubResource("LabelSettings_ocoqx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Visualize Stress" type="CheckButton" parent="Menu/Menu Panel/Edit Visuals Menu"]
+[node name="Visualize Stress" type="CheckButton" parent="Menu/Menu Panel/Edit Properties Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-focus_neighbor_bottom = NodePath("../Palette/OptionButton")
+focus_neighbor_bottom = NodePath("../ZeroG")
 text = "Visualize Stress:"
 icon_alignment = 1
 
-[node name="Palette" type="HBoxContainer" parent="Menu/Menu Panel/Edit Visuals Menu"]
+[node name="ZeroG" type="CheckButton" parent="Menu/Menu Panel/Edit Properties Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../Visualize Stress")
+focus_neighbor_bottom = NodePath("../Palette/OptionButton")
+text = "Zero G:"
+icon_alignment = 1
+
+[node name="Palette" type="HBoxContainer" parent="Menu/Menu Panel/Edit Properties Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="Menu/Menu Panel/Edit Visuals Menu/Palette"]
+[node name="Label" type="Label" parent="Menu/Menu Panel/Edit Properties Menu/Palette"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Palette:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="Menu/Menu Panel/Edit Visuals Menu/Palette"]
+[node name="OptionButton" type="OptionButton" parent="Menu/Menu Panel/Edit Properties Menu/Palette"]
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../../Visualize Stress")
+focus_neighbor_top = NodePath("../../ZeroG")
 focus_neighbor_bottom = NodePath("../../Back")
 item_count = 2
 selected = 0
@@ -299,7 +298,7 @@ popup/item_0/id = 0
 popup/item_1/text = "Marine"
 popup/item_1/id = 1
 
-[node name="Back" type="Button" parent="Menu/Menu Panel/Edit Visuals Menu"]
+[node name="Back" type="Button" parent="Menu/Menu Panel/Edit Properties Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Palette/OptionButton")
@@ -476,16 +475,16 @@ text = "Back"
 flat = true
 
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Resume" to="Menu" method="Resume"]
-[connection signal="toggled" from="Menu/Menu Panel/Pause Menu/ZeroG" to="Playground Controller" method="SetZeroG"]
-[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Edit Visuals" to="Menu" method="EnterEditVisualsMenu"]
+[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Edit Properties" to="Menu" method="EnterEditVisualsMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Custom Cloth" to="Menu" method="EnterNewClothMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Playground" to="Menu" method="EnterNewPlaygroundMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Regenerate Cloth" to="Playground Controller" method="GenerateNewCloth" binds= [false]]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Clear Cloth" to="Playground Controller" method="GenerateNewCloth" binds= [true]]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
-[connection signal="toggled" from="Menu/Menu Panel/Edit Visuals Menu/Visualize Stress" to="Playground Controller" method="VisualizeStress"]
-[connection signal="item_selected" from="Menu/Menu Panel/Edit Visuals Menu/Palette/OptionButton" to="Playground Controller" method="SetPalette"]
-[connection signal="pressed" from="Menu/Menu Panel/Edit Visuals Menu/Back" to="Menu" method="EnterPauseMenu"]
+[connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Visualize Stress" to="Playground Controller" method="VisualizeStress"]
+[connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/ZeroG" to="Playground Controller" method="SetZeroG"]
+[connection signal="item_selected" from="Menu/Menu Panel/Edit Properties Menu/Palette/OptionButton" to="Playground Controller" method="SetPalette"]
+[connection signal="pressed" from="Menu/Menu Panel/Edit Properties Menu/Back" to="Menu" method="EnterPauseMenu"]
 [connection signal="toggled" from="Menu/Menu Panel/New Cloth Menu/Rigid" to="Playground Controller" method="SetRigid"]
 [connection signal="item_selected" from="Menu/Menu Panel/New Cloth Menu/Joint Separation/OptionButton" to="Playground Controller" method="SetJointSeparation"]
 [connection signal="pressed" from="Menu/Menu Panel/New Cloth Menu/Generate" to="Playground Controller" method="GenerateNewCloth" binds= [false]]
