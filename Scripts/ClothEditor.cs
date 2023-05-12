@@ -98,6 +98,7 @@ public partial class ClothEditor : Node2D
 		) {
 			editMode = EditMode.Default;
 			overlay.UpdateToolTip(editMode, false);
+			connectionInserting = null;
 		}
 
 		// Different modes
