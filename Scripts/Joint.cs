@@ -33,7 +33,7 @@ public partial class Joint : Node2D
 	public void Simulate(double delta)
 	{
 		// Don't simulate if fixed or paused
-		if (isFixed) return;
+		if (isFixed || parent.simulationPaused) return;
 
 		// Movement
 		Vector2 velocity = Position - previousPosition;

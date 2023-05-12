@@ -38,6 +38,10 @@ public partial class Connection : Node2D
 		// Redraw
 		QueueRedraw();
 
+		// Do not simulate if parent is paused
+		// NOTE: This must not go in cloth code so we can queue redraw
+		if (parent.simulationPaused) return;
+
 		// Get connection values
 		Vector2 center = (firstJoint.Position + secondJoint.Position) / 2;
 		Vector2 direction = (firstJoint.Position - secondJoint.Position).Normalized();

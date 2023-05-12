@@ -36,9 +36,6 @@ public partial class Cloth : Node2D
 
 	// Every frame
 	public override void _Process(double delta) {
-		// Do not simulate if paused
-		if (simulationPaused) return;
-
 		// Simulate joints
 		foreach (Joint joint in joints) joint.Simulate(delta);
 
