@@ -38,8 +38,7 @@ public partial class Connection : Node2D
 		// Redraw
 		QueueRedraw();
 
-		// Do not simulate if parent is paused
-		// NOTE: This must not go in cloth code so we can queue redraw
+		// Do not simulate if parent is paused (must go after queue redraw)
 		if (parent.simulationPaused) return;
 
 		// Get connection values
