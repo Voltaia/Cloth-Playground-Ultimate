@@ -34,6 +34,21 @@ public partial class Cloth : Node2D
 		if (generationSettings != null) Generate(GetViewportRect().Size);
 	}
 
+	// Every frame
+	public override void _Process(double delta) {
+		// Do not simulate if paused
+		if (simulationPaused) return;
+
+		// Simulate joints
+		foreach (Joint joint in joints) joint.Simulate(delta);
+
+		// Simulate connections
+		
+		foreach (Connection connection in connections)
+			for (int iteration = 0; iteration < 10; iteration++)
+				connection.Simulate(delta);
+	}
+
 	// Add a connection
 	public Connection AddConnection(Joint firstJoint, Joint secondJoint) {
 		Connection newConnection = new Connection(this, firstJoint, secondJoint);
@@ -43,12 +58,11 @@ public partial class Cloth : Node2D
 	// Add a connection
 	public Connection AddConnection(Connection connection) {
 		// Add to list
-		connections.Add(connection);
+		int listPosition = rng.Next(0, connections.Count);
+		connections.Insert(listPosition, connection);
 
-		// Put into tree
+		// Add to simulation
 		AddChild(connection);
-		int treePosition = rng.Next(joints.Count, joints.Count + connections.Count);
-		MoveChild(connection, treePosition);
 
 		// Return connection
 		return connection;
@@ -58,12 +72,11 @@ public partial class Cloth : Node2D
 	public Joint AddJoint(Vector2 position, bool isFixed) {
 		// Create joint and add to list
 		Joint newJoint = new Joint(this, position, isFixed);
-		joints.Add(newJoint);
+		int listPosition = rng.Next(0, joints.Count);
+		joints.Insert(listPosition, newJoint);
 
 		// Put into tree
 		AddChild(newJoint);
-		int treePosition = rng.Next(0, joints.Count);
-		MoveChild(newJoint, treePosition);
 
 		// Return joint
 		return newJoint;
