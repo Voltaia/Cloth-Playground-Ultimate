@@ -33,29 +33,22 @@ public partial class Connection : Node2D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public void Simulate(double delta)
 	{
 		// Redraw
 		QueueRedraw();
 
-		// Don't simulate if paused
-		if (parent.simulationPaused) return;
+		// Get connection values
+		Vector2 center = (firstJoint.Position + secondJoint.Position) / 2;
+		Vector2 direction = (firstJoint.Position - secondJoint.Position).Normalized();
 
-		// Run through simulation
-		for (int iteration = 0; iteration < SimulationIterations; iteration++)
-		{
-			// Get connection values
-			Vector2 center = (firstJoint.Position + secondJoint.Position) / 2;
-			Vector2 direction = (firstJoint.Position - secondJoint.Position).Normalized();
+		// Simulate first node
+		if (!firstJoint.isFixed)
+			firstJoint.Position = center + direction * desiredLength / 2;
 
-			// Simulate first node
-			if (!firstJoint.isFixed)
-				firstJoint.Position = center + direction * desiredLength / 2;
-
-			// Simulate second node
-			if (!secondJoint.isFixed)
-				secondJoint.Position = center - direction * desiredLength / 2;
-		}
+		// Simulate second node
+		if (!secondJoint.isFixed)
+			secondJoint.Position = center - direction * desiredLength / 2;
 	}
 
 	// Draw

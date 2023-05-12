@@ -30,10 +30,10 @@ public partial class Joint : Node2D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public void Simulate(double delta)
 	{
 		// Don't simulate if fixed or paused
-		if (isFixed || parent.simulationPaused) return;
+		if (isFixed) return;
 
 		// Movement
 		Vector2 velocity = Position - previousPosition;
