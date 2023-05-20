@@ -9,14 +9,14 @@ public partial class ClothEditor : Node2D
 	// Inspector
 	[Export] private Overlay overlay;
 
-	// Variables
+	// General
 	public Cloth cloth;
 	public EditMode editMode = EditMode.Default;
 	public bool isDraggingPrimary = false;
-	private Connection connectionInserting = null;
-	private Joint jointGrabbed = null;
+	public Connection connectionInserting = null;
+	public Joint jointGrabbed = null;
 	private Vector2 jointGrabbedOffset = Vector2.Zero;
-	private Joint jointUnderMouse;
+	public Joint jointUnderMouse;
 	private Connection connectionUnderMouse;
 	private float jointDistanceTolerance = DefaultJointDistanceTolerance;
 
@@ -61,30 +61,6 @@ public partial class ClothEditor : Node2D
 		QueueRedraw();
 	}
 
-	// Draw stuff
-	public override void _Draw() {
-		// Draw inserting new connection
-		if (connectionInserting != null) {
-			DrawLine(
-				connectionInserting.firstJoint.Position,
-				Simulation.MousePosition,
-				Colors.Green,
-				Connection.DrawThickness
-			);
-		}
-
-		// Draw path to joint under mouse
-		if (editMode == EditMode.Default && jointUnderMouse != null) {
-			Vector2 positionToDrawTo = jointGrabbed == null ? jointUnderMouse.Position : jointGrabbed.Position;
-			DrawLine(
-				Simulation.MousePosition,
-				positionToDrawTo,
-				new Color(Colors.Blue, 0.25f),
-				2.5f
-			);
-		}
-	}
-
 	// Input
 	public override void _Input(InputEvent @event)
 	{
@@ -94,13 +70,13 @@ public partial class ClothEditor : Node2D
 			connectionInserting = null;
 			jointGrabbed = null;
 			jointDistanceTolerance = 1.0f;
-			overlay.Update(this);
+			overlay.Update();
 		}
 		else if (@event.IsActionPressed("Create")) {
 			editMode = EditMode.Create;
 			jointGrabbed = null;
 			jointDistanceTolerance = 1.0f;
-			overlay.Update(this);
+			overlay.Update();
 		}
 		else if (
 			(
@@ -115,14 +91,14 @@ public partial class ClothEditor : Node2D
 			editMode = EditMode.Default;
 			connectionInserting = null;
 			jointDistanceTolerance = DefaultJointDistanceTolerance;
-			overlay.Update(this);
+			overlay.Update();
 		}
 
 		// Handle primary mouse input
 		if (@event.IsActionPressed("Primary Edit")) {
 			// Update state
 			isDraggingPrimary = true;
-			overlay.Update(this);
+			overlay.Update();
 
 			// Mode actions
 			if (editMode == EditMode.Default) AttemptGrabJoint();
@@ -132,7 +108,7 @@ public partial class ClothEditor : Node2D
 		{
 			// Update state
 			isDraggingPrimary = false;
-			overlay.Update(this);
+			overlay.Update();
 
 			// Edit mode actions
 			if (editMode == EditMode.Default) AttemptReleaseJoint();

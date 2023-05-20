@@ -13,12 +13,12 @@ public partial class Overlay : Control
 	[Export] public Control createDragToolTip;
 	[Export] public Control destroyDragToolTip;
 	[Export] public Line2D destructionTrail;
+	[Export] public ClothEditor clothEditor;
 
 	// General
 	private Control currentToolTip;
 	private Color cursorColor = Colors.Blue;
 	private float cursorAlpha = 0.5f;
-	private ClothEditor clothEditor = null;
 
 	// On start
 	public override void _Ready() {
@@ -29,7 +29,7 @@ public partial class Overlay : Control
 	public override void _Process(double delta)
 	{
 		// Update trail
-		if (clothEditor != null && clothEditor.editMode == ClothEditor.EditMode.Destroy) {
+		if (clothEditor.editMode == ClothEditor.EditMode.Destroy) {
 
 		}
 
@@ -40,14 +40,33 @@ public partial class Overlay : Control
 	// Draw
 	public override void _Draw()
 	{
+		// Draw inserting new connection
+		if (clothEditor.connectionInserting != null) {
+			DrawLine(
+				clothEditor.connectionInserting.firstJoint.Position,
+				Simulation.MousePosition,
+				Colors.Green,
+				Connection.DrawThickness
+			);
+		}
+
+		// Draw path to joint under mouse
+		if (clothEditor.editMode == ClothEditor.EditMode.Default && clothEditor.jointUnderMouse != null) {
+			Vector2 positionToDrawTo = clothEditor.jointGrabbed == null ? clothEditor.jointUnderMouse.Position : clothEditor.jointGrabbed.Position;
+			DrawLine(
+				Simulation.MousePosition,
+				positionToDrawTo,
+				new Color(Colors.Blue, 0.25f),
+				2.5f
+			);
+		}
+		
+		// Draw cursor
 		DrawCircle(Simulation.MousePosition, 3.5f, new Color(cursorColor, cursorAlpha));
 	}
 
 	// Set tool tip mode
-	public void Update(ClothEditor clothEditor) {
-		// Update status
-		this.clothEditor = clothEditor;
-
+	public void Update() {
 		// Change tool tips
 		switch (clothEditor.editMode) {
 			case ClothEditor.EditMode.Create:

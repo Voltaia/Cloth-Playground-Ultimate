@@ -39,7 +39,7 @@ menu = NodePath("../Menu")
 script = ExtResource("3_mdrga")
 overlay = NodePath("../Overlay")
 
-[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "destructionTrail")]
+[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "destructionTrail", "clothEditor")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,6 +54,7 @@ defaultDragToolTip = NodePath("PanelContainer/Default Drag Tool Tip")
 createDragToolTip = NodePath("PanelContainer/Create Drag Tool Tip")
 destroyDragToolTip = NodePath("PanelContainer/Destroy Drag Tool Tip")
 destructionTrail = NodePath("Destruction Trail")
+clothEditor = NodePath("../Cloth Editor")
 
 [node name="PanelContainer" type="PanelContainer" parent="Overlay"]
 layout_mode = 1
