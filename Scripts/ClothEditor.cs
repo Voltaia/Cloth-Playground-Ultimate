@@ -16,7 +16,7 @@ public partial class ClothEditor : Node2D
 	private Joint jointGrabbed = null;
 	private Joint jointUnderMouse;
 	private Connection connectionUnderMouse;
-	private bool isDragging = false;
+	private bool isDraggingPrimary = false;
 
 	// Edit modes
 	public enum EditMode {
@@ -58,12 +58,6 @@ public partial class ClothEditor : Node2D
 				Connection.DrawThickness
 			);
 		}
-
-		// Draw edit mode
-		Color editModeColor = Colors.Blue;
-		if (editMode == EditMode.Create) editModeColor = Colors.Green;
-		else if (editMode == EditMode.Destroy) editModeColor = Colors.Red;
-		DrawCircle(Simulation.MousePosition, 3.5f, editModeColor);
 	}
 
 	// Input
@@ -99,7 +93,7 @@ public partial class ClothEditor : Node2D
 		// Handle primary mouse input
 		if (@event.IsActionPressed("Primary Edit")) {
 			// Update state
-			isDragging = true;
+			isDraggingPrimary = true;
 			UpdateOverlay();
 
 			// Mode actions
@@ -109,7 +103,7 @@ public partial class ClothEditor : Node2D
 		else if (@event.IsActionReleased("Primary Edit"))
 		{
 			// Update state
-			isDragging = false;
+			isDraggingPrimary = false;
 			UpdateOverlay();
 
 			// Edit mode actions
@@ -118,7 +112,7 @@ public partial class ClothEditor : Node2D
 		}
 
 		// Handle dragging
-		if (isDragging && editMode == EditMode.Destroy) {
+		if (isDraggingPrimary && editMode == EditMode.Destroy) {
 			AttemptConnectionCut();
 			AttemptJointCut();
 		}
@@ -142,7 +136,7 @@ public partial class ClothEditor : Node2D
 
 	// Update overlay
 	private void UpdateOverlay() {
-		overlay.Update(editMode, isDragging);
+		overlay.Update(editMode, isDraggingPrimary);
 	}
 
 	// Attempt grab joint

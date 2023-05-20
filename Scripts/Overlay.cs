@@ -55,7 +55,7 @@ public partial class Overlay : Control
 		}
 
 		// Change cursor alpha
-		cursorAlpha = isDragging ? 1.0f : 0.5f;
+		cursorAlpha = isDragging ? 1.0f : 0.25f;
 	}
 
 	// Set tool tip
