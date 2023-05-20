@@ -11,12 +11,12 @@ public partial class ClothEditor : Node2D
 
 	// Variables
 	public Cloth cloth;
-	private EditMode editMode = EditMode.Default;
+	public EditMode editMode = EditMode.Default;
+	public bool isDraggingPrimary = false;
 	private Connection connectionInserting = null;
 	private Joint jointGrabbed = null;
 	private Joint jointUnderMouse;
 	private Connection connectionUnderMouse;
-	private bool isDraggingPrimary = false;
 
 	// Edit modes
 	public enum EditMode {
@@ -68,12 +68,12 @@ public partial class ClothEditor : Node2D
 			editMode = EditMode.Destroy;
 			connectionInserting = null;
 			jointGrabbed = null;
-			UpdateOverlay();
+			overlay.Update(this);
 		}
 		else if (@event.IsActionPressed("Create")) {
 			editMode = EditMode.Create;
 			jointGrabbed = null;
-			UpdateOverlay();
+			overlay.Update(this);
 		}
 		else if (
 			(
@@ -86,7 +86,7 @@ public partial class ClothEditor : Node2D
 			)
 		) {
 			editMode = EditMode.Default;
-			UpdateOverlay();
+			overlay.Update(this);
 			connectionInserting = null;
 		}
 
@@ -94,7 +94,7 @@ public partial class ClothEditor : Node2D
 		if (@event.IsActionPressed("Primary Edit")) {
 			// Update state
 			isDraggingPrimary = true;
-			UpdateOverlay();
+			overlay.Update(this);
 
 			// Mode actions
 			if (editMode == EditMode.Default) AttemptGrabJoint();
@@ -104,7 +104,7 @@ public partial class ClothEditor : Node2D
 		{
 			// Update state
 			isDraggingPrimary = false;
-			UpdateOverlay();
+			overlay.Update(this);
 
 			// Edit mode actions
 			if (editMode == EditMode.Default) AttemptReleaseJoint();
@@ -134,11 +134,6 @@ public partial class ClothEditor : Node2D
 		if (@event.IsActionPressed("Pause Simulation")) cloth.simulationPaused = !cloth.simulationPaused;
 	}
 
-	// Update overlay
-	private void UpdateOverlay() {
-		overlay.Update(editMode, isDraggingPrimary);
-	}
-
 	// Attempt grab joint
 	private void AttemptGrabJoint() {
 		jointGrabbed = jointUnderMouse;
@@ -157,9 +152,6 @@ public partial class ClothEditor : Node2D
 		// Create a connection with either a new or old joint attached
 		if (jointFound != null) connectionInserting = new Connection(cloth, jointFound, null);
 		else connectionInserting = new Connection(cloth, cloth.AddJoint(Simulation.MousePosition, true), null);
-
-		// Update tool tip
-		overlay.Update(EditMode.Create, true);
 	}
 
 	// Insert middle
@@ -195,7 +187,6 @@ public partial class ClothEditor : Node2D
 
 		// Wipe connection
 		connectionInserting = null;
-		overlay.Update(EditMode.Create, false);
 	}
 
 	// Attempt to cut a connection

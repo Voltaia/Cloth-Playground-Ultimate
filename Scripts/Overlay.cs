@@ -9,12 +9,16 @@ public partial class Overlay : Control
 	[Export] public Control defaultToolTip;
 	[Export] public Control createToolTip;
 	[Export] public Control destroyToolTip;
+	[Export] public Control defaultDragToolTip;
 	[Export] public Control createDragToolTip;
+	[Export] public Control destroyDragToolTip;
+	[Export] public Line2D destructionTrail;
 
 	// General
 	private Control currentToolTip;
 	private Color cursorColor = Colors.Blue;
 	private float cursorAlpha = 0.5f;
+	private ClothEditor clothEditor = null;
 
 	// On start
 	public override void _Ready() {
@@ -24,6 +28,12 @@ public partial class Overlay : Control
 	// Every frame
 	public override void _Process(double delta)
 	{
+		// Update trail
+		if (clothEditor != null && clothEditor.editMode == ClothEditor.EditMode.Destroy) {
+
+		}
+
+		// Draw stuff this frame
 		QueueRedraw();
 	}
 
@@ -34,28 +44,33 @@ public partial class Overlay : Control
 	}
 
 	// Set tool tip mode
-	public void Update(ClothEditor.EditMode editMode, bool isDragging) {
+	public void Update(ClothEditor clothEditor) {
+		// Update status
+		this.clothEditor = clothEditor;
+
 		// Change tool tips
-		switch (editMode) {
+		switch (clothEditor.editMode) {
 			case ClothEditor.EditMode.Create:
 				cursorColor = Colors.Green;
-				if (!isDragging) SetToolTip(createToolTip);
+				if (!clothEditor.isDraggingPrimary) SetToolTip(createToolTip);
 				else SetToolTip(createDragToolTip);
 				break;
 
 			case ClothEditor.EditMode.Destroy:
 				cursorColor = Colors.Red;
-				SetToolTip(destroyToolTip);
+				if (!clothEditor.isDraggingPrimary) SetToolTip(destroyToolTip);
+				else SetToolTip(destroyDragToolTip);
 				break;
 
 			default:
 				cursorColor = Colors.Blue;
-				SetToolTip(defaultToolTip);
+				if (!clothEditor.isDraggingPrimary) SetToolTip(defaultToolTip);
+				else SetToolTip(defaultDragToolTip);
 				break;
 		}
 
 		// Change cursor alpha
-		cursorAlpha = isDragging ? 1.0f : 0.25f;
+		cursorAlpha = clothEditor.isDraggingPrimary ? 1.0f : 0.25f;
 	}
 
 	// Set tool tip

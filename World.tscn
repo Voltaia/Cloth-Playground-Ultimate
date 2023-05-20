@@ -39,7 +39,7 @@ menu = NodePath("../Menu")
 script = ExtResource("3_mdrga")
 overlay = NodePath("../Overlay")
 
-[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("defaultToolTip", "createToolTip", "destroyToolTip", "createDragToolTip")]
+[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "destructionTrail")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,7 +50,10 @@ script = ExtResource("4_0lvcc")
 defaultToolTip = NodePath("PanelContainer/Default Tool Tip")
 createToolTip = NodePath("PanelContainer/Create Tool Tip")
 destroyToolTip = NodePath("PanelContainer/Destroy Tool Tip")
+defaultDragToolTip = NodePath("PanelContainer/Default Drag Tool Tip")
 createDragToolTip = NodePath("PanelContainer/Create Drag Tool Tip")
+destroyDragToolTip = NodePath("PanelContainer/Destroy Drag Tool Tip")
+destructionTrail = NodePath("Destruction Trail")
 
 [node name="PanelContainer" type="PanelContainer" parent="Overlay"]
 layout_mode = 1
@@ -106,6 +109,20 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
+[node name="Default Drag Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+visible = false
+clip_contents = false
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/normal_font_size = 0
+bbcode_enabled = true
+text = "Drag: [color=blue]Move Joint[/color]
+RMB: [color=blue]Freeze / Release Joint[/color]"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+
 [node name="Create Drag Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
 visible = false
 clip_contents = false
@@ -119,6 +136,22 @@ RMB: [color=green]Insert Loose Joint[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
+
+[node name="Destroy Drag Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+visible = false
+clip_contents = false
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/normal_font_size = 0
+bbcode_enabled = true
+text = "Drag: [color=red]Cut Through Cloth[/color]"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="Destruction Trail" type="Line2D" parent="Overlay"]
+default_color = Color(1, 0, 0, 1)
 
 [node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newPlaygroundMenu", "newPlaygroundFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editPropertiesMenu", "editPropertiesFocus")]
 process_mode = 3
