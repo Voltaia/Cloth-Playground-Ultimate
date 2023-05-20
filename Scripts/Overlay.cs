@@ -17,8 +17,11 @@ public partial class Overlay : Control
 
 	// General
 	private Control currentToolTip;
-	private Color cursorColor = Colors.Blue;
-	private float cursorAlpha = 0.5f;
+	private Color toolColor = Colors.Blue;
+	private float cursorAlpha = ToolTransparency;
+
+	// Settings
+	private const float ToolTransparency = 0.25f;
 
 	// On start
 	public override void _Ready() {
@@ -45,24 +48,24 @@ public partial class Overlay : Control
 			DrawLine(
 				clothEditor.connectionInserting.firstJoint.Position,
 				Simulation.MousePosition,
-				Colors.Green,
+				new Color(Colors.Green, ToolTransparency),
 				Connection.DrawThickness
 			);
 		}
 
 		// Draw path to joint under mouse
-		if (clothEditor.editMode == ClothEditor.EditMode.Default && clothEditor.jointUnderMouse != null) {
+		if (clothEditor.jointUnderMouse != null || clothEditor.jointGrabbed != null) {
 			Vector2 positionToDrawTo = clothEditor.jointGrabbed == null ? clothEditor.jointUnderMouse.Position : clothEditor.jointGrabbed.Position;
 			DrawLine(
 				Simulation.MousePosition,
 				positionToDrawTo,
-				new Color(Colors.Blue, 0.25f),
+				new Color(toolColor, ToolTransparency),
 				2.5f
 			);
 		}
 		
 		// Draw cursor
-		DrawCircle(Simulation.MousePosition, 3.5f, new Color(cursorColor, cursorAlpha));
+		DrawCircle(Simulation.MousePosition, 3.5f, new Color(toolColor, cursorAlpha));
 	}
 
 	// Set tool tip mode
@@ -70,26 +73,26 @@ public partial class Overlay : Control
 		// Change tool tips
 		switch (clothEditor.editMode) {
 			case ClothEditor.EditMode.Create:
-				cursorColor = Colors.Green;
+				toolColor = Colors.Green;
 				if (!clothEditor.isDraggingPrimary) SetToolTip(createToolTip);
 				else SetToolTip(createDragToolTip);
 				break;
 
 			case ClothEditor.EditMode.Destroy:
-				cursorColor = Colors.Red;
+				toolColor = Colors.Red;
 				if (!clothEditor.isDraggingPrimary) SetToolTip(destroyToolTip);
 				else SetToolTip(destroyDragToolTip);
 				break;
 
 			default:
-				cursorColor = Colors.Blue;
+				toolColor = Colors.Blue;
 				if (!clothEditor.isDraggingPrimary) SetToolTip(defaultToolTip);
 				else SetToolTip(defaultDragToolTip);
 				break;
 		}
 
 		// Change cursor alpha
-		cursorAlpha = clothEditor.isDraggingPrimary ? 1.0f : 0.25f;
+		cursorAlpha = clothEditor.isDraggingPrimary ? 1.0f : ToolTransparency;
 	}
 
 	// Set tool tip
