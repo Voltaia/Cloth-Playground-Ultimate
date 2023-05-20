@@ -16,6 +16,7 @@ public partial class ClothEditor : Node2D
 	private Joint jointGrabbed = null;
 	private Joint jointUnderMouse;
 	private Connection connectionUnderMouse;
+	private bool isDragging = false;
 
 	// Edit modes
 	public enum EditMode {
@@ -41,12 +42,6 @@ public partial class ClothEditor : Node2D
 
 		// Grabbing logic
 		if (jointGrabbed != null) jointGrabbed.Position = Simulation.MousePosition;
-
-		// Cutting logic
-		if (editMode == EditMode.Destroy && Input.IsActionPressed("Primary Edit")) {
-			AttemptConnectionCut();
-			AttemptJointCut();
-		}
 
 		// Queue redraw
 		QueueRedraw();
@@ -79,12 +74,12 @@ public partial class ClothEditor : Node2D
 			editMode = EditMode.Destroy;
 			connectionInserting = null;
 			jointGrabbed = null;
-			overlay.Update(editMode, false);
+			UpdateOverlay();
 		}
 		else if (@event.IsActionPressed("Create")) {
 			editMode = EditMode.Create;
 			jointGrabbed = null;
-			overlay.Update(editMode, false);
+			UpdateOverlay();
 		}
 		else if (
 			(
@@ -97,31 +92,57 @@ public partial class ClothEditor : Node2D
 			)
 		) {
 			editMode = EditMode.Default;
-			overlay.Update(editMode, false);
+			UpdateOverlay();
 			connectionInserting = null;
 		}
 
-		// Different modes
-		if (editMode == EditMode.Default) {
-			// Grab
-			if (@event.IsActionPressed("Primary Edit")) AttemptGrabJoint();
-			else if (@event.IsActionReleased("Primary Edit")) AttemptReleaseJoint();
-		} else if (editMode == EditMode.Create) {
-			// Insertion
-			if (@event.IsActionPressed("Primary Edit")) AttemptInsertStart();
-			else if (@event.IsActionReleased("Primary Edit")) AttemptInsertEnd();
-			else if (@event.IsActionPressed("Secondary Edit")) {
-				if (connectionInserting != null) AttemptInsertMiddle();
-				else AttemptJointFlip();
-			}
+		// Handle primary mouse input
+		if (@event.IsActionPressed("Primary Edit")) {
+			// Update state
+			isDragging = true;
+			UpdateOverlay();
 
-			// Connection size edit
+			// Mode actions
+			if (editMode == EditMode.Default) AttemptGrabJoint();
+			else if (editMode == EditMode.Create) AttemptInsertStart();
+		}
+		else if (@event.IsActionReleased("Primary Edit"))
+		{
+			// Update state
+			isDragging = false;
+			UpdateOverlay();
+
+			// Edit mode actions
+			if (editMode == EditMode.Default) AttemptReleaseJoint();
+			else if (editMode == EditMode.Create) AttemptInsertEnd();
+		}
+
+		// Handle dragging
+		if (isDragging && editMode == EditMode.Destroy) {
+			AttemptConnectionCut();
+			AttemptJointCut();
+		}
+
+		// Handle secondary mouse input
+		if (@event.IsActionPressed("Secondary Edit")) {
+			// Edit mode actions
+			if (editMode == EditMode.Default) AttemptJointFlip();
+			else if (editMode == EditMode.Create) if (connectionInserting != null) AttemptInsertMiddle();
+		}
+
+		// Handle tertiary mouse input
+		if (editMode == EditMode.Create) {
 			if (@event.IsActionPressed("Wheel Up")) AttemptConnectionExtend();
 			else if (@event.IsActionPressed("Wheel Down")) AttemptConnectionShrink();
 		}
 
 		// Pause simulation
 		if (@event.IsActionPressed("Pause Simulation")) cloth.simulationPaused = !cloth.simulationPaused;
+	}
+
+	// Update overlay
+	private void UpdateOverlay() {
+		overlay.Update(editMode, isDragging);
 	}
 
 	// Attempt grab joint

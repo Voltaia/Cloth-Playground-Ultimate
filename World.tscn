@@ -72,6 +72,7 @@ bbcode_enabled = true
 text = "Hold SHIFT: [color=green]Create Mode[/color]
 Hold CTRL: [color=red]Destroy Mode[/color]
 LMB: [color=blue]Grab Joint[/color]
+RMB: [color=blue]Freeze / Release Joint[/color]
 SPACE: [color=orange]Freeze Simulation[/color]"
 fit_content = true
 scroll_active = false
@@ -87,7 +88,6 @@ theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "LMB: [color=green]Create Fixed Joint[/color]
 LMB & Drag: [color=green]Start Connection[/color]
-RMB: [color=green]Toggle Joint Fixedness[/color]
 Scroll: [color=green]Adjust Connection Length[/color]"
 fit_content = true
 scroll_active = false
@@ -115,7 +115,7 @@ size_flags_vertical = 8
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "Release LMB: [color=green]End Connection[/color]
-RMB: [color=green]Insert Fixed Joint[/color]"
+RMB: [color=green]Insert Loose Joint[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
