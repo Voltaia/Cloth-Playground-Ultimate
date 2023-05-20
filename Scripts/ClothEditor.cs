@@ -15,11 +15,13 @@ public partial class ClothEditor : Node2D
 	public bool isDraggingPrimary = false;
 	private Connection connectionInserting = null;
 	private Joint jointGrabbed = null;
+	private Vector2 jointGrabbedOffset = Vector2.Zero;
 	private Joint jointUnderMouse;
 	private Connection connectionUnderMouse;
+	private float jointDistanceTolerance = DefaultJointDistanceTolerance;
 
 	// Settings
-	private const float JointUnderMouseTolerance = 2.5f;
+	private const float DefaultJointDistanceTolerance = 5.0f;
 
 	// Edit modes
 	public enum EditMode {
@@ -42,7 +44,7 @@ public partial class ClothEditor : Node2D
 			}
 		}
 		if (closestJoint != null) {
-			if (closestJointDistance < closestJoint.parent.jointRadius * JointUnderMouseTolerance) jointUnderMouse = closestJoint;
+			if (closestJointDistance < closestJoint.parent.jointRadius * jointDistanceTolerance) jointUnderMouse = closestJoint;
 			else jointUnderMouse = null;
 		}
 
@@ -53,7 +55,7 @@ public partial class ClothEditor : Node2D
 		}
 
 		// Grabbing logic
-		if (jointGrabbed != null) jointGrabbed.Position = Simulation.MousePosition;
+		if (jointGrabbed != null) jointGrabbed.Position = Simulation.MousePosition + jointGrabbedOffset;
 
 		// Queue redraw
 		QueueRedraw();
@@ -70,6 +72,17 @@ public partial class ClothEditor : Node2D
 				Connection.DrawThickness
 			);
 		}
+
+		// Draw path to joint under mouse
+		if (editMode == EditMode.Default && jointUnderMouse != null) {
+			Vector2 positionToDrawTo = jointGrabbed == null ? jointUnderMouse.Position : jointGrabbed.Position;
+			DrawLine(
+				Simulation.MousePosition,
+				positionToDrawTo,
+				new Color(Colors.Blue, 0.25f),
+				2.5f
+			);
+		}
 	}
 
 	// Input
@@ -80,11 +93,13 @@ public partial class ClothEditor : Node2D
 			editMode = EditMode.Destroy;
 			connectionInserting = null;
 			jointGrabbed = null;
+			jointDistanceTolerance = 1.0f;
 			overlay.Update(this);
 		}
 		else if (@event.IsActionPressed("Create")) {
 			editMode = EditMode.Create;
 			jointGrabbed = null;
+			jointDistanceTolerance = 1.0f;
 			overlay.Update(this);
 		}
 		else if (
@@ -98,8 +113,9 @@ public partial class ClothEditor : Node2D
 			)
 		) {
 			editMode = EditMode.Default;
-			overlay.Update(this);
 			connectionInserting = null;
+			jointDistanceTolerance = DefaultJointDistanceTolerance;
+			overlay.Update(this);
 		}
 
 		// Handle primary mouse input
@@ -149,6 +165,7 @@ public partial class ClothEditor : Node2D
 	// Attempt grab joint
 	private void AttemptGrabJoint() {
 		jointGrabbed = jointUnderMouse;
+		jointGrabbedOffset = jointGrabbed.Position - Simulation.MousePosition;
 	}
 	
 	// Attempt to release joint
