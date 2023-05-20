@@ -18,6 +18,9 @@ public partial class ClothEditor : Node2D
 	private Joint jointUnderMouse;
 	private Connection connectionUnderMouse;
 
+	// Settings
+	private const float JointUnderMouseTolerance = 2.5f;
+
 	// Edit modes
 	public enum EditMode {
 		Default,
@@ -29,9 +32,18 @@ public partial class ClothEditor : Node2D
 	public override void _Process(double delta)
 	{
 		// Fill in joint under mouse
-		jointUnderMouse = null;
+		Joint closestJoint = null;
+		float closestJointDistance = Mathf.Inf;
 		foreach (Joint joint in cloth.joints) {
-			if (joint.CollidesWithPoint(Simulation.MousePosition)) jointUnderMouse = joint;
+			float distanceToJoint = Simulation.MousePosition.DistanceTo(joint.Position);
+			if (distanceToJoint < closestJointDistance) {
+				closestJoint = joint;
+				closestJointDistance = distanceToJoint;
+			}
+		}
+		if (closestJoint != null) {
+			if (closestJointDistance < closestJoint.parent.jointRadius * JointUnderMouseTolerance) jointUnderMouse = closestJoint;
+			else jointUnderMouse = null;
 		}
 
 		// Fill in connection under mouse
@@ -211,12 +223,7 @@ public partial class ClothEditor : Node2D
 
 	// Attempt to flip a joint
 	private void AttemptJointFlip() {
-		foreach (Joint joint in cloth.joints) {
-			if (joint.CollidesWithPoint(Simulation.MousePosition)) {
-				joint.isFixed = !joint.isFixed;
-				return;
-			}
-		}
+		if (jointUnderMouse != null) jointUnderMouse.isFixed = !jointUnderMouse.isFixed;
 	}
 
 	// Attempt to extend connection

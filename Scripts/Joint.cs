@@ -49,7 +49,7 @@ public partial class Joint : Node2D
 		else DrawCircle(Vector2.Zero, parent.jointRadius, Palette.jointColor);
 	}
 
-	// Colides with point
+	// Collides with point
 	public bool CollidesWithPoint(Vector2 pointPosition) {
 		float distance = pointPosition.DistanceTo(Position);
 		return distance < parent.jointRadius;
