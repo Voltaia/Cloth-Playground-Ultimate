@@ -29,6 +29,7 @@ public partial class Menu : Control
 		newPlaygroundMenu.Visible = false;
 		newClothMenu.Visible = false;
 		currentMenu = pauseMenu;
+		Input.MouseMode = Input.MouseModeEnum.Hidden;
 	}
 
 	// Input
@@ -40,7 +41,10 @@ public partial class Menu : Control
 				isPaused = !isPaused;
 				GetTree().Paused = isPaused;
 				Visible = isPaused;
-				if (isPaused) pauseFocus.GrabFocus();
+				if (isPaused) {
+					pauseFocus.GrabFocus();
+					Input.MouseMode = Input.MouseModeEnum.Visible;
+				} else Input.MouseMode = Input.MouseModeEnum.Hidden;
 			}
 			else if (currentMenu != pauseMenu) {
 				EnterPauseMenu();
