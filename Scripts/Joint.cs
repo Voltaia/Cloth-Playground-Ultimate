@@ -37,7 +37,7 @@ public partial class Joint : Node2D
 
 		// Movement
 		Vector2 velocity = Position - previousPosition;
-		previousPosition = new Vector2(Position.X, Position.Y);
+		previousPosition = Position;
 		Position = Position + velocity;
 		Position = Position + Vector2.Down * PlaygroundController.gravity;
 	}
