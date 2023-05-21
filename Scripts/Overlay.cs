@@ -80,13 +80,23 @@ public partial class Overlay : Control
 		}
 
 		// Draw path to connection under mouse
-		if (clothEditor.editMode == EditMode.Create && clothEditor.connectionUnderMouse != null) {
-			DrawLine(
-				Simulation.MousePosition,
-				clothEditor.connectionUnderMouse.GetCenterPosition(),
-				new Color(toolColor, ToolTransparency),
-				2.5f
-			);
+		if (clothEditor.editMode == EditMode.Create) {
+			if (clothEditor.jointUnderMouse != null && !clothEditor.isDraggingPrimary) {
+				DrawCircle(
+					clothEditor.jointUnderMouse.Position,
+					clothEditor.jointUnderMouse.parent.jointRadius * 1.5f,
+					new Color(Colors.Green, ToolTransparency)
+				);
+			}
+			else if (clothEditor.connectionUnderMouse != null)
+			{
+				DrawLine(
+					Simulation.MousePosition,
+					clothEditor.connectionUnderMouse.GetCenterPosition(),
+					new Color(toolColor, ToolTransparency),
+					2.5f
+				);
+			}
 		}
 		
 		// Draw cursor

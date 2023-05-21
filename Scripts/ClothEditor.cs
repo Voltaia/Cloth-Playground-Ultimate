@@ -25,10 +25,11 @@ public partial class ClothEditor : Node2D
 	private Vector2 jointGrabbedOffset = Vector2.Zero;
 	public Joint jointUnderMouse;
 	public Connection connectionUnderMouse;
-	private float jointDistanceTolerance = DefaultJointDistanceTolerance;
+	private float jointDistanceTolerance = JointDistanceToleranceDefault;
 
 	// Settings
-	private const float DefaultJointDistanceTolerance = 5.0f;
+	private const float JointDistanceToleranceDefault = 5.0f;
+	private const float JointDistanceToleranceCreate = 1.5f;
 	private const float ConnectionUnderTolerance = 15.0f;
 	private const float ConnectionDestroyTolerance = 2.0f;
 
@@ -77,7 +78,7 @@ public partial class ClothEditor : Node2D
 		else if (@event.IsActionPressed("Create")) {
 			editMode = EditMode.Create;
 			jointGrabbed = null;
-			jointDistanceTolerance = 1.0f;
+			jointDistanceTolerance = JointDistanceToleranceCreate;
 			overlay.Update();
 		}
 		else if (
@@ -92,7 +93,7 @@ public partial class ClothEditor : Node2D
 		) {
 			editMode = EditMode.Default;
 			connectionInserting = null;
-			jointDistanceTolerance = DefaultJointDistanceTolerance;
+			jointDistanceTolerance = JointDistanceToleranceDefault;
 			overlay.Update();
 		}
 
