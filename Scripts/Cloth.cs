@@ -16,6 +16,9 @@ public partial class Cloth : Node2D
 	private GenerationSettings generationSettings;
 	private int jointSeparation = 50;
 
+	// Settings
+	private const int SimulationIterations = 5;
+
 	// Constructor
 	public Cloth(GenerationSettings generationSettings) {
 		Name = "Cloth";
@@ -41,7 +44,7 @@ public partial class Cloth : Node2D
 
 		// Simulate connections
 		foreach (Connection connection in connections)
-			for (int iteration = 0; iteration < 10; iteration++)
+			for (int iteration = 0; iteration < SimulationIterations; iteration++)
 				connection.Simulate(delta);
 	}
 
