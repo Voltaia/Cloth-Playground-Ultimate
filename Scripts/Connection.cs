@@ -13,7 +13,6 @@ public partial class Connection : Node2D
 	// Settings
 	public const float DrawThickness = 5.0f;
 	private const int SimulationIterations = 10;
-	private const float CollisionTolerance = 2.0f;
 	private const float StressVisualRange = 20.0f;
 
 	// Properties
@@ -42,7 +41,7 @@ public partial class Connection : Node2D
 		if (parent.simulationPaused) return;
 
 		// Get connection values
-		Vector2 center = (firstJoint.Position + secondJoint.Position) / 2;
+		Vector2 center = GetCenterPosition();
 		Vector2 direction = (firstJoint.Position - secondJoint.Position).Normalized();
 
 		// Simulate first node
@@ -75,7 +74,7 @@ public partial class Connection : Node2D
 	}
 
 	// Checks if a point collides with it
-	public bool CollidesWithPoint(Vector2 pointPosition) {
+	public bool CollidesWithPoint(Vector2 pointPosition, float tolerance) {
 		// Get distances from mouse to joints
 		float distanceFromFirstJoint = pointPosition.DistanceTo(firstJoint.Position);
 		float distanceFromSecondJoint = pointPosition.DistanceTo(secondJoint.Position);
@@ -86,8 +85,8 @@ public partial class Connection : Node2D
 
 		// Check collision
 		bool collided =
-			distanceFromConnection >= distanceBetweenJoints - CollisionTolerance
-			&& distanceFromConnection <= distanceBetweenJoints + CollisionTolerance;
+			distanceFromConnection >= distanceBetweenJoints - tolerance
+			&& distanceFromConnection <= distanceBetweenJoints + tolerance;
 
 		// Return collision
 		return collided;
@@ -96,5 +95,10 @@ public partial class Connection : Node2D
 	// Re-adjust length
 	public void ReadjustLength() {
 		desiredLength = (firstJoint.Position - secondJoint.Position).Length();
+	}
+
+	// Get center position
+	public Vector2 GetCenterPosition() {
+		return (firstJoint.Position + secondJoint.Position) / 2;
 	}
 }

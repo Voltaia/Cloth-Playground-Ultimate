@@ -74,6 +74,16 @@ public partial class Overlay : Control
 				2.5f
 			);
 		}
+
+		// Draw path to connection under mouse
+		if (clothEditor.editMode == ClothEditor.EditMode.Create && clothEditor.connectionUnderMouse != null) {
+			DrawLine(
+				Simulation.MousePosition,
+				clothEditor.connectionUnderMouse.GetCenterPosition(),
+				new Color(toolColor, ToolTransparency),
+				2.5f
+			);
+		}
 		
 		// Draw cursor
 		DrawCircle(Simulation.MousePosition, 3.5f, new Color(toolColor, cursorAlpha));

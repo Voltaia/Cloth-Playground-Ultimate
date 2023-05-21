@@ -17,11 +17,13 @@ public partial class ClothEditor : Node2D
 	public Joint jointGrabbed = null;
 	private Vector2 jointGrabbedOffset = Vector2.Zero;
 	public Joint jointUnderMouse;
-	private Connection connectionUnderMouse;
+	public Connection connectionUnderMouse;
 	private float jointDistanceTolerance = DefaultJointDistanceTolerance;
 
 	// Settings
 	private const float DefaultJointDistanceTolerance = 5.0f;
+	private const float ConnectionUnderTolerance = 15.0f;
+	private const float ConnectionDestroyTolerance = 2.0f;
 
 	// Edit modes
 	public enum EditMode {
@@ -51,7 +53,7 @@ public partial class ClothEditor : Node2D
 		// Fill in connection under mouse
 		connectionUnderMouse = null;
 		foreach (Connection connection in cloth.connections) {
-			if (connection.CollidesWithPoint(Simulation.MousePosition)) connectionUnderMouse = connection;
+			if (connection.CollidesWithPoint(Simulation.MousePosition, ConnectionUnderTolerance)) connectionUnderMouse = connection;
 		}
 
 		// Grabbing logic
@@ -199,7 +201,7 @@ public partial class ClothEditor : Node2D
 	private void AttemptConnectionCut() {
 		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
 			Connection connection = cloth.connections[index];
-			if (connection.CollidesWithPoint(Simulation.MousePosition)) {
+			if (connection.CollidesWithPoint(Simulation.MousePosition, ConnectionDestroyTolerance)) {
 				cloth.RemoveConnection(connection);
 			}
 		}
