@@ -21,8 +21,9 @@ public partial class Overlay : Control
 	private float cursorAlpha = ToolTransparency;
 
 	// Settings
-	private const float ToolTransparency = 0.25f;
+	private const float ToolTransparency = 0.5f;
 	private const int TrailLength = 15;
+	private const float CursorRadius = 5.0f;
 
 	// On start
 	public override void _Ready() {
@@ -100,7 +101,7 @@ public partial class Overlay : Control
 		}
 		
 		// Draw cursor
-		DrawCircle(Simulation.MousePosition, 3.5f, new Color(toolColor, cursorAlpha));
+		DrawCircle(Simulation.MousePosition, CursorRadius, new Color(toolColor, cursorAlpha));
 	}
 
 	// Set tool tip mode
