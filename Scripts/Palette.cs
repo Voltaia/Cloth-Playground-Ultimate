@@ -13,7 +13,6 @@ public static class Palette
 
 	// Palette variations
 	public enum Theme {
-		Classic,
 		Marine,
 		Crimson,
 		Grayscale
@@ -23,13 +22,6 @@ public static class Palette
 	public static void Set(Theme theme) {
 		switch (theme) {
 			default:
-				backgroundColor = Colors.DimGray;
-				jointColor = Colors.Blue;
-				fixedJointColor = Colors.DarkBlue;
-				connectionColor = Colors.LightBlue;
-				break;
-
-			case Theme.Marine:
 				backgroundColor = new Color("060608");
 				jointColor = new Color("285cc4");
 				fixedJointColor = new Color("143464");

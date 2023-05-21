@@ -11,7 +11,7 @@ public partial class Simulation : Node
 	// Constructor
 	public Simulation() {
 		RandomNumberGenerator rng = new RandomNumberGenerator();
-		Palette.Set(Palette.Theme.Classic);
+		Palette.Set(Palette.Theme.Marine);
 	}
 
 	// Process
