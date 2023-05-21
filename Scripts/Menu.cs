@@ -84,6 +84,7 @@ public partial class Menu : Control
 		isPaused = false;
 		Visible = false;
 		GetTree().Paused = false;
+		Input.MouseMode = Input.MouseModeEnum.Hidden;
 	}
 
 	// Quit
