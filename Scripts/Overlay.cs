@@ -87,7 +87,7 @@ public partial class Overlay : Control
 			default:
 				toolColor = Colors.Blue;
 				if (!clothEditor.isDraggingPrimary) SetToolTip(defaultToolTip);
-				else SetToolTip(defaultDragToolTip);
+				else if (clothEditor.jointGrabbed != null) SetToolTip(defaultDragToolTip);
 				break;
 		}
 
@@ -99,6 +99,6 @@ public partial class Overlay : Control
 	private void SetToolTip(Control toolTipToActivate) {
 		currentToolTip.Visible = false;
 		currentToolTip = toolTipToActivate;
-		toolTipToActivate.Visible = true;
+			toolTipToActivate.Visible = true;
 	}
 }

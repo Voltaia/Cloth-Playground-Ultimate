@@ -96,23 +96,23 @@ public partial class ClothEditor : Node2D
 
 		// Handle primary mouse input
 		if (@event.IsActionPressed("Primary Edit")) {
-			// Update state
-			isDraggingPrimary = true;
-			overlay.Update();
-
 			// Mode actions
 			if (editMode == EditMode.Default) AttemptGrabJoint();
 			else if (editMode == EditMode.Create) AttemptInsertStart();
+
+			// Update state
+			isDraggingPrimary = true;
+			overlay.Update();
 		}
 		else if (@event.IsActionReleased("Primary Edit"))
 		{
-			// Update state
-			isDraggingPrimary = false;
-			overlay.Update();
-
 			// Edit mode actions
 			if (editMode == EditMode.Default) AttemptReleaseJoint();
 			else if (editMode == EditMode.Create) AttemptInsertEnd();
+
+			// Update state
+			isDraggingPrimary = false;
+			overlay.Update();
 		}
 
 		// Handle dragging
@@ -140,6 +140,7 @@ public partial class ClothEditor : Node2D
 
 	// Attempt grab joint
 	private void AttemptGrabJoint() {
+		if (jointUnderMouse == null) return;
 		jointGrabbed = jointUnderMouse;
 		jointGrabbedOffset = jointGrabbed.Position - Simulation.MousePosition;
 	}
@@ -216,7 +217,8 @@ public partial class ClothEditor : Node2D
 
 	// Attempt to flip a joint
 	private void AttemptJointFlip() {
-		if (jointUnderMouse != null) jointUnderMouse.isFixed = !jointUnderMouse.isFixed;
+		if (jointGrabbed != null) jointGrabbed.isFixed = !jointGrabbed.isFixed;
+		else if (jointUnderMouse != null) jointUnderMouse.isFixed = !jointUnderMouse.isFixed;
 	}
 
 	// Attempt to extend connection
