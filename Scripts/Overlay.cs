@@ -6,6 +6,7 @@ using System;
 public partial class Overlay : Control
 {
 	// Inspector variables
+	[Export] public Control toolTips;
 	[Export] public Control defaultToolTip;
 	[Export] public Control createToolTip;
 	[Export] public Control destroyToolTip;
@@ -139,6 +140,11 @@ public partial class Overlay : Control
 		currentToolTip.Visible = false;
 		currentToolTip = toolTipToActivate;
 			toolTipToActivate.Visible = true;
+	}
+
+	// Set tool tips
+	private void ToggleToolTips(bool enabled) {
+		toolTips.Visible = enabled;
 	}
 
 	// Initialize trail

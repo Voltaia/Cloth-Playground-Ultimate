@@ -46,7 +46,7 @@ menu = NodePath("../Menu")
 script = ExtResource("3_mdrga")
 overlay = NodePath("../Overlay")
 
-[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "destructionTrail", "clothEditor")]
+[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("toolTips", "defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "destructionTrail", "clothEditor")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,16 +54,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_0lvcc")
-defaultToolTip = NodePath("PanelContainer/Default Tool Tip")
-createToolTip = NodePath("PanelContainer/Create Tool Tip")
-destroyToolTip = NodePath("PanelContainer/Destroy Tool Tip")
-defaultDragToolTip = NodePath("PanelContainer/Default Drag Tool Tip")
-createDragToolTip = NodePath("PanelContainer/Create Drag Tool Tip")
-destroyDragToolTip = NodePath("PanelContainer/Destroy Drag Tool Tip")
+toolTips = NodePath("Tool Tips")
+defaultToolTip = NodePath("Tool Tips/Default Tool Tip")
+createToolTip = NodePath("Tool Tips/Create Tool Tip")
+destroyToolTip = NodePath("Tool Tips/Destroy Tool Tip")
+defaultDragToolTip = NodePath("Tool Tips/Default Drag Tool Tip")
+createDragToolTip = NodePath("Tool Tips/Create Drag Tool Tip")
+destroyDragToolTip = NodePath("Tool Tips/Destroy Drag Tool Tip")
 destructionTrail = NodePath("Destruction Trail")
 clothEditor = NodePath("../Cloth Editor")
 
-[node name="PanelContainer" type="PanelContainer" parent="Overlay"]
+[node name="Tool Tips" type="PanelContainer" parent="Overlay"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -73,7 +74,7 @@ offset_right = 255.0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_2s0s4")
 
-[node name="Default Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+[node name="Default Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 clip_contents = false
 custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
@@ -89,7 +90,7 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Create Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+[node name="Create Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
 clip_contents = false
 custom_minimum_size = Vector2(275, 0)
@@ -104,7 +105,7 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Destroy Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+[node name="Destroy Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
 clip_contents = false
 custom_minimum_size = Vector2(275, 0)
@@ -117,7 +118,7 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Default Drag Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+[node name="Default Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
 clip_contents = false
 custom_minimum_size = Vector2(275, 0)
@@ -131,7 +132,7 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Create Drag Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+[node name="Create Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
 clip_contents = false
 custom_minimum_size = Vector2(275, 0)
@@ -145,7 +146,7 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Destroy Drag Tool Tip" type="RichTextLabel" parent="Overlay/PanelContainer"]
+[node name="Destroy Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
 clip_contents = false
 custom_minimum_size = Vector2(275, 0)
@@ -315,8 +316,30 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../Visualize Stress")
-focus_neighbor_bottom = NodePath("../Palette/OptionButton")
+focus_neighbor_bottom = NodePath("../Tool Tips")
 text = "Zero G:"
+icon_alignment = 1
+
+[node name="Tool Tips" type="CheckButton" parent="Menu/Menu Panel/Edit Properties Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../ZeroG")
+focus_neighbor_bottom = NodePath("../Show FPS")
+button_pressed = true
+text = "Tool Tips:"
+icon_alignment = 1
+
+[node name="Show FPS" type="CheckButton" parent="Menu/Menu Panel/Edit Properties Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../Tool Tips")
+focus_neighbor_bottom = NodePath("../Palette/OptionButton")
+button_pressed = true
+text = "Show FPS:"
 icon_alignment = 1
 
 [node name="Palette" type="HBoxContainer" parent="Menu/Menu Panel/Edit Properties Menu"]
@@ -334,7 +357,7 @@ vertical_alignment = 1
 [node name="OptionButton" type="OptionButton" parent="Menu/Menu Panel/Edit Properties Menu/Palette"]
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../../ZeroG")
+focus_neighbor_top = NodePath("../../Show FPS")
 focus_neighbor_bottom = NodePath("../../Back")
 item_count = 3
 selected = 0
@@ -530,6 +553,8 @@ flat = true
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
 [connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Visualize Stress" to="Playground Controller" method="VisualizeStress"]
 [connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/ZeroG" to="Playground Controller" method="SetZeroG"]
+[connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Tool Tips" to="Overlay" method="ToggleToolTips"]
+[connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Show FPS" to="Playground Controller" method="ToggleFPS"]
 [connection signal="item_selected" from="Menu/Menu Panel/Edit Properties Menu/Palette/OptionButton" to="Playground Controller" method="SetPalette"]
 [connection signal="pressed" from="Menu/Menu Panel/Edit Properties Menu/Back" to="Menu" method="EnterPauseMenu"]
 [connection signal="toggled" from="Menu/Menu Panel/New Cloth Menu/Rigid" to="Playground Controller" method="SetRigid"]
