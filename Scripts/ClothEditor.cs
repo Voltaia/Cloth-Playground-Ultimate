@@ -3,6 +3,13 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+// Edit modes
+public enum EditMode {
+	Default,
+	Destroy,
+	Create
+}
+
 // Controls cloth!
 public partial class ClothEditor : Node2D
 {
@@ -24,13 +31,6 @@ public partial class ClothEditor : Node2D
 	private const float DefaultJointDistanceTolerance = 5.0f;
 	private const float ConnectionUnderTolerance = 15.0f;
 	private const float ConnectionDestroyTolerance = 2.0f;
-
-	// Edit modes
-	public enum EditMode {
-		Default,
-		Destroy,
-		Create
-	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

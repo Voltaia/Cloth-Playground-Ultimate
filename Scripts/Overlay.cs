@@ -35,7 +35,7 @@ public partial class Overlay : Control
 	{
 		// Add to trail
 		if (
-			clothEditor.editMode == ClothEditor.EditMode.Destroy
+			clothEditor.editMode == EditMode.Destroy
 			&& clothEditor.isDraggingPrimary
 		) destructionTrail.AddPoint(Simulation.MousePosition);
 		
@@ -65,7 +65,11 @@ public partial class Overlay : Control
 		}
 
 		// Draw path to joint under mouse
-		if (clothEditor.jointUnderMouse != null || clothEditor.jointGrabbed != null) {
+		if (
+			clothEditor.editMode == EditMode.Default
+			&& (clothEditor.jointUnderMouse != null
+			|| clothEditor.jointGrabbed != null)
+		) {
 			Vector2 positionToDrawTo = clothEditor.jointGrabbed == null ? clothEditor.jointUnderMouse.Position : clothEditor.jointGrabbed.Position;
 			DrawLine(
 				Simulation.MousePosition,
@@ -76,7 +80,7 @@ public partial class Overlay : Control
 		}
 
 		// Draw path to connection under mouse
-		if (clothEditor.editMode == ClothEditor.EditMode.Create && clothEditor.connectionUnderMouse != null) {
+		if (clothEditor.editMode == EditMode.Create && clothEditor.connectionUnderMouse != null) {
 			DrawLine(
 				Simulation.MousePosition,
 				clothEditor.connectionUnderMouse.GetCenterPosition(),
@@ -93,13 +97,13 @@ public partial class Overlay : Control
 	public void Update() {
 		// Change tool tips
 		switch (clothEditor.editMode) {
-			case ClothEditor.EditMode.Create:
+			case EditMode.Create:
 				toolColor = Colors.Green;
 				if (!clothEditor.isDraggingPrimary) SetToolTip(createToolTip);
 				else SetToolTip(createDragToolTip);
 				break;
 
-			case ClothEditor.EditMode.Destroy:
+			case EditMode.Destroy:
 				toolColor = Colors.Red;
 				if (!clothEditor.isDraggingPrimary) SetToolTip(destroyToolTip);
 				else {
