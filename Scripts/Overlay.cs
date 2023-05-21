@@ -22,19 +22,30 @@ public partial class Overlay : Control
 
 	// Settings
 	private const float ToolTransparency = 0.25f;
+	private const int TrailLength = 15;
 
 	// On start
 	public override void _Ready() {
+		// Set first tool tip
 		currentToolTip = defaultToolTip;
 	}
 
 	// Every frame
 	public override void _Process(double delta)
 	{
-		// Update trail
-		if (clothEditor.editMode == ClothEditor.EditMode.Destroy) {
-
-		}
+		// Add to trail
+		if (
+			clothEditor.editMode == ClothEditor.EditMode.Destroy
+			&& clothEditor.isDraggingPrimary
+		) destructionTrail.AddPoint(Simulation.MousePosition);
+		
+		// Remove from trail
+		int pointCount = destructionTrail.GetPointCount();
+		if (
+			pointCount > 0
+			&& (pointCount > TrailLength
+			|| !clothEditor.isDraggingPrimary)
+		) destructionTrail.RemovePoint(0);
 
 		// Draw stuff this frame
 		QueueRedraw();
@@ -81,7 +92,10 @@ public partial class Overlay : Control
 			case ClothEditor.EditMode.Destroy:
 				toolColor = Colors.Red;
 				if (!clothEditor.isDraggingPrimary) SetToolTip(destroyToolTip);
-				else SetToolTip(destroyDragToolTip);
+				else {
+					SetToolTip(destroyDragToolTip);
+					InitializeTrail();
+				}
 				break;
 
 			default:
@@ -100,5 +114,10 @@ public partial class Overlay : Control
 		currentToolTip.Visible = false;
 		currentToolTip = toolTipToActivate;
 			toolTipToActivate.Visible = true;
+	}
+
+	// Initialize trail
+	private void InitializeTrail() {
+		for (int count = 1; count <= TrailLength; count++) destructionTrail.AddPoint(Simulation.MousePosition);
 	}
 }

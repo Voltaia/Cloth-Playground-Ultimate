@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://by0rc6566ufxx"]
+[gd_scene load_steps=12 format=3 uid="uid://by0rc6566ufxx"]
 
 [ext_resource type="Script" path="res://Scripts/Simulation.cs" id="1_4fnk0"]
 [ext_resource type="Script" path="res://Scripts/PlaygroundController.cs" id="1_un8fw"]
@@ -14,6 +14,13 @@ content_margin_right = 5.0
 content_margin_bottom = 2.0
 bg_color = Color(0, 0, 0, 0.882353)
 corner_radius_top_right = 10
+
+[sub_resource type="Curve" id="Curve_sq5wq"]
+_data = [Vector2(0, 0.5), 0.0, 0.5, 0, 1, Vector2(1, 1), 0.5, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_7dgfx"]
+colors = PackedColorArray(1, 0, 0, 0, 1, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcadd"]
 bg_color = Color(0, 0, 0, 0.882353)
@@ -152,7 +159,10 @@ scroll_active = false
 shortcut_keys_enabled = false
 
 [node name="Destruction Trail" type="Line2D" parent="Overlay"]
+width = 2.5
+width_curve = SubResource("Curve_sq5wq")
 default_color = Color(1, 0, 0, 1)
+gradient = SubResource("Gradient_7dgfx")
 
 [node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newPlaygroundMenu", "newPlaygroundFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editPropertiesMenu", "editPropertiesFocus")]
 process_mode = 3
