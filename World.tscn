@@ -159,7 +159,7 @@ scroll_active = false
 shortcut_keys_enabled = false
 
 [node name="Destruction Trail" type="Line2D" parent="Overlay"]
-width = 2.5
+width = 5.0
 width_curve = SubResource("Curve_sq5wq")
 default_color = Color(1, 0, 0, 1)
 gradient = SubResource("Gradient_7dgfx")
