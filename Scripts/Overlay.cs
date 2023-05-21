@@ -6,6 +6,7 @@ using System;
 public partial class Overlay : Control
 {
 	// Inspector variables
+	[Export] public ClothEditor clothEditor;
 	[Export] public Control toolTips;
 	[Export] public Control defaultToolTip;
 	[Export] public Control createToolTip;
@@ -14,7 +15,7 @@ public partial class Overlay : Control
 	[Export] public Control createDragToolTip;
 	[Export] public Control destroyDragToolTip;
 	[Export] public Line2D destructionTrail;
-	[Export] public ClothEditor clothEditor;
+	[Export] public Label fpsLabel;
 
 	// General
 	private Control currentToolTip;
@@ -48,6 +49,9 @@ public partial class Overlay : Control
 			&& (pointCount > TrailLength
 			|| !clothEditor.isDraggingPrimary)
 		) destructionTrail.RemovePoint(0);
+
+		// Update FPS
+		fpsLabel.Text = "FPS: " + Engine.GetFramesPerSecond().ToString();
 
 		// Draw stuff this frame
 		QueueRedraw();
@@ -140,6 +144,11 @@ public partial class Overlay : Control
 		currentToolTip.Visible = false;
 		currentToolTip = toolTipToActivate;
 			toolTipToActivate.Visible = true;
+	}
+
+	// Toggle fps
+	private void ToggleFPS(bool enabled) {
+		fpsLabel.Visible = enabled;
 	}
 
 	// Set tool tips

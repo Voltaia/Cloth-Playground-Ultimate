@@ -18,7 +18,6 @@ public partial class PlaygroundController : Node2D
 	public bool visualizeStress = false;
 	public static float gravity = DefaultGravity;
 	private Cloth.GenerationSettings generationSettings = new Cloth.GenerationSettings();
-	private bool showFPS = true;
 
 	// Settings
 	private const float DefaultGravity = 0.25f;
@@ -34,12 +33,6 @@ public partial class PlaygroundController : Node2D
 	public override void _Process(double delta)
 	{
 		QueueRedraw();
-	}
-
-	// Draw
-	public override void _Draw() {
-		// Draw framerate
-		if (showFPS) DrawString(new Label().GetThemeDefaultFont(), new Vector2(5, 20), "FPS: " + Engine.GetFramesPerSecond().ToString());
 	}
 
 	// Set fullscreen
@@ -85,11 +78,6 @@ public partial class PlaygroundController : Node2D
 	// Set start empty
 	public void SetStartEmpty(bool startEmpty) {
 		this.startEmpty = startEmpty;
-	}
-
-	// Toggle fps
-	private void ToggleFPS(bool enabled) {
-		showFPS = enabled;
 	}
 
 	// Set palette

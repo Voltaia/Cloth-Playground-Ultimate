@@ -46,7 +46,7 @@ menu = NodePath("../Menu")
 script = ExtResource("3_mdrga")
 overlay = NodePath("../Overlay")
 
-[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("toolTips", "defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "destructionTrail", "clothEditor")]
+[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("clothEditor", "toolTips", "defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "destructionTrail", "fpsLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,6 +54,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_0lvcc")
+clothEditor = NodePath("../Cloth Editor")
 toolTips = NodePath("Tool Tips")
 defaultToolTip = NodePath("Tool Tips/Default Tool Tip")
 createToolTip = NodePath("Tool Tips/Create Tool Tip")
@@ -62,7 +63,7 @@ defaultDragToolTip = NodePath("Tool Tips/Default Drag Tool Tip")
 createDragToolTip = NodePath("Tool Tips/Create Drag Tool Tip")
 destroyDragToolTip = NodePath("Tool Tips/Destroy Drag Tool Tip")
 destructionTrail = NodePath("Destruction Trail")
-clothEditor = NodePath("../Cloth Editor")
+fpsLabel = NodePath("FPS")
 
 [node name="Tool Tips" type="PanelContainer" parent="Overlay"]
 layout_mode = 1
@@ -165,6 +166,14 @@ width = 5.0
 width_curve = SubResource("Curve_sq5wq")
 default_color = Color(1, 0, 0, 1)
 gradient = SubResource("Gradient_7dgfx")
+
+[node name="FPS" type="Label" parent="Overlay"]
+layout_mode = 1
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 132.0
+offset_bottom = 31.0
+text = "FPS: Probably 60"
 
 [node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newWindowMenu", "newWindowFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editPropertiesMenu", "editPropertiesFocus")]
 process_mode = 3
@@ -554,7 +563,7 @@ flat = true
 [connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Visualize Stress" to="Playground Controller" method="VisualizeStress"]
 [connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/ZeroG" to="Playground Controller" method="SetZeroG"]
 [connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Tool Tips" to="Overlay" method="ToggleToolTips"]
-[connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Show FPS" to="Playground Controller" method="ToggleFPS"]
+[connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Show FPS" to="Overlay" method="ToggleFPS"]
 [connection signal="item_selected" from="Menu/Menu Panel/Edit Properties Menu/Palette/OptionButton" to="Playground Controller" method="SetPalette"]
 [connection signal="pressed" from="Menu/Menu Panel/Edit Properties Menu/Back" to="Menu" method="EnterPauseMenu"]
 [connection signal="toggled" from="Menu/Menu Panel/New Cloth Menu/Rigid" to="Playground Controller" method="SetRigid"]
