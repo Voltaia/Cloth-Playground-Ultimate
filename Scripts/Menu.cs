@@ -8,8 +8,8 @@ public partial class Menu : Control
 	// Inspector variables
 	[Export] public Control pauseMenu;
 	[Export] public Control pauseFocus;
-	[Export] public Control newPlaygroundMenu;
-	[Export] public Control newPlaygroundFocus;
+	[Export] public Control newWindowMenu;
+	[Export] public Control newWindowFocus;
 	[Export] public Slider widthSlider;
 	[Export] public Slider heightSlider;
 	[Export] public Control newClothMenu;
@@ -26,7 +26,7 @@ public partial class Menu : Control
 	{
 		Visible = false;
 		pauseMenu.Visible = true;
-		newPlaygroundMenu.Visible = false;
+		newWindowMenu.Visible = false;
 		newClothMenu.Visible = false;
 		currentMenu = pauseMenu;
 		Input.MouseMode = Input.MouseModeEnum.Hidden;
@@ -59,8 +59,8 @@ public partial class Menu : Control
 	public void EnterEditVisualsMenu()
 	{ EnterMenu(editPropertiesMenu, editPropertiesFocus); }
 
-	public void EnterNewPlaygroundMenu()
-	{ EnterMenu(newPlaygroundMenu, newPlaygroundFocus); }
+	public void EnterNewWindowMenu()
+	{ EnterMenu(newWindowMenu, newWindowFocus); }
 
 	public void EnterNewClothMenu()
 	{ EnterMenu(newClothMenu, newClothFocus); }

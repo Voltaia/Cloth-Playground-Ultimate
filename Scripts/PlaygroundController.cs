@@ -95,7 +95,7 @@ public partial class PlaygroundController : Node2D
 	}
 
 	// Create new playground
-	public void NewPlayground() {
+	public void NewWindow() {
 		// Window settings
 		if (isFullscreen) {
 			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);

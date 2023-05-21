@@ -165,7 +165,7 @@ width_curve = SubResource("Curve_sq5wq")
 default_color = Color(1, 0, 0, 1)
 gradient = SubResource("Gradient_7dgfx")
 
-[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newPlaygroundMenu", "newPlaygroundFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editPropertiesMenu", "editPropertiesFocus")]
+[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newWindowMenu", "newWindowFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editPropertiesMenu", "editPropertiesFocus")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -173,15 +173,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-focus_neighbor_bottom = NodePath("Menu Panel/New Playground Menu/Width/HSlider")
+focus_neighbor_bottom = NodePath("Menu Panel/New Window Menu/Width/HSlider")
 theme = ExtResource("4_788g1")
 script = ExtResource("2_1p4le")
 pauseMenu = NodePath("Menu Panel/Pause Menu")
 pauseFocus = NodePath("Menu Panel/Pause Menu/Resume")
-newPlaygroundMenu = NodePath("Menu Panel/New Playground Menu")
-newPlaygroundFocus = NodePath("Menu Panel/New Playground Menu/Fullscreen")
-widthSlider = NodePath("Menu Panel/New Playground Menu/Width/HSlider")
-heightSlider = NodePath("Menu Panel/New Playground Menu/Height/HSlider")
+newWindowMenu = NodePath("Menu Panel/New Window Menu")
+newWindowFocus = NodePath("Menu Panel/New Window Menu/Fullscreen")
+widthSlider = NodePath("Menu Panel/New Window Menu/Width/HSlider")
+heightSlider = NodePath("Menu Panel/New Window Menu/Height/HSlider")
 newClothMenu = NodePath("Menu Panel/New Cloth Menu")
 newClothFocus = NodePath("Menu Panel/New Cloth Menu/Rigid")
 editPropertiesMenu = NodePath("Menu Panel/Edit Properties Menu")
@@ -242,23 +242,23 @@ flat = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Edit Properties")
-focus_neighbor_bottom = NodePath("../New Playground")
+focus_neighbor_bottom = NodePath("../New Window")
 text = "New Custom Cloth
 "
 flat = true
 
-[node name="New Playground" type="Button" parent="Menu/Menu Panel/Pause Menu"]
+[node name="New Window" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../New Custom Cloth")
 focus_neighbor_bottom = NodePath("../Regenerate Cloth")
-text = "New Playground"
+text = "New Window"
 flat = true
 
 [node name="Regenerate Cloth" type="Button" parent="Menu/Menu Panel/Pause Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../New Playground")
+focus_neighbor_top = NodePath("../New Window")
 focus_neighbor_bottom = NodePath("../Clear Cloth")
 text = "Regenerate Cloth
 "
@@ -425,7 +425,7 @@ focus_neighbor_top = NodePath("../Generate")
 text = "Back"
 flat = true
 
-[node name="New Playground Menu" type="VBoxContainer" parent="Menu/Menu Panel"]
+[node name="New Window Menu" type="VBoxContainer" parent="Menu/Menu Panel"]
 visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
@@ -439,14 +439,14 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="Menu/Menu Panel/New Playground Menu"]
+[node name="Title" type="Label" parent="Menu/Menu Panel/New Window Menu"]
 layout_mode = 2
-text = "New Playground"
+text = "New Window"
 label_settings = SubResource("LabelSettings_ocoqx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Fullscreen" type="CheckButton" parent="Menu/Menu Panel/New Playground Menu"]
+[node name="Fullscreen" type="CheckButton" parent="Menu/Menu Panel/New Window Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -454,19 +454,19 @@ size_flags_vertical = 4
 text = "Fullscreen:"
 icon_alignment = 1
 
-[node name="Width" type="HBoxContainer" parent="Menu/Menu Panel/New Playground Menu"]
+[node name="Width" type="HBoxContainer" parent="Menu/Menu Panel/New Window Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="Menu/Menu Panel/New Playground Menu/Width"]
+[node name="Label" type="Label" parent="Menu/Menu Panel/New Window Menu/Width"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Width:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Menu/Menu Panel/New Playground Menu/Width"]
+[node name="HSlider" type="HSlider" parent="Menu/Menu Panel/New Window Menu/Width"]
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Fullscreen")
@@ -476,19 +476,19 @@ max_value = 1500.0
 step = 50.0
 value = 750.0
 
-[node name="Height" type="HBoxContainer" parent="Menu/Menu Panel/New Playground Menu"]
+[node name="Height" type="HBoxContainer" parent="Menu/Menu Panel/New Window Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="Menu/Menu Panel/New Playground Menu/Height"]
+[node name="Label" type="Label" parent="Menu/Menu Panel/New Window Menu/Height"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Height:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Menu/Menu Panel/New Playground Menu/Height"]
+[node name="HSlider" type="HSlider" parent="Menu/Menu Panel/New Window Menu/Height"]
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Width/HSlider")
@@ -498,7 +498,7 @@ max_value = 1000.0
 step = 50.0
 value = 750.0
 
-[node name="Start Empty" type="CheckButton" parent="Menu/Menu Panel/New Playground Menu"]
+[node name="Start Empty" type="CheckButton" parent="Menu/Menu Panel/New Window Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -508,7 +508,7 @@ focus_neighbor_bottom = NodePath("../Create")
 text = "Start Empty:"
 icon_alignment = 1
 
-[node name="Create" type="Button" parent="Menu/Menu Panel/New Playground Menu"]
+[node name="Create" type="Button" parent="Menu/Menu Panel/New Window Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Start Empty")
@@ -516,7 +516,7 @@ focus_neighbor_bottom = NodePath("../Back")
 text = "Create"
 flat = true
 
-[node name="Back" type="Button" parent="Menu/Menu Panel/New Playground Menu"]
+[node name="Back" type="Button" parent="Menu/Menu Panel/New Window Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Create")
@@ -526,7 +526,7 @@ flat = true
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Resume" to="Menu" method="Resume"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Edit Properties" to="Menu" method="EnterEditVisualsMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Custom Cloth" to="Menu" method="EnterNewClothMenu"]
-[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Playground" to="Menu" method="EnterNewPlaygroundMenu"]
+[connection signal="pressed" from="Menu/Menu Panel/Pause Menu/New Window" to="Menu" method="EnterNewWindowMenu"]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Regenerate Cloth" to="Playground Controller" method="GenerateNewCloth" binds= [false]]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Clear Cloth" to="Playground Controller" method="GenerateNewCloth" binds= [true]]
 [connection signal="pressed" from="Menu/Menu Panel/Pause Menu/Quit Simulation" to="Menu" method="Quit"]
@@ -538,9 +538,9 @@ flat = true
 [connection signal="item_selected" from="Menu/Menu Panel/New Cloth Menu/Joint Separation/OptionButton" to="Playground Controller" method="SetJointSeparation"]
 [connection signal="pressed" from="Menu/Menu Panel/New Cloth Menu/Generate" to="Playground Controller" method="GenerateNewCloth" binds= [false]]
 [connection signal="pressed" from="Menu/Menu Panel/New Cloth Menu/Back" to="Menu" method="EnterPauseMenu"]
-[connection signal="toggled" from="Menu/Menu Panel/New Playground Menu/Fullscreen" to="Playground Controller" method="SetFullscreen"]
-[connection signal="value_changed" from="Menu/Menu Panel/New Playground Menu/Width/HSlider" to="Playground Controller" method="SetWidth"]
-[connection signal="value_changed" from="Menu/Menu Panel/New Playground Menu/Height/HSlider" to="Playground Controller" method="SetHeight"]
-[connection signal="toggled" from="Menu/Menu Panel/New Playground Menu/Start Empty" to="Playground Controller" method="SetStartEmpty"]
-[connection signal="pressed" from="Menu/Menu Panel/New Playground Menu/Create" to="Playground Controller" method="NewPlayground"]
-[connection signal="pressed" from="Menu/Menu Panel/New Playground Menu/Back" to="Menu" method="EnterPauseMenu"]
+[connection signal="toggled" from="Menu/Menu Panel/New Window Menu/Fullscreen" to="Playground Controller" method="SetFullscreen"]
+[connection signal="value_changed" from="Menu/Menu Panel/New Window Menu/Width/HSlider" to="Playground Controller" method="SetWidth"]
+[connection signal="value_changed" from="Menu/Menu Panel/New Window Menu/Height/HSlider" to="Playground Controller" method="SetHeight"]
+[connection signal="toggled" from="Menu/Menu Panel/New Window Menu/Start Empty" to="Playground Controller" method="SetStartEmpty"]
+[connection signal="pressed" from="Menu/Menu Panel/New Window Menu/Create" to="Playground Controller" method="NewWindow"]
+[connection signal="pressed" from="Menu/Menu Panel/New Window Menu/Back" to="Menu" method="EnterPauseMenu"]
