@@ -15,31 +15,39 @@ public static class Palette
 	public enum Theme {
 		Marine,
 		Crimson,
-		Grayscale
+		Grayscale,
+		Forest
 	}
 
 	// Set palette
 	public static void Set(Theme theme) {
 		switch (theme) {
 			default:
-				backgroundColor = new Color("060608");
-				jointColor = new Color("285cc4");
-				fixedJointColor = new Color("143464");
-				connectionColor = new Color("6d758d");
+				backgroundColor = new Color("060608"); // Darkest
+				fixedJointColor = new Color("143464"); // Dark
+				jointColor = new Color("285cc4"); // Light
+				connectionColor = new Color("6d758d"); // Lightest
 				break;
 			
 			case Theme.Crimson:
 				backgroundColor = new Color("090A0E");
-				jointColor = new Color("880C25");
 				fixedJointColor = new Color("2f040d");
+				jointColor = new Color("880C25");
 				connectionColor = new Color("F05C79");
 				break;
 
 			case Theme.Grayscale:
 				backgroundColor = new Color("000000");
-				jointColor = new Color("666666");
 				fixedJointColor = new Color("222222");
+				jointColor = new Color("666666");
 				connectionColor = new Color("cccccc");
+				break;
+
+			case Theme.Forest:
+				backgroundColor = new Color("193829");
+				fixedJointColor = new Color("1a7a3e");
+				jointColor = new Color("14a02e");
+				connectionColor = new Color("bb7547");
 				break;
 		}
 	}
