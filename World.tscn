@@ -175,7 +175,7 @@ offset_right = 132.0
 offset_bottom = 31.0
 text = "FPS: Probably 60"
 
-[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newWindowMenu", "newWindowFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editPropertiesMenu", "editPropertiesFocus")]
+[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("pauseMenu", "pauseFocus", "newWindowMenu", "newWindowFocus", "widthSlider", "heightSlider", "newClothMenu", "newClothFocus", "editPropertiesMenu", "editPropertiesFocus", "paletteOptionButton")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -196,6 +196,7 @@ newClothMenu = NodePath("Menu Panel/New Cloth Menu")
 newClothFocus = NodePath("Menu Panel/New Cloth Menu/Rigid")
 editPropertiesMenu = NodePath("Menu Panel/Edit Properties Menu")
 editPropertiesFocus = NodePath("Menu Panel/Edit Properties Menu/Visualize Stress")
+paletteOptionButton = NodePath("Menu Panel/Edit Properties Menu/Palette/OptionButton")
 
 [node name="Menu Panel" type="Panel" parent="Menu"]
 custom_minimum_size = Vector2(450, 450)
@@ -432,7 +433,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Rigid")
-focus_neighbor_bottom = NodePath("../../Generate")
+focus_neighbor_bottom = NodePath("../../Random Palette")
 item_count = 3
 selected = 1
 popup/item_0/text = "Small"
@@ -442,10 +443,21 @@ popup/item_1/id = 1
 popup/item_2/text = "Large"
 popup/item_2/id = 2
 
+[node name="Random Palette" type="CheckButton" parent="Menu/Menu Panel/New Cloth Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../Joint Separation/OptionButton")
+focus_neighbor_bottom = NodePath("../Generate")
+button_pressed = true
+text = "Random Palette:"
+icon_alignment = 1
+
 [node name="Generate" type="Button" parent="Menu/Menu Panel/New Cloth Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Joint Separation/OptionButton")
+focus_neighbor_top = NodePath("../Random Palette")
 focus_neighbor_bottom = NodePath("../Back")
 text = "Generate"
 flat = true
@@ -570,6 +582,7 @@ flat = true
 [connection signal="pressed" from="Menu/Menu Panel/Edit Properties Menu/Back" to="Menu" method="EnterPauseMenu"]
 [connection signal="toggled" from="Menu/Menu Panel/New Cloth Menu/Rigid" to="Playground Controller" method="SetRigid"]
 [connection signal="item_selected" from="Menu/Menu Panel/New Cloth Menu/Joint Separation/OptionButton" to="Playground Controller" method="SetJointSeparation"]
+[connection signal="toggled" from="Menu/Menu Panel/New Cloth Menu/Random Palette" to="Playground Controller" method="RandomizePalette"]
 [connection signal="pressed" from="Menu/Menu Panel/New Cloth Menu/Generate" to="Playground Controller" method="GenerateNewCloth" binds= [false]]
 [connection signal="pressed" from="Menu/Menu Panel/New Cloth Menu/Back" to="Menu" method="EnterPauseMenu"]
 [connection signal="toggled" from="Menu/Menu Panel/New Window Menu/Fullscreen" to="Playground Controller" method="SetFullscreen"]

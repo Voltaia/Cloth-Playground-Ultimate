@@ -51,4 +51,12 @@ public static class Palette
 				break;
 		}
 	}
+
+	// Set random
+	public static int SetRandom() {
+		RandomNumberGenerator rng = new RandomNumberGenerator();
+		int themeIndex = rng.RandiRange(0, Enum.GetNames(typeof(Theme)).Length);
+		Set((Theme)themeIndex);
+		return themeIndex;
+	}
 }

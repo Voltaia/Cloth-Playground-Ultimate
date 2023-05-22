@@ -16,6 +16,7 @@ public partial class Menu : Control
 	[Export] public Control newClothFocus;
 	[Export] public Control editPropertiesMenu;
 	[Export] public Control editPropertiesFocus;
+	[Export] public OptionButton paletteOptionButton;
 
 	// Class variables
 	private Control currentMenu;

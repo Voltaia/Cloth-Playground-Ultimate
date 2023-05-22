@@ -18,6 +18,7 @@ public partial class PlaygroundController : Node2D
 	public bool visualizeStress = false;
 	public static float gravity = DefaultGravity;
 	private Cloth.GenerationSettings generationSettings = new Cloth.GenerationSettings();
+	private bool randomizePalette = true;
 
 	// Settings
 	private const float DefaultGravity = 0.25f;
@@ -103,10 +104,22 @@ public partial class PlaygroundController : Node2D
 		GenerateNewCloth(startEmpty);
 	}
 
+	// Random palette
+	public void RandomizePalette(bool isEnabled) {
+		randomizePalette = isEnabled;
+	}
+
 	// Generate new cloth
 	public void GenerateNewCloth(bool isEmpty) {
 		// Clear cloth
 		if (cloth != null) cloth.QueueFree();
+
+		// Randomize palette
+		if (randomizePalette) {
+			int randomIndex = Palette.SetRandom();
+			RenderingServer.SetDefaultClearColor(Palette.backgroundColor);
+			menu.paletteOptionButton.Select(randomIndex);
+		}
 
 		// Create new cloth
 		if (!isEmpty) cloth = new Cloth(generationSettings);
