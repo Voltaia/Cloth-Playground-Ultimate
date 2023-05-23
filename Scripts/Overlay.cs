@@ -80,7 +80,7 @@ public partial class Overlay : Control
 		if (clothEditor.editMode == EditMode.Create) {
 			// If a connection is being inserted, we do not want to draw anything
 			if (clothEditor.connectionInserting == null) {
-				// Draw new connection tool
+				// Draw start connection indicator
 				if (clothEditor.jointUnderMouse != null && clothEditor.connectionSelected == null) {
 					DrawCircle(
 						clothEditor.jointUnderMouse.Position,
@@ -111,16 +111,26 @@ public partial class Overlay : Control
 						2.5f
 					);
 				}
-			}
-
-			// Draw inserting new connection
-			if (clothEditor.connectionInserting != null) {
+			} else {
+				// Draw inserting new connection
 				DrawLine(
 					clothEditor.connectionInserting.firstJoint.Position,
 					Simulation.MousePosition,
 					new Color(Colors.Green, ToolTransparency),
 					Connection.DrawThickness
 				);
+
+				// Draw possible placements
+				if (
+					clothEditor.jointUnderMouse != null
+					&& clothEditor.jointUnderMouse != clothEditor.connectionInserting.firstJoint
+				) {
+					DrawCircle(
+						clothEditor.jointUnderMouse.Position,
+						clothEditor.jointUnderMouse.parent.jointRadius * 1.5f,
+						new Color(Colors.Green, ToolTransparency)
+					);
+				}
 			}
 		}
 		
