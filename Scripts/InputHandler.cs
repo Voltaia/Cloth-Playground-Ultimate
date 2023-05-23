@@ -73,6 +73,6 @@ public partial class InputHandler : Node
 		}
 
 		// Pause simulation
-		if (@event.IsActionPressed("Pause Simulation")) clothEditor.cloth.simulationPaused = !clothEditor.cloth.simulationPaused;
+		if (@event.IsActionPressed("Pause Simulation")) clothEditor.ToggleSimulationPause();
 	}
 }

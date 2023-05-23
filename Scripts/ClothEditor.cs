@@ -88,26 +88,33 @@ public partial class ClothEditor : Node2D
 		// Reset some stuff
 		switch (editMode) {
 			default:
-				connectionInserting = null;
-				connectionSelected = null;
 				jointDistanceTolerance = JointDistanceToleranceDefault;
 				break;
 
 			case EditMode.Create:
-				jointGrabbed = null;
 				jointDistanceTolerance = JointDistanceToleranceCreate;
 				break;
 
 			case EditMode.Destroy:
-				connectionInserting = null;
-				connectionSelected = null;
-				jointGrabbed = null;
 				jointDistanceTolerance = 1.0f;
 				break;
 		}
 		
-		// Update overlay
+		// Clean up
+		ResetUsing();
 		overlay.Update();
+	}
+
+	// Reset stuff
+	public void ResetUsing() {
+		connectionInserting = null;
+		connectionSelected = null;
+		jointGrabbed = null;
+	}
+
+	// Pause simulation
+	public void ToggleSimulationPause() {
+		cloth.simulationPaused = !cloth.simulationPaused;
 	}
 
 	// Attempt grab joint
