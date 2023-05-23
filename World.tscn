@@ -120,7 +120,7 @@ layout_mode = 2
 size_flags_vertical = 8
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
-text = "LMB: [color=red]Destroy Cloth[/color]"
+text = "LMB: [color=red]Cut Cloth[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false

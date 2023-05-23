@@ -112,6 +112,7 @@ public partial class PlaygroundController : Node2D
 	// Generate new cloth
 	public void GenerateNewCloth(bool isEmpty) {
 		// Clear cloth
+		clothEditor.ResetUsing();
 		if (cloth != null) cloth.QueueFree();
 
 		// Randomize palette

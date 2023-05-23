@@ -115,7 +115,9 @@ public partial class ClothEditor : Node2D
 	public void ResetUsing() {
 		connectionInserting = null;
 		connectionSelected = null;
+		connectionUnderMouse = null;
 		jointGrabbed = null;
+		jointUnderMouse = null;
 	}
 
 	// Pause simulation
