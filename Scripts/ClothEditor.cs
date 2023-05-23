@@ -25,12 +25,13 @@ public partial class ClothEditor : Node2D
 	private Vector2 jointGrabbedOffset = Vector2.Zero;
 	public Joint jointUnderMouse;
 	public Connection connectionUnderMouse;
+	public Connection connectionSelected;
 	private float jointDistanceTolerance = JointDistanceToleranceDefault;
 
 	// Settings
 	private const float JointDistanceToleranceDefault = 5.0f;
 	private const float JointDistanceToleranceCreate = 1.5f;
-	private const float ConnectionUnderTolerance = 15.0f;
+	private const float ConnectionDistanceTolerance = 45.0f;
 	private const float ConnectionDestroyTolerance = 2.0f;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,9 +53,18 @@ public partial class ClothEditor : Node2D
 		}
 
 		// Fill in connection under mouse
-		connectionUnderMouse = null;
+		Connection closestConnection = null;
+		float closestConnectionDistance = Mathf.Inf;
 		foreach (Connection connection in cloth.connections) {
-			if (connection.CollidesWithPoint(Simulation.MousePosition, ConnectionUnderTolerance)) connectionUnderMouse = connection;
+			float distanceToConnection = Simulation.MousePosition.DistanceTo(connection.GetCenterPosition());
+			if (distanceToConnection < closestConnectionDistance) {
+				closestConnection = connection;
+				closestConnectionDistance = distanceToConnection;
+			}
+		}
+		if (closestConnection != null) {
+			if (closestConnectionDistance < ConnectionDistanceTolerance) connectionUnderMouse = closestConnection;
+			else connectionUnderMouse = null;
 		}
 
 		// Grabbing logic
@@ -71,6 +81,7 @@ public partial class ClothEditor : Node2D
 		if (@event.IsActionPressed("Destroy")) {
 			editMode = EditMode.Destroy;
 			connectionInserting = null;
+			connectionSelected = null;
 			jointGrabbed = null;
 			jointDistanceTolerance = 1.0f;
 			overlay.Update();
@@ -93,6 +104,7 @@ public partial class ClothEditor : Node2D
 		) {
 			editMode = EditMode.Default;
 			connectionInserting = null;
+			connectionSelected = null;
 			jointDistanceTolerance = JointDistanceToleranceDefault;
 			overlay.Update();
 		}
@@ -128,7 +140,14 @@ public partial class ClothEditor : Node2D
 		if (@event.IsActionPressed("Secondary Edit")) {
 			// Edit mode actions
 			if (editMode == EditMode.Default) AttemptJointFlip();
-			else if (editMode == EditMode.Create) if (connectionInserting != null) AttemptInsertMiddle();
+			else if (editMode == EditMode.Create) {
+				if (connectionInserting != null) AttemptInsertMiddle();
+				else if (connectionSelected == null) AttemptSelectConnection();
+			}
+		}
+		else if (@event.IsActionReleased("Secondary Edit")) {
+			connectionSelected = null;
+			overlay.Update();
 		}
 
 		// Handle tertiary mouse input
@@ -153,8 +172,19 @@ public partial class ClothEditor : Node2D
 		jointGrabbed = null;
 	}
 
+	// Attempt to select connection
+	private void AttemptSelectConnection() {
+		if (connectionUnderMouse != null) {
+			connectionSelected = connectionUnderMouse;
+			overlay.Update();
+		}
+	}
+
 	// Insert start
 	private void AttemptInsertStart() {
+		// Return if something is already happening
+		if (connectionSelected != null) return;
+
 		// Check if there is a joint at mouse position
 		Joint jointFound = jointUnderMouse;
 
@@ -226,16 +256,14 @@ public partial class ClothEditor : Node2D
 
 	// Attempt to extend connection
 	private void AttemptConnectionExtend() {
-		Connection connectionFound = connectionUnderMouse;
-		if (connectionFound != null) connectionFound.desiredLength += 5.0f;
+		if (connectionSelected != null) connectionSelected.desiredLength += 5.0f;
 	}
 
 	// Attempt to shrink connection
 	private void AttemptConnectionShrink() {
-		Connection connectionFound = connectionUnderMouse;
 		if (
-			connectionFound != null
-			&& connectionFound.desiredLength > 1.0f
-		) connectionFound.desiredLength -= 5.0f;
+			connectionSelected != null
+			&& connectionSelected.desiredLength > 1.0f
+		) connectionSelected.desiredLength -= 5.0f;
 	}
 }

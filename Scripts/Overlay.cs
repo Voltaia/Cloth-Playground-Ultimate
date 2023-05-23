@@ -14,6 +14,7 @@ public partial class Overlay : Control
 	[Export] public Control defaultDragToolTip;
 	[Export] public Control createDragToolTip;
 	[Export] public Control destroyDragToolTip;
+	[Export] public Control createAdjustToolTip;
 	[Export] public Line2D destructionTrail;
 	[Export] public Label fpsLabel;
 
@@ -60,17 +61,7 @@ public partial class Overlay : Control
 	// Draw
 	public override void _Draw()
 	{
-		// Draw inserting new connection
-		if (clothEditor.connectionInserting != null) {
-			DrawLine(
-				clothEditor.connectionInserting.firstJoint.Position,
-				Simulation.MousePosition,
-				new Color(Colors.Green, ToolTransparency),
-				Connection.DrawThickness
-			);
-		}
-
-		// Draw path to joint under mouse
+		// Draw path to joint under mouse for grabbing
 		if (
 			clothEditor.editMode == EditMode.Default
 			&& (clothEditor.jointUnderMouse != null
@@ -85,22 +76,50 @@ public partial class Overlay : Control
 			);
 		}
 
-		// Draw path to connection under mouse
+		// Draw create mode tools
 		if (clothEditor.editMode == EditMode.Create) {
-			if (clothEditor.jointUnderMouse != null && !clothEditor.isDraggingPrimary) {
-				DrawCircle(
-					clothEditor.jointUnderMouse.Position,
-					clothEditor.jointUnderMouse.parent.jointRadius * 1.5f,
-					new Color(Colors.Green, ToolTransparency)
-				);
+			// If a connection is being inserted, we do not want to draw anything
+			if (clothEditor.connectionInserting == null) {
+				// Draw new connection tool
+				if (clothEditor.jointUnderMouse != null && clothEditor.connectionSelected == null) {
+					DrawCircle(
+						clothEditor.jointUnderMouse.Position,
+						clothEditor.jointUnderMouse.parent.jointRadius * 1.5f,
+						new Color(Colors.Green, ToolTransparency)
+					);
+				}
+				
+				// Draw cloth adjustment tools
+				if (clothEditor.connectionUnderMouse != null || clothEditor.connectionSelected != null)
+				{
+					Vector2 attachedPosition;
+					if (clothEditor.connectionSelected != null) {
+						attachedPosition = clothEditor.connectionSelected.GetCenterPosition();
+						DrawLine(
+							clothEditor.connectionSelected.firstJoint.Position,
+							clothEditor.connectionSelected.secondJoint.Position,
+							new Color(toolColor, ToolTransparency),
+							2.5f
+						);
+					} else {
+						attachedPosition = clothEditor.connectionUnderMouse.GetCenterPosition();
+					}
+					DrawLine(
+						Simulation.MousePosition,
+						attachedPosition,
+						new Color(toolColor, ToolTransparency),
+						2.5f
+					);
+				}
 			}
-			else if (clothEditor.connectionUnderMouse != null)
-			{
+
+			// Draw inserting new connection
+			if (clothEditor.connectionInserting != null) {
 				DrawLine(
+					clothEditor.connectionInserting.firstJoint.Position,
 					Simulation.MousePosition,
-					clothEditor.connectionUnderMouse.GetCenterPosition(),
-					new Color(toolColor, ToolTransparency),
-					2.5f
+					new Color(Colors.Green, ToolTransparency),
+					Connection.DrawThickness
 				);
 			}
 		}
@@ -115,8 +134,9 @@ public partial class Overlay : Control
 		switch (clothEditor.editMode) {
 			case EditMode.Create:
 				toolColor = Colors.Green;
-				if (!clothEditor.isDraggingPrimary) SetToolTip(createToolTip);
-				else SetToolTip(createDragToolTip);
+				if (clothEditor.connectionSelected != null) SetToolTip(createAdjustToolTip);
+				else if (clothEditor.connectionInserting != null) SetToolTip(createDragToolTip);
+				else SetToolTip(createToolTip);
 				break;
 
 			case EditMode.Destroy:

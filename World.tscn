@@ -46,7 +46,7 @@ menu = NodePath("../Menu")
 script = ExtResource("3_mdrga")
 overlay = NodePath("../Overlay")
 
-[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("clothEditor", "toolTips", "defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "destructionTrail", "fpsLabel")]
+[node name="Overlay" type="Control" parent="." node_paths=PackedStringArray("clothEditor", "toolTips", "defaultToolTip", "createToolTip", "destroyToolTip", "defaultDragToolTip", "createDragToolTip", "destroyDragToolTip", "createAdjustToolTip", "destructionTrail", "fpsLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -62,6 +62,7 @@ destroyToolTip = NodePath("Tool Tips/Destroy Tool Tip")
 defaultDragToolTip = NodePath("Tool Tips/Default Drag Tool Tip")
 createDragToolTip = NodePath("Tool Tips/Create Drag Tool Tip")
 destroyDragToolTip = NodePath("Tool Tips/Destroy Drag Tool Tip")
+createAdjustToolTip = NodePath("Tool Tips/Create Adjust Tool Tip")
 destructionTrail = NodePath("Destruction Trail")
 fpsLabel = NodePath("FPS")
 
@@ -101,7 +102,7 @@ theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "LMB: [color=green]Create Fixed Joint[/color]
 LMB & Drag: [color=green]Start Connection[/color]
-Scroll: [color=green]Adjust Connection Length[/color]"
+Hold RMB: [color=green]Select Connection[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
@@ -156,6 +157,20 @@ size_flags_vertical = 8
 theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "Drag: [color=red]Cut Through Cloth[/color]"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="Create Adjust Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
+visible = false
+clip_contents = false
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/normal_font_size = 0
+bbcode_enabled = true
+text = "Scroll Up: [color=green]Increase Length[/color]
+Scroll Down: [color=green]Decrease Length[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
