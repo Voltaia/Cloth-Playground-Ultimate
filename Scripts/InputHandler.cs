@@ -33,22 +33,20 @@ public partial class InputHandler : Node
 			// Mode actions
 			if (clothEditor.editMode == EditMode.Default) clothEditor.AttemptGrabJoint();
 			else if (clothEditor.editMode == EditMode.Create) clothEditor.AttemptInsertStart();
-			else clothEditor.isCutting = true;
+			else clothEditor.IsCutting = true;
 
 			// Update state
 			isDraggingPrimary = true;
-			clothEditor.overlay.Update();
 		}
 		else if (@event.IsActionReleased("Primary Edit"))
 		{
 			// Edit mode actions
 			if (clothEditor.editMode == EditMode.Default) clothEditor.AttemptReleaseJoint();
 			else if (clothEditor.editMode == EditMode.Create) clothEditor.AttemptInsertEnd();
-			else clothEditor.isCutting = false;
+			else clothEditor.IsCutting = false;
 
 			// Update state
 			isDraggingPrimary = false;
-			clothEditor.overlay.Update();
 		}
 
 		// Handle secondary mouse input
@@ -62,8 +60,7 @@ public partial class InputHandler : Node
 		}
 		else if (@event.IsActionReleased("Secondary Edit"))
 		{
-			clothEditor.connectionSelected = null;
-			clothEditor.overlay.Update();
+			clothEditor.ReleaseConnection();
 		}
 
 		// Handle tertiary mouse input

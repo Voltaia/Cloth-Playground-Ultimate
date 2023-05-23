@@ -14,7 +14,7 @@ public enum EditMode {
 public partial class ClothEditor : Node2D
 {
 	// Inspector
-	[Export] public Overlay overlay;
+	[Export] private Overlay overlay;
 
 	// General
 	public Cloth cloth;
@@ -25,8 +25,14 @@ public partial class ClothEditor : Node2D
 	public Joint jointUnderMouse;
 	public Connection connectionUnderMouse;
 	public Connection connectionSelected;
-	public bool isCutting = false;
 	private float jointDistanceTolerance = JointDistanceToleranceDefault;
+
+	// Properties
+	private bool isCutting;
+	public bool IsCutting {
+		get { return isCutting; }
+		set { isCutting = value; overlay.Update(); }
+	}
 
 	// Settings
 	private const float JointDistanceToleranceDefault = 5.0f;
@@ -117,16 +123,24 @@ public partial class ClothEditor : Node2D
 		cloth.simulationPaused = !cloth.simulationPaused;
 	}
 
+	// Release connection
+	public void ReleaseConnection() {
+		connectionSelected = null;
+		overlay.Update();
+	}
+
 	// Attempt grab joint
 	public void AttemptGrabJoint() {
 		if (jointUnderMouse == null) return;
 		jointGrabbed = jointUnderMouse;
 		jointGrabbedOffset = jointGrabbed.Position - Simulation.MousePosition;
+		overlay.Update();
 	}
 	
 	// Attempt to release joint
 	public void AttemptReleaseJoint() {
 		jointGrabbed = null;
+		overlay.Update();
 	}
 
 	// Attempt to select connection
@@ -148,6 +162,7 @@ public partial class ClothEditor : Node2D
 		// Create a connection with either a new or old joint attached
 		if (jointFound != null) connectionInserting = new Connection(cloth, jointFound, null);
 		else connectionInserting = new Connection(cloth, cloth.AddJoint(Simulation.MousePosition, true), null);
+		overlay.Update();
 	}
 
 	// Insert middle
@@ -165,6 +180,7 @@ public partial class ClothEditor : Node2D
 
 		// Start new connection
 		connectionInserting = new Connection(cloth, jointToConnect, null);
+		overlay.Update();
 	}
 
 	// Insert end
@@ -183,6 +199,7 @@ public partial class ClothEditor : Node2D
 
 		// Wipe connection
 		connectionInserting = null;
+		overlay.Update();
 	}
 
 	// Attempt to cut a connection

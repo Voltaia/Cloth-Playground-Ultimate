@@ -38,14 +38,14 @@ public partial class Overlay : Control
 	public override void _Process(double delta)
 	{
 		// Add to trail
-		if (clothEditor.isCutting) destructionTrail.AddPoint(Simulation.MousePosition);
+		if (clothEditor.IsCutting) destructionTrail.AddPoint(Simulation.MousePosition);
 		
 		// Remove from trail
 		int pointCount = destructionTrail.GetPointCount();
 		if (
 			pointCount > 0
 			&& (pointCount > TrailLength
-			|| !clothEditor.isCutting)
+			|| !clothEditor.IsCutting)
 		) destructionTrail.RemovePoint(0);
 
 		// Update FPS
@@ -157,7 +157,7 @@ public partial class Overlay : Control
 
 			case EditMode.Destroy:
 				toolColor = Colors.Red;
-				if (!clothEditor.isCutting) {
+				if (!clothEditor.IsCutting) {
 					cursorAlpha = ToolTransparency;
 					SetToolTip(destroyToolTip);
 				}
