@@ -16,7 +16,8 @@ public static class Palette
 		Marine,
 		Crimson,
 		Grayscale,
-		Forest
+		Forest,
+		Candy
 	}
 
 	// Set palette
@@ -48,6 +49,13 @@ public static class Palette
 				fixedJointColor = new Color("1a7a3e");
 				jointColor = new Color("14a02e");
 				connectionColor = new Color("bb7547");
+				break;
+			
+			case Theme.Candy:
+				backgroundColor = new Color("242234");
+				fixedJointColor = new Color("793a80");
+				jointColor = new Color("e86a73");
+				connectionColor = new Color("fad6b8");
 				break;
 		}
 	}
