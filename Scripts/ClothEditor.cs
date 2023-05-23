@@ -19,13 +19,13 @@ public partial class ClothEditor : Node2D
 	// General
 	public Cloth cloth;
 	public EditMode editMode = EditMode.Default;
-	public bool isDraggingPrimary = false;
 	public Connection connectionInserting = null;
 	public Joint jointGrabbed = null;
 	private Vector2 jointGrabbedOffset = Vector2.Zero;
 	public Joint jointUnderMouse;
 	public Connection connectionUnderMouse;
 	public Connection connectionSelected;
+	public bool isCutting = false;
 	private float jointDistanceTolerance = JointDistanceToleranceDefault;
 
 	// Settings
@@ -70,6 +70,12 @@ public partial class ClothEditor : Node2D
 		// Grabbing logic
 		if (jointGrabbed != null) jointGrabbed.Position = Simulation.MousePosition + jointGrabbedOffset;
 
+		// Cutting logic
+		if (isCutting) {
+			AttemptConnectionCut();
+			AttemptJointCut();
+		}
+
 		// Queue redraw
 		QueueRedraw();
 	}
@@ -85,13 +91,11 @@ public partial class ClothEditor : Node2D
 				connectionInserting = null;
 				connectionSelected = null;
 				jointDistanceTolerance = JointDistanceToleranceDefault;
-				overlay.Update();
 				break;
 
 			case EditMode.Create:
 				jointGrabbed = null;
 				jointDistanceTolerance = JointDistanceToleranceCreate;
-				overlay.Update();
 				break;
 
 			case EditMode.Destroy:
@@ -99,9 +103,11 @@ public partial class ClothEditor : Node2D
 				connectionSelected = null;
 				jointGrabbed = null;
 				jointDistanceTolerance = 1.0f;
-				overlay.Update();
 				break;
 		}
+		
+		// Update overlay
+		overlay.Update();
 	}
 
 	// Attempt grab joint

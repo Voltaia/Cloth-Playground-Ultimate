@@ -38,17 +38,14 @@ public partial class Overlay : Control
 	public override void _Process(double delta)
 	{
 		// Add to trail
-		if (
-			clothEditor.editMode == EditMode.Destroy
-			&& clothEditor.isDraggingPrimary
-		) destructionTrail.AddPoint(Simulation.MousePosition);
+		if (clothEditor.isCutting) destructionTrail.AddPoint(Simulation.MousePosition);
 		
 		// Remove from trail
 		int pointCount = destructionTrail.GetPointCount();
 		if (
 			pointCount > 0
 			&& (pointCount > TrailLength
-			|| !clothEditor.isDraggingPrimary)
+			|| !clothEditor.isCutting)
 		) destructionTrail.RemovePoint(0);
 
 		// Update FPS
@@ -144,15 +141,28 @@ public partial class Overlay : Control
 		switch (clothEditor.editMode) {
 			case EditMode.Create:
 				toolColor = Colors.Green;
-				if (clothEditor.connectionSelected != null) SetToolTip(createAdjustToolTip);
-				else if (clothEditor.connectionInserting != null) SetToolTip(createDragToolTip);
-				else SetToolTip(createToolTip);
+				if (clothEditor.connectionSelected != null) {
+					cursorAlpha = 1.0f;
+					SetToolTip(createAdjustToolTip);
+				}
+				else if (clothEditor.connectionInserting != null) {
+					cursorAlpha = 1.0f;
+					SetToolTip(createDragToolTip);
+				}
+				else {
+					cursorAlpha = ToolTransparency;
+					SetToolTip(createToolTip);
+				};
 				break;
 
 			case EditMode.Destroy:
 				toolColor = Colors.Red;
-				if (!clothEditor.isDraggingPrimary) SetToolTip(destroyToolTip);
+				if (!clothEditor.isCutting) {
+					cursorAlpha = ToolTransparency;
+					SetToolTip(destroyToolTip);
+				}
 				else {
+					cursorAlpha = 1.0f;
 					SetToolTip(destroyDragToolTip);
 					InitializeTrail();
 				}
@@ -160,13 +170,16 @@ public partial class Overlay : Control
 
 			default:
 				toolColor = Colors.Blue;
-				if (!clothEditor.isDraggingPrimary) SetToolTip(defaultToolTip);
-				else if (clothEditor.jointGrabbed != null) SetToolTip(defaultDragToolTip);
+				if (clothEditor.jointGrabbed == null) {
+					cursorAlpha = ToolTransparency;
+					SetToolTip(defaultToolTip);
+				}
+				else {
+					cursorAlpha = 1.0f;
+					SetToolTip(defaultDragToolTip);
+				};
 				break;
 		}
-
-		// Change cursor alpha
-		cursorAlpha = clothEditor.isDraggingPrimary ? 1.0f : ToolTransparency;
 	}
 
 	// Set tool tip

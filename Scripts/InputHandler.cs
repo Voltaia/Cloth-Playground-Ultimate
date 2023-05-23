@@ -8,10 +8,13 @@ public partial class InputHandler : Node
 	// Inspector
 	[Export] ClothEditor clothEditor;
 
+	// General
+	private bool isDraggingPrimary = false;
+
 	// Input
 	public override void _Input(InputEvent @event)
 	{
-		// Enable/disable modes
+		// Switch between edit modes
 		if (@event.IsActionPressed("Destroy")) clothEditor.SetEditMode(EditMode.Destroy);
 		else if (@event.IsActionPressed("Create")) clothEditor.SetEditMode(EditMode.Create);
 		else if (
@@ -30,9 +33,10 @@ public partial class InputHandler : Node
 			// Mode actions
 			if (clothEditor.editMode == EditMode.Default) clothEditor.AttemptGrabJoint();
 			else if (clothEditor.editMode == EditMode.Create) clothEditor.AttemptInsertStart();
+			else clothEditor.isCutting = true;
 
 			// Update state
-			clothEditor.isDraggingPrimary = true;
+			isDraggingPrimary = true;
 			clothEditor.overlay.Update();
 		}
 		else if (@event.IsActionReleased("Primary Edit"))
@@ -40,16 +44,11 @@ public partial class InputHandler : Node
 			// Edit mode actions
 			if (clothEditor.editMode == EditMode.Default) clothEditor.AttemptReleaseJoint();
 			else if (clothEditor.editMode == EditMode.Create) clothEditor.AttemptInsertEnd();
+			else clothEditor.isCutting = false;
 
 			// Update state
-			clothEditor.isDraggingPrimary = false;
+			isDraggingPrimary = false;
 			clothEditor.overlay.Update();
-		}
-
-		// Handle dragging
-		if (clothEditor.isDraggingPrimary && clothEditor.editMode == EditMode.Destroy) {
-			clothEditor.AttemptConnectionCut();
-			clothEditor.AttemptJointCut();
 		}
 
 		// Handle secondary mouse input
@@ -61,7 +60,8 @@ public partial class InputHandler : Node
 				else if (clothEditor.connectionSelected == null) clothEditor.AttemptSelectConnection();
 			}
 		}
-		else if (@event.IsActionReleased("Secondary Edit")) {
+		else if (@event.IsActionReleased("Secondary Edit"))
+		{
 			clothEditor.connectionSelected = null;
 			clothEditor.overlay.Update();
 		}
