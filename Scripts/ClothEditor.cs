@@ -14,7 +14,7 @@ public enum EditMode {
 public partial class ClothEditor : Node2D
 {
 	// Inspector
-	[Export] private Overlay overlay;
+	[Export] public Overlay overlay;
 
 	// General
 	public Cloth cloth;
@@ -74,106 +74,50 @@ public partial class ClothEditor : Node2D
 		QueueRedraw();
 	}
 
-	// Input
-	public override void _Input(InputEvent @event)
-	{
-		// Enable/disable modes
-		if (@event.IsActionPressed("Destroy")) {
-			editMode = EditMode.Destroy;
-			connectionInserting = null;
-			connectionSelected = null;
-			jointGrabbed = null;
-			jointDistanceTolerance = 1.0f;
-			overlay.Update();
-		}
-		else if (@event.IsActionPressed("Create")) {
-			editMode = EditMode.Create;
-			jointGrabbed = null;
-			jointDistanceTolerance = JointDistanceToleranceCreate;
-			overlay.Update();
-		}
-		else if (
-			(
-				editMode == EditMode.Destroy
-				&& @event.IsActionReleased("Destroy")
-			)
-			|| (
-				editMode == EditMode.Create
-				&& @event.IsActionReleased("Create")
-			)
-		) {
-			editMode = EditMode.Default;
-			connectionInserting = null;
-			connectionSelected = null;
-			jointDistanceTolerance = JointDistanceToleranceDefault;
-			overlay.Update();
-		}
+	// Set edit mode
+	public void SetEditMode(EditMode editMode) {
+		// Change edit mode
+		this.editMode = editMode;
 
-		// Handle primary mouse input
-		if (@event.IsActionPressed("Primary Edit")) {
-			// Mode actions
-			if (editMode == EditMode.Default) AttemptGrabJoint();
-			else if (editMode == EditMode.Create) AttemptInsertStart();
+		// Reset some stuff
+		switch (editMode) {
+			default:
+				connectionInserting = null;
+				connectionSelected = null;
+				jointDistanceTolerance = JointDistanceToleranceDefault;
+				overlay.Update();
+				break;
 
-			// Update state
-			isDraggingPrimary = true;
-			overlay.Update();
-		}
-		else if (@event.IsActionReleased("Primary Edit"))
-		{
-			// Edit mode actions
-			if (editMode == EditMode.Default) AttemptReleaseJoint();
-			else if (editMode == EditMode.Create) AttemptInsertEnd();
+			case EditMode.Create:
+				jointGrabbed = null;
+				jointDistanceTolerance = JointDistanceToleranceCreate;
+				overlay.Update();
+				break;
 
-			// Update state
-			isDraggingPrimary = false;
-			overlay.Update();
+			case EditMode.Destroy:
+				connectionInserting = null;
+				connectionSelected = null;
+				jointGrabbed = null;
+				jointDistanceTolerance = 1.0f;
+				overlay.Update();
+				break;
 		}
-
-		// Handle dragging
-		if (isDraggingPrimary && editMode == EditMode.Destroy) {
-			AttemptConnectionCut();
-			AttemptJointCut();
-		}
-
-		// Handle secondary mouse input
-		if (@event.IsActionPressed("Secondary Edit")) {
-			// Edit mode actions
-			if (editMode == EditMode.Default) AttemptJointFlip();
-			else if (editMode == EditMode.Create) {
-				if (connectionInserting != null) AttemptInsertMiddle();
-				else if (connectionSelected == null) AttemptSelectConnection();
-			}
-		}
-		else if (@event.IsActionReleased("Secondary Edit")) {
-			connectionSelected = null;
-			overlay.Update();
-		}
-
-		// Handle tertiary mouse input
-		if (editMode == EditMode.Create) {
-			if (@event.IsActionPressed("Wheel Up")) AttemptConnectionExtend();
-			else if (@event.IsActionPressed("Wheel Down")) AttemptConnectionShrink();
-		}
-
-		// Pause simulation
-		if (@event.IsActionPressed("Pause Simulation")) cloth.simulationPaused = !cloth.simulationPaused;
 	}
 
 	// Attempt grab joint
-	private void AttemptGrabJoint() {
+	public void AttemptGrabJoint() {
 		if (jointUnderMouse == null) return;
 		jointGrabbed = jointUnderMouse;
 		jointGrabbedOffset = jointGrabbed.Position - Simulation.MousePosition;
 	}
 	
 	// Attempt to release joint
-	private void AttemptReleaseJoint() {
+	public void AttemptReleaseJoint() {
 		jointGrabbed = null;
 	}
 
 	// Attempt to select connection
-	private void AttemptSelectConnection() {
+	public void AttemptSelectConnection() {
 		if (connectionUnderMouse != null) {
 			connectionSelected = connectionUnderMouse;
 			overlay.Update();
@@ -181,7 +125,7 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Insert start
-	private void AttemptInsertStart() {
+	public void AttemptInsertStart() {
 		// Return if something is already happening
 		if (connectionSelected != null) return;
 
@@ -194,7 +138,7 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Insert middle
-	private void AttemptInsertMiddle() {
+	public void AttemptInsertMiddle() {
 		// Check if there is a joint at mouse position
 		Joint jointToConnect = jointUnderMouse;
 		
@@ -211,7 +155,7 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Insert end
-	private void AttemptInsertEnd() {
+	public void AttemptInsertEnd() {
 		// Check if there is a connection being created
 		if (connectionInserting == null) return;
 
@@ -229,7 +173,7 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Attempt to cut a connection
-	private void AttemptConnectionCut() {
+	public void AttemptConnectionCut() {
 		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
 			Connection connection = cloth.connections[index];
 			if (connection.CollidesWithPoint(Simulation.MousePosition, ConnectionDestroyTolerance)) {
@@ -239,7 +183,7 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Attempt to cut a joint
-	private void AttemptJointCut() {
+	public void AttemptJointCut() {
 		for (int index = cloth.joints.Count - 1; index >= 0; index--) {
 			Joint joint = cloth.joints[index];
 			if (joint.CollidesWithPoint(Simulation.MousePosition)) {
@@ -249,18 +193,18 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Attempt to flip a joint
-	private void AttemptJointFlip() {
+	public void AttemptJointFlip() {
 		if (jointGrabbed != null) jointGrabbed.isFixed = !jointGrabbed.isFixed;
 		else if (jointUnderMouse != null) jointUnderMouse.isFixed = !jointUnderMouse.isFixed;
 	}
 
 	// Attempt to extend connection
-	private void AttemptConnectionExtend() {
+	public void AttemptConnectionExtend() {
 		if (connectionSelected != null) connectionSelected.desiredLength += 5.0f;
 	}
 
 	// Attempt to shrink connection
-	private void AttemptConnectionShrink() {
+	public void AttemptConnectionShrink() {
 		if (
 			connectionSelected != null
 			&& connectionSelected.desiredLength > 1.0f

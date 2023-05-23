@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://by0rc6566ufxx"]
+[gd_scene load_steps=13 format=3 uid="uid://by0rc6566ufxx"]
 
 [ext_resource type="Script" path="res://Scripts/Simulation.cs" id="1_4fnk0"]
 [ext_resource type="Script" path="res://Scripts/PlaygroundController.cs" id="1_un8fw"]
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="2_1p4le"]
+[ext_resource type="Script" path="res://Scripts/InputHandler.cs" id="3_hxxux"]
 [ext_resource type="Script" path="res://Scripts/ClothEditor.cs" id="3_mdrga"]
 [ext_resource type="Script" path="res://Scripts/Overlay.cs" id="4_0lvcc"]
 [ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Menu Theme.tres" id="4_788g1"]
@@ -41,6 +42,10 @@ script = ExtResource("1_4fnk0")
 script = ExtResource("1_un8fw")
 clothEditor = NodePath("../Cloth Editor")
 menu = NodePath("../Menu")
+
+[node name="Input Handler" type="Node" parent="." node_paths=PackedStringArray("clothEditor")]
+script = ExtResource("3_hxxux")
+clothEditor = NodePath("../Cloth Editor")
 
 [node name="Cloth Editor" type="Node2D" parent="." node_paths=PackedStringArray("overlay")]
 script = ExtResource("3_mdrga")
