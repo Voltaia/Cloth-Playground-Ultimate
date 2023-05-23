@@ -55,7 +55,7 @@ public static class Palette
 	// Set random
 	public static int SetRandom() {
 		RandomNumberGenerator rng = new RandomNumberGenerator();
-		int themeIndex = rng.RandiRange(0, Enum.GetNames(typeof(Theme)).Length);
+		int themeIndex = rng.RandiRange(0, Enum.GetNames(typeof(Theme)).Length - 1);
 		Set((Theme)themeIndex);
 		return themeIndex;
 	}
