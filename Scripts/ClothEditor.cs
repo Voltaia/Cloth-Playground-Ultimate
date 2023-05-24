@@ -43,35 +43,9 @@ public partial class ClothEditor : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// Fill in joint under mouse
-		Joint closestJoint = null;
-		float closestJointDistance = Mathf.Inf;
-		foreach (Joint joint in cloth.joints) {
-			float distanceToJoint = Simulation.MousePosition.DistanceTo(joint.Position);
-			if (distanceToJoint < closestJointDistance) {
-				closestJoint = joint;
-				closestJointDistance = distanceToJoint;
-			}
-		}
-		if (closestJoint != null) {
-			if (closestJointDistance < closestJoint.parent.jointRadius * jointDistanceTolerance) jointUnderMouse = closestJoint;
-			else jointUnderMouse = null;
-		}
-
-		// Fill in connection under mouse
-		Connection closestConnection = null;
-		float closestConnectionDistance = Mathf.Inf;
-		foreach (Connection connection in cloth.connections) {
-			float distanceToConnection = Simulation.MousePosition.DistanceTo(connection.GetCenterPosition());
-			if (distanceToConnection < closestConnectionDistance) {
-				closestConnection = connection;
-				closestConnectionDistance = distanceToConnection;
-			}
-		}
-		if (closestConnection != null) {
-			if (closestConnectionDistance < ConnectionDistanceTolerance) connectionUnderMouse = closestConnection;
-			else connectionUnderMouse = null;
-		}
+		// Fill in elements under mouse
+		jointUnderMouse = cloth.GetClosestJoint(Simulation.MousePosition, jointDistanceTolerance);
+		connectionUnderMouse = cloth.GetClosestConnection(Simulation.MousePosition, ConnectionDistanceTolerance);
 
 		// Grabbing logic
 		if (jointGrabbed != null) jointGrabbed.Position = Simulation.MousePosition + jointGrabbedOffset;

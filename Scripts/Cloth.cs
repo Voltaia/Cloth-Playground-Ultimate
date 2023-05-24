@@ -105,6 +105,42 @@ public partial class Cloth : Node2D
 		}
 	}
 
+	// Get closest joint
+	public Joint GetClosestJoint(Vector2 position, float maximumDistance) {
+		Joint closestJoint = null;
+		float closestJointDistance = Mathf.Inf;
+		foreach (Joint joint in joints) {
+			float distanceToJoint = position.DistanceTo(joint.Position);
+			if (distanceToJoint < closestJointDistance) {
+				closestJoint = joint;
+				closestJointDistance = distanceToJoint;
+			}
+		}
+		if (
+			closestJoint != null
+			&& closestJointDistance >= closestJoint.parent.jointRadius * maximumDistance
+		) closestJoint = null;
+		return closestJoint;
+	}
+
+	// Get closest connection
+	public Connection GetClosestConnection(Vector2 position, float maximumDistance) {
+		Connection closestConnection = null;
+		float closestConnectionDistance = Mathf.Inf;
+		foreach (Connection connection in connections) {
+			float distanceToConnection = position.DistanceTo(connection.GetCenterPosition());
+			if (distanceToConnection < closestConnectionDistance) {
+				closestConnection = connection;
+				closestConnectionDistance = distanceToConnection;
+			}
+		}
+		if (
+			closestConnection != null
+			&& closestConnectionDistance >= maximumDistance
+		) closestConnection = null;
+		return closestConnection;
+	}
+
 	// Redraw joints
 	public void RedrawJoints() {
 		foreach (Joint joint in joints) {
