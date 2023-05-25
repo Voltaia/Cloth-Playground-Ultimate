@@ -26,7 +26,7 @@ public partial class Overlay : Control
 	// Settings
 	private const float ToolTransparency = 0.5f;
 	private const int TrailLength = 15;
-	private const float CursorRadius = 5.0f;
+	public const float CursorRadius = 5.0f;
 
 	// On start
 	public override void _Ready() {

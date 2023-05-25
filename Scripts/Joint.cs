@@ -54,4 +54,10 @@ public partial class Joint : Node2D
 		float distance = pointPosition.DistanceTo(Position);
 		return distance < parent.jointRadius;
 	}
+
+	// Collides with circle
+	public bool CollidesWithCircle(Vector2 circlePosition, float circleRadius) {
+		float distance = circlePosition.DistanceTo(Position);
+		return distance < parent.jointRadius + circleRadius;
+	}
 }

@@ -209,7 +209,7 @@ public partial class ClothEditor : Node2D
 	public void AttemptJointCut(Vector2 cutPosition) {
 		for (int index = cloth.joints.Count - 1; index >= 0; index--) {
 			Joint joint = cloth.joints[index];
-			if (joint.CollidesWithPoint(cutPosition)) {
+			if (joint.CollidesWithCircle(cutPosition, Overlay.CursorRadius)) {
 				cloth.RemoveJoint(joint);
 			}
 		}
