@@ -98,6 +98,7 @@ public partial class ClothEditor : Node2D
 		connectionUnderMouse = null;
 		jointGrabbed = null;
 		jointUnderMouse = null;
+		isCutting = false;
 	}
 
 	// Pause simulation
