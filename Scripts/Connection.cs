@@ -92,6 +92,24 @@ public partial class Connection : Node2D
 		return collided;
 	}
 
+	// Checks if a line collides with it
+	public bool CollidesWithLine(Vector2 lineStart, Vector2 lineEnd) {
+		// I don't really know what any of this does
+		// I got it from the internet
+
+		float denominator = ((secondJoint.Position.X - firstJoint.Position.X) * (lineEnd.Y - lineStart.Y)) - ((secondJoint.Position.Y - firstJoint.Position.Y) * (lineEnd.X - lineStart.X));
+		float firstNumerator = ((firstJoint.Position.Y - lineStart.Y) * (lineEnd.X - lineStart.X)) - ((firstJoint.Position.X - lineStart.X) * (lineEnd.Y - lineStart.Y));
+		float secondNumerator = ((firstJoint.Position.Y - lineStart.Y) * (secondJoint.Position.X - firstJoint.Position.X)) - ((firstJoint.Position.X - lineStart.X) * (secondJoint.Position.Y - firstJoint.Position.Y));
+		
+		// Like what do r and s stand for?
+		// Dude, label your variables
+
+		float r = firstNumerator / denominator;
+		float s = secondNumerator / denominator;
+		
+		return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
+	}
+
 	// Re-adjust length
 	public void ReadjustLength() {
 		desiredLength = (firstJoint.Position - secondJoint.Position).Length();

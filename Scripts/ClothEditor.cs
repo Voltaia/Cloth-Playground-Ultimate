@@ -25,6 +25,7 @@ public partial class ClothEditor : Node2D
 	public Joint jointUnderMouse;
 	public Connection connectionUnderMouse;
 	public Connection connectionSelected;
+	private Vector2 lastMousePosition;
 	private float jointDistanceTolerance = JointDistanceToleranceDefault;
 
 	// Properties
@@ -39,6 +40,7 @@ public partial class ClothEditor : Node2D
 	private const float JointDistanceToleranceCreate = 1.5f;
 	private const float ConnectionDistanceTolerance = 45.0f;
 	private const float ConnectionDestroyTolerance = 2.0f;
+	private const float CutCollisionCheckDivisor = 15.0f;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -52,12 +54,16 @@ public partial class ClothEditor : Node2D
 
 		// Cutting logic
 		if (isCutting) {
-			AttemptConnectionCut();
-			AttemptJointCut();
+			AttemptConnectionCut(Simulation.MousePosition);
+			AttemptConnectionCut(lastMousePosition, Simulation.MousePosition);
+			AttemptJointCut(Simulation.MousePosition);
 		}
 
 		// Queue redraw
 		QueueRedraw();
+
+		// Fill in last mouse position
+		lastMousePosition = Simulation.MousePosition;
 	}
 
 	// Set edit mode
@@ -179,20 +185,30 @@ public partial class ClothEditor : Node2D
 	}
 
 	// Attempt to cut a connection
-	public void AttemptConnectionCut() {
+	public void AttemptConnectionCut(Vector2 cutPosition) {
 		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
 			Connection connection = cloth.connections[index];
-			if (connection.CollidesWithPoint(Simulation.MousePosition, ConnectionDestroyTolerance)) {
+			if (connection.CollidesWithPoint(cutPosition, ConnectionDestroyTolerance)) {
+				cloth.RemoveConnection(connection);
+			}
+		}
+	}
+
+	// An override
+	public void AttemptConnectionCut(Vector2 startCut, Vector2 endCut) {
+		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
+			Connection connection = cloth.connections[index];
+			if (connection.CollidesWithLine(startCut, endCut)) {
 				cloth.RemoveConnection(connection);
 			}
 		}
 	}
 
 	// Attempt to cut a joint
-	public void AttemptJointCut() {
+	public void AttemptJointCut(Vector2 cutPosition) {
 		for (int index = cloth.joints.Count - 1; index >= 0; index--) {
 			Joint joint = cloth.joints[index];
-			if (joint.CollidesWithPoint(Simulation.MousePosition)) {
+			if (joint.CollidesWithPoint(cutPosition)) {
 				cloth.RemoveJoint(joint);
 			}
 		}
