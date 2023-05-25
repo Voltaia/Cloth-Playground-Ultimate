@@ -15,9 +15,10 @@ public static class Palette
 	public enum Theme {
 		Marine,
 		Crimson,
-		Grayscale,
+		Monochrome,
 		Forest,
-		Candy
+		Candy,
+		Sunset
 	}
 
 	// Set palette
@@ -37,7 +38,7 @@ public static class Palette
 				connectionColor = new Color("F05C79");
 				break;
 
-			case Theme.Grayscale:
+			case Theme.Monochrome:
 				backgroundColor = new Color("000000");
 				fixedJointColor = new Color("222222");
 				jointColor = new Color("666666");
@@ -56,6 +57,13 @@ public static class Palette
 				fixedJointColor = new Color("793a80");
 				jointColor = new Color("e86a73");
 				connectionColor = new Color("fad6b8");
+				break;
+
+			case Theme.Sunset:
+				backgroundColor = new Color("3e2731");
+				fixedJointColor = new Color("b86f50");
+				jointColor = new Color("e4a672");
+				connectionColor = new Color("ead4aa");
 				break;
 		}
 	}

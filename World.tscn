@@ -389,7 +389,7 @@ custom_minimum_size = Vector2(125, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Show FPS")
 focus_neighbor_bottom = NodePath("../../Back")
-item_count = 5
+item_count = 6
 selected = 0
 popup/item_0/text = "Marine"
 popup/item_0/id = 0
@@ -401,6 +401,8 @@ popup/item_3/text = "Forest"
 popup/item_3/id = 3
 popup/item_4/text = "Candy"
 popup/item_4/id = 4
+popup/item_5/text = "Sunset"
+popup/item_5/id = 5
 
 [node name="Back" type="Button" parent="Menu/Menu Panel/Edit Properties Menu"]
 custom_minimum_size = Vector2(0, 35)

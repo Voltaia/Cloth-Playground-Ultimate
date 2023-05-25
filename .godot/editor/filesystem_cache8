@@ -1,16 +1,16 @@
 2a60927148abd1d33b818b535e306557
-::res://::1684965766
+::res://::1685057302
 icon.svg::CompressedTexture2D::7113119411859120856::1677977129::1679527472::1::::<><>::
 Menu Theme.tres::Theme::8475817082081397983::1683667751::0::1::::<><>::
-World.tscn::PackedScene::4123599811340916521::1684890477::0::1::::<><>::res://Scripts/Simulation.cs<>res://Scripts/PlaygroundController.cs<>res://Scripts/Menu.cs<>res://Scripts/InputHandler.cs<>res://Scripts/ClothEditor.cs<>res://Scripts/Overlay.cs<>uid://ds00p7f7j24nj
-::res://Scripts/::1684870990
-Cloth.cs::CSharpScript::-1::1684700078::0::1::::<><>::
-ClothEditor.cs::CSharpScript::-1::1684871285::0::1::::<><>::
-Connection.cs::CSharpScript::-1::1684864446::0::1::::<><>::
-InputHandler.cs::CSharpScript::-1::1684870056::0::1::::<><>::
-Joint.cs::CSharpScript::-1::1684646778::0::1::::<><>::
+World.tscn::PackedScene::4123599811340916521::1685057168::0::1::::<><>::res://Scripts/Simulation.cs<>res://Scripts/PlaygroundController.cs<>res://Scripts/Menu.cs<>res://Scripts/InputHandler.cs<>res://Scripts/ClothEditor.cs<>res://Scripts/Overlay.cs<>uid://ds00p7f7j24nj
+::res://Scripts/::1684966191
+Cloth.cs::CSharpScript::-1::1684967062::0::1::::<><>::
+ClothEditor.cs::CSharpScript::-1::1685046359::0::1::::<><>::
+Connection.cs::CSharpScript::-1::1684975394::0::1::::<><>::
+InputHandler.cs::CSharpScript::-1::1684976188::0::1::::<><>::
+Joint.cs::CSharpScript::-1::1685046322::0::1::::<><>::
 Menu.cs::CSharpScript::-1::1684791622::0::1::::<><>::
-Overlay.cs::CSharpScript::-1::1684870304::0::1::::<><>::
-Palette.cs::CSharpScript::-1::1684885574::0::1::::<><>::
+Overlay.cs::CSharpScript::-1::1685046347::0::1::::<><>::
+Palette.cs::CSharpScript::-1::1685057257::0::1::::<><>::
 PlaygroundController.cs::CSharpScript::-1::1684871094::0::1::::<><>::
 Simulation.cs::CSharpScript::-1::1684791171::0::1::::<><>::
