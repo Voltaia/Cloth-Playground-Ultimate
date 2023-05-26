@@ -18,7 +18,6 @@ public partial class Cloth : Node2D
 	private int jointSeparation = 50;
 
 	// Settings
-	private const int SimulationIterations = 5;
 	private const float DisposalDistance = 10000;
 
 	// Constructor
@@ -52,11 +51,7 @@ public partial class Cloth : Node2D
 		}
 
 		// Simulate connections
-		foreach (Connection connection in connections)
-			for (int iteration = 0; iteration < SimulationIterations; iteration++)
-				connection.Simulate(delta);
-
-		GD.Print(connections.Count);
+		foreach (Connection connection in connections) connection.Simulate(delta);
 	}
 
 	// Add a connection

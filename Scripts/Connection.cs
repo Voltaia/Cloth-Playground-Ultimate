@@ -12,7 +12,7 @@ public partial class Connection : Node2D
 
 	// Settings
 	public const float DrawThickness = 5.0f;
-	private const int SimulationIterations = 10;
+	private const int SimulationIterations = 5;
 	private const float StressVisualRange = 20.0f;
 
 	// Properties
@@ -38,19 +38,21 @@ public partial class Connection : Node2D
 		QueueRedraw();
 
 		// Do not simulate if parent is paused (must go after queue redraw)
-		if (parent.simulationPaused) return;
+		if (!parent.simulationPaused) {
+			for (int iteration = 0; iteration < SimulationIterations; iteration++) {
+				// Get connection values
+				Vector2 center = GetCenterPosition();
+				Vector2 direction = (firstJoint.Position - secondJoint.Position).Normalized();
 
-		// Get connection values
-		Vector2 center = GetCenterPosition();
-		Vector2 direction = (firstJoint.Position - secondJoint.Position).Normalized();
+				// Simulate first node
+				if (!firstJoint.isFixed)
+					firstJoint.Position = center + direction * desiredLength / 2;
 
-		// Simulate first node
-		if (!firstJoint.isFixed)
-			firstJoint.Position = center + direction * desiredLength / 2;
-
-		// Simulate second node
-		if (!secondJoint.isFixed)
-			secondJoint.Position = center - direction * desiredLength / 2;
+				// Simulate second node
+				if (!secondJoint.isFixed)
+					secondJoint.Position = center - direction * desiredLength / 2;
+			}
+		}
 	}
 
 	// Draw
