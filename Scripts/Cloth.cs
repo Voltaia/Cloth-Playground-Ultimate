@@ -19,6 +19,7 @@ public partial class Cloth : Node2D
 
 	// Settings
 	private const int SimulationIterations = 5;
+	private const float DisposalDistance = 10000;
 
 	// Constructor
 	public Cloth(GenerationSettings generationSettings) {
@@ -41,12 +42,21 @@ public partial class Cloth : Node2D
 	// Every frame
 	public override void _Process(double delta) {
 		// Simulate joints
-		foreach (Joint joint in joints) joint.Simulate(delta);
+		for (int index = joints.Count - 1; index >= 0; index--) {
+			// Simulate
+			joints[index].Simulate(delta);
+
+			// Dispose of
+			float distanceFromMouse = joints[index].Position.DistanceTo(Simulation.MousePosition);
+			if (distanceFromMouse > DisposalDistance) RemoveJoint(joints[index]);
+		}
 
 		// Simulate connections
 		foreach (Connection connection in connections)
 			for (int iteration = 0; iteration < SimulationIterations; iteration++)
 				connection.Simulate(delta);
+
+		GD.Print(connections.Count);
 	}
 
 	// Add a connection
