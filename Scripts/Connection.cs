@@ -9,11 +9,13 @@ public partial class Connection : Node2D
 	public Joint secondJoint;
 	public float desiredLength;
 	public Cloth parent;
+	private float stress;
 
 	// Settings
 	public const float DrawThickness = 5.0f;
 	private const int SimulationIterations = 5;
-	private const float StressVisualRange = 20.0f;
+	private const float StressRange = 25.0f;
+	private const float StressBreakMultiplier = 5.0f;
 
 	// Properties
 	public float actualLength {
@@ -34,6 +36,9 @@ public partial class Connection : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public void Simulate(double delta)
 	{
+		// Calculate stress
+		stress = (actualLength - desiredLength) / StressRange;
+
 		// Redraw
 		QueueRedraw();
 
@@ -53,6 +58,9 @@ public partial class Connection : Node2D
 					secondJoint.Position = center - direction * desiredLength / 2;
 			}
 		}
+
+		// Remove if stress is broken
+		if (parent.breakUnderStress && stress >= StressBreakMultiplier) parent.RemoveConnection(this);
 	}
 
 	// Draw
@@ -60,10 +68,9 @@ public partial class Connection : Node2D
 		// Color to draw
 		Color color = Palette.connectionColor;
 		if (parent.visualizeStress) {
-			float stress = (actualLength - desiredLength) / StressVisualRange;
-			stress = Mathf.Clamp(stress, 0, 1);
-			float inverseStress = 1.0f - stress;
-			color = new Color(stress, inverseStress, 0.0f);
+			float stressClamped = Mathf.Clamp(stress, 0, 1);
+			float inverseStressClamped = 1.0f - stress;
+			color = new Color(stressClamped, inverseStressClamped, 0.0f);
 		}
 		
 		// Draw self

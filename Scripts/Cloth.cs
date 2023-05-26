@@ -14,6 +14,7 @@ public partial class Cloth : Node2D
 	public Random rng = new Random();
 	public int jointRadius = 10;
 	public bool drawJoints = false;
+	public bool breakUnderStress = false;
 	private GenerationSettings generationSettings;
 	private int jointSeparation = 50;
 
@@ -51,7 +52,10 @@ public partial class Cloth : Node2D
 		}
 
 		// Simulate connections
-		foreach (Connection connection in connections) connection.Simulate(delta);
+		for (int index = connections.Count - 1; index >= 0; index--) {
+			// Simulate
+			connections[index].Simulate(delta);
+		}
 	}
 
 	// Add a connection

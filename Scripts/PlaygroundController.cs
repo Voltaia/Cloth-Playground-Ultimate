@@ -18,6 +18,7 @@ public partial class PlaygroundController : Node2D
 	public bool visualizeStress = false;
 	public bool drawJoints = true;
 	public static float gravity = DefaultGravity;
+	public bool breakUnderStress = false;
 	private Cloth.GenerationSettings generationSettings = new Cloth.GenerationSettings();
 	private bool randomizePalette = true;
 
@@ -97,6 +98,12 @@ public partial class PlaygroundController : Node2D
 		RenderingServer.SetDefaultClearColor(Palette.backgroundColor);
 	}
 
+	// Break under stress
+	public void BreakUnderStress(bool breakUnderStress) {
+		this.breakUnderStress = breakUnderStress;
+		cloth.breakUnderStress = breakUnderStress;
+	}
+
 	// Create new playground
 	public void NewWindow() {
 		// Window settings
@@ -135,6 +142,7 @@ public partial class PlaygroundController : Node2D
 		else cloth = new Cloth();
 		cloth.visualizeStress = visualizeStress;
 		cloth.drawJoints = drawJoints;
+		cloth.breakUnderStress = breakUnderStress;
 		AddChild(cloth);
 
 		// Attach cloth editor
