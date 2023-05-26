@@ -13,6 +13,7 @@ public partial class Cloth : Node2D
 	public bool visualizeStress = false;
 	public Random rng = new Random();
 	public int jointRadius = 10;
+	public bool drawJoints = false;
 	private GenerationSettings generationSettings;
 	private int jointSeparation = 50;
 

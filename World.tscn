@@ -372,6 +372,17 @@ button_pressed = true
 text = "Show FPS:"
 icon_alignment = 1
 
+[node name="Draw Joints" type="CheckButton" parent="Menu/Menu Panel/Edit Properties Menu"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../Tool Tips")
+focus_neighbor_bottom = NodePath("../Palette/OptionButton")
+button_pressed = true
+text = "Draw Joints:"
+icon_alignment = 1
+
 [node name="Palette" type="HBoxContainer" parent="Menu/Menu Panel/Edit Properties Menu"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
@@ -602,6 +613,7 @@ flat = true
 [connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/ZeroG" to="Playground Controller" method="SetZeroG"]
 [connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Tool Tips" to="Overlay" method="ToggleToolTips"]
 [connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Show FPS" to="Overlay" method="ToggleFPS"]
+[connection signal="toggled" from="Menu/Menu Panel/Edit Properties Menu/Draw Joints" to="Playground Controller" method="DrawJoints"]
 [connection signal="item_selected" from="Menu/Menu Panel/Edit Properties Menu/Palette/OptionButton" to="Playground Controller" method="SetPalette"]
 [connection signal="pressed" from="Menu/Menu Panel/Edit Properties Menu/Back" to="Menu" method="EnterPauseMenu"]
 [connection signal="toggled" from="Menu/Menu Panel/New Cloth Menu/Rigid" to="Playground Controller" method="SetRigid"]

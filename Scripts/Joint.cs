@@ -45,6 +45,7 @@ public partial class Joint : Node2D
 	// Draw
 	public override void _Draw()
 	{
+		if (!parent.drawJoints) return;
 		if (isFixed) DrawCircle(Vector2.Zero, parent.jointRadius, Palette.fixedJointColor);
 		else DrawCircle(Vector2.Zero, parent.jointRadius, Palette.jointColor);
 	}

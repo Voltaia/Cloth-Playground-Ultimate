@@ -16,6 +16,7 @@ public partial class PlaygroundController : Node2D
 	public int height = 750;
 	public bool startEmpty = false;
 	public bool visualizeStress = false;
+	public bool drawJoints = true;
 	public static float gravity = DefaultGravity;
 	private Cloth.GenerationSettings generationSettings = new Cloth.GenerationSettings();
 	private bool randomizePalette = true;
@@ -76,6 +77,13 @@ public partial class PlaygroundController : Node2D
 		cloth.RedrawConnections();
 	}
 
+	// Hide joints
+	public void DrawJoints(bool drawJoints) {
+		this.drawJoints = drawJoints;
+		cloth.drawJoints = drawJoints;
+		cloth.RedrawJoints();
+	}
+
 	// Set start empty
 	public void SetStartEmpty(bool startEmpty) {
 		this.startEmpty = startEmpty;
@@ -126,6 +134,7 @@ public partial class PlaygroundController : Node2D
 		if (!isEmpty) cloth = new Cloth(generationSettings);
 		else cloth = new Cloth();
 		cloth.visualizeStress = visualizeStress;
+		cloth.drawJoints = drawJoints;
 		AddChild(cloth);
 
 		// Attach cloth editor
