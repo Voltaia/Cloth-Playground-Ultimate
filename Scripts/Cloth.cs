@@ -98,12 +98,6 @@ public partial class Cloth : Node2D
 		return newJoint;
 	}
 
-	// Remove connection
-	public void RemoveConnection(Connection connection) {
-		connection.QueueFree();
-		connections.Remove(connection);
-	}
-
 	// Remove connection at
 	public void RemoveConnectionAt(int connectionIndex) {
 		connections[connectionIndex].QueueFree();
