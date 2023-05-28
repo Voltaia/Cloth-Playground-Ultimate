@@ -9,6 +9,7 @@ public partial class Joint : Node2D
 	// Variables
 	public Vector2 previousPosition;
 	public Cloth parent;
+	public bool hasBeenRemoved = false;
 	private bool _isFixed;
 	public bool isFixed {
 		get { return _isFixed; }

@@ -54,11 +54,23 @@ public partial class Cloth : Node2D
 
 		// Simulate connections
 		for (int index = connections.Count - 1; index >= 0; index--) {
+			// Get reference
+			Connection connection = connections[index];
+
+			// Dispose of
+			if (
+				connection.firstJoint.hasBeenRemoved
+				|| connection.secondJoint.hasBeenRemoved
+			) {
+				RemoveConnectionAt(index);
+				continue;
+			}
+
 			// Simulate
-			connections[index].Simulate(delta);
+			connection.Simulate(delta);
 
 			// Check stress
-			if (breakUnderStress && connections[index].stress >= StressBreakMultiplier) {
+			if (breakUnderStress && connection.stress >= StressBreakMultiplier) {
 				RemoveConnectionAt(index);
 				continue;
 			}
@@ -109,16 +121,10 @@ public partial class Cloth : Node2D
 		// Get reference
 		Joint joint = joints[jointIndex];
 
-		// Remove connections
-		for (int index = connections.Count - 1; index >= 0; index--) {
-			Connection connection = connections[index];
-			if (joint == connection.firstJoint) RemoveConnectionAt(index);
-			else if (joint == connection.secondJoint) RemoveConnectionAt(index);
-		}
-
 		// Remove self
 		joint.QueueFree();
-		joints.Remove(joint);
+		joint.hasBeenRemoved = true;
+		joints.RemoveAt(jointIndex);
 	}
 
 	// Redraw connections
