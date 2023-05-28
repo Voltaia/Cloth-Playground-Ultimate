@@ -190,7 +190,7 @@ public partial class ClothEditor : Node2D
 		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
 			Connection connection = cloth.connections[index];
 			if (connection.CollidesWithPoint(cutPosition, ConnectionDestroyTolerance)) {
-				cloth.RemoveConnection(connection);
+				cloth.RemoveConnectionAt(index);
 			}
 		}
 	}
@@ -200,7 +200,7 @@ public partial class ClothEditor : Node2D
 		for (int index = cloth.connections.Count - 1; index >= 0; index--) {
 			Connection connection = cloth.connections[index];
 			if (connection.CollidesWithLine(startCut, endCut)) {
-				cloth.RemoveConnection(connection);
+				cloth.RemoveConnectionAt(index);
 			}
 		}
 	}

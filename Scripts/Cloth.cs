@@ -20,6 +20,7 @@ public partial class Cloth : Node2D
 
 	// Settings
 	private const float DisposalDistance = 10000;
+	private const float StressBreakMultiplier = 5.0f;
 
 	// Constructor
 	public Cloth(GenerationSettings generationSettings) {
@@ -55,6 +56,9 @@ public partial class Cloth : Node2D
 		for (int index = connections.Count - 1; index >= 0; index--) {
 			// Simulate
 			connections[index].Simulate(delta);
+
+			// Check stress
+			if (breakUnderStress && connections[index].stress >= StressBreakMultiplier) RemoveConnectionAt(index);
 		}
 	}
 
@@ -97,13 +101,20 @@ public partial class Cloth : Node2D
 		connections.Remove(connection);
 	}
 
+	// Remove connection at
+	public void RemoveConnectionAt(int index) {
+		connections[index].QueueFree();
+		connections.RemoveAt(index);
+	}
+
 	// Remove joint
 	public void RemoveJoint(Joint joint) {
 		for (int index = connections.Count - 1; index >= 0; index--) {
 			Connection connection = connections[index];
-			if (joint == connection.firstJoint) RemoveConnection(connection);
-			else if (joint == connection.secondJoint) RemoveConnection(connection);
+			if (joint == connection.firstJoint) RemoveConnectionAt(index);
+			else if (joint == connection.secondJoint) RemoveConnectionAt(index);
 		}
+
 		joint.QueueFree();
 		joints.Remove(joint);
 	}

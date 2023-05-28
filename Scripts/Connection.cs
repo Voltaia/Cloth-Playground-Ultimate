@@ -9,13 +9,12 @@ public partial class Connection : Node2D
 	public Joint secondJoint;
 	public float desiredLength;
 	public Cloth parent;
-	private float stress;
+	public float stress;
 
 	// Settings
 	public const float DrawThickness = 5.0f;
 	private const int SimulationIterations = 5;
 	private const float StressRange = 25.0f;
-	private const float StressBreakMultiplier = 5.0f;
 
 	// Properties
 	public float actualLength {
@@ -25,12 +24,19 @@ public partial class Connection : Node2D
 	// Constructor
 	public Connection(Cloth parent, Joint firstJoint, Joint secondJoint)
 	{
+		// Set fields
 		this.parent = parent;
 		this.firstJoint = firstJoint;
 		this.secondJoint = secondJoint;
-		if (firstJoint != null && secondJoint != null) ReadjustLength();
+		
+		// Set node properties
 		Name = "Connection";
 		ZIndex = -2;
+
+		// Ensure stable connections
+		bool firstJointExists = firstJoint != null;
+		bool secondJointExists = secondJoint != null;
+		if (firstJointExists && secondJointExists) ReadjustLength();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,9 +64,6 @@ public partial class Connection : Node2D
 					secondJoint.Position = center - direction * desiredLength / 2;
 			}
 		}
-
-		// Remove if stress is broken
-		if (parent.breakUnderStress && stress >= StressBreakMultiplier) parent.RemoveConnection(this);
 	}
 
 	// Draw
