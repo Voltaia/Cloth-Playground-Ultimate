@@ -49,7 +49,7 @@ public partial class Cloth : Node2D
 
 			// Dispose of
 			float distanceFromMouse = joints[index].Position.DistanceTo(Simulation.MousePosition);
-			if (distanceFromMouse > DisposalDistance) RemoveJoint(joints[index]);
+			if (distanceFromMouse > DisposalDistance) RemoveJointAt(index);
 		}
 
 		// Simulate connections
@@ -58,7 +58,10 @@ public partial class Cloth : Node2D
 			connections[index].Simulate(delta);
 
 			// Check stress
-			if (breakUnderStress && connections[index].stress >= StressBreakMultiplier) RemoveConnectionAt(index);
+			if (breakUnderStress && connections[index].stress >= StressBreakMultiplier) {
+				RemoveConnectionAt(index);
+				continue;
+			}
 		}
 	}
 
@@ -102,19 +105,24 @@ public partial class Cloth : Node2D
 	}
 
 	// Remove connection at
-	public void RemoveConnectionAt(int index) {
-		connections[index].QueueFree();
-		connections.RemoveAt(index);
+	public void RemoveConnectionAt(int connectionIndex) {
+		connections[connectionIndex].QueueFree();
+		connections.RemoveAt(connectionIndex);
 	}
 
 	// Remove joint
-	public void RemoveJoint(Joint joint) {
+	public void RemoveJointAt(int jointIndex) {
+		// Get reference
+		Joint joint = joints[jointIndex];
+
+		// Remove connections
 		for (int index = connections.Count - 1; index >= 0; index--) {
 			Connection connection = connections[index];
 			if (joint == connection.firstJoint) RemoveConnectionAt(index);
 			else if (joint == connection.secondJoint) RemoveConnectionAt(index);
 		}
 
+		// Remove self
 		joint.QueueFree();
 		joints.Remove(joint);
 	}

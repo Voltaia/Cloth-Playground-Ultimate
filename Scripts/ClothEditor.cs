@@ -210,7 +210,7 @@ public partial class ClothEditor : Node2D
 		for (int index = cloth.joints.Count - 1; index >= 0; index--) {
 			Joint joint = cloth.joints[index];
 			if (joint.CollidesWithCircle(cutPosition, Overlay.CursorRadius)) {
-				cloth.RemoveJoint(joint);
+				cloth.RemoveJointAt(index);
 			}
 		}
 	}
