@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://by0rc6566ufxx"]
+[gd_scene load_steps=14 format=3 uid="uid://by0rc6566ufxx"]
 
 [ext_resource type="Script" path="res://Scripts/Simulation.cs" id="1_4fnk0"]
 [ext_resource type="Script" path="res://Scripts/PlaygroundController.cs" id="1_un8fw"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/ClothEditor.cs" id="3_mdrga"]
 [ext_resource type="Script" path="res://Scripts/Overlay.cs" id="4_0lvcc"]
 [ext_resource type="Theme" uid="uid://ds00p7f7j24nj" path="res://Menu Theme.tres" id="4_788g1"]
+[ext_resource type="Script" path="res://Scripts/FixFocusHighlight.cs" id="8_52p1t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2s0s4"]
 content_margin_left = 5.0
@@ -246,6 +247,7 @@ offset_right = 60.5
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+script = ExtResource("8_52p1t")
 
 [node name="Title" type="Label" parent="Menu/Menu Panel/Pause Menu"]
 layout_mode = 2
@@ -323,6 +325,7 @@ offset_right = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+script = ExtResource("8_52p1t")
 
 [node name="Title" type="Label" parent="Menu/Menu Panel/Edit Properties Menu"]
 layout_mode = 2
@@ -445,6 +448,7 @@ offset_right = 129.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+script = ExtResource("8_52p1t")
 
 [node name="Title" type="Label" parent="Menu/Menu Panel/New Cloth Menu"]
 layout_mode = 2
@@ -527,6 +531,7 @@ offset_right = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+script = ExtResource("8_52p1t")
 
 [node name="Title" type="Label" parent="Menu/Menu Panel/New Window Menu"]
 layout_mode = 2
