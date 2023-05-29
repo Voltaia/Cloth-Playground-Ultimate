@@ -242,20 +242,22 @@ public partial class Cloth : Node2D
 			}
 		}
 
-		// Anchor some joints
+		// Anchor end joints
+		jointArray[0, 0].isFixed = true;
+		jointArray[horizontalCount - 1, 0].isFixed = true;
+
+		// Anchor center joints
+		int maxIndex = horizontalCount - 1;
 		if (horizontalCount % 2 == 0) {
-			jointArray[0, 0].isFixed = true;
-			jointArray[Mathf.FloorToInt(horizontalCount * 0.2f), 0].isFixed = true;
-			jointArray[Mathf.FloorToInt(horizontalCount * 0.4f), 0].isFixed = true;
-			jointArray[Mathf.FloorToInt(horizontalCount * 0.6f), 0].isFixed = true;
-			jointArray[Mathf.FloorToInt(horizontalCount * 0.8f), 0].isFixed = true;
-			jointArray[horizontalCount - 1, 0].isFixed = true;
+			jointArray[Mathf.RoundToInt(maxIndex * 0.2f), 0].isFixed = true;
+			jointArray[Mathf.RoundToInt(maxIndex * 0.4f), 0].isFixed = true;
+			jointArray[Mathf.RoundToInt(maxIndex * 0.6f), 0].isFixed = true;
+			jointArray[Mathf.RoundToInt(maxIndex * 0.8f), 0].isFixed = true;
+			
 		} else {
-			jointArray[0, 0].isFixed = true;
-			jointArray[Mathf.FloorToInt(horizontalCount * 0.25f), 0].isFixed = true;
-			jointArray[horizontalCount / 2, 0].isFixed = true;
-			jointArray[Mathf.FloorToInt(horizontalCount * 0.75f), 0].isFixed = true;
-			jointArray[horizontalCount - 1, 0].isFixed = true;
+			jointArray[Mathf.RoundToInt(maxIndex * 0.25f), 0].isFixed = true;
+			jointArray[Mathf.RoundToInt(maxIndex * 0.5f), 0].isFixed = true;
+			jointArray[Mathf.RoundToInt(maxIndex * 0.75f), 0].isFixed = true;
 		}
 	}
 
