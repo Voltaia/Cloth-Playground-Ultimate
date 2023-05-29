@@ -64,7 +64,7 @@ public partial class Overlay : Control
 			&& (clothEditor.jointUnderMouse != null
 			|| clothEditor.jointGrabbed != null)
 		) {
-			Vector2 positionToDrawTo = clothEditor.jointGrabbed == null ? clothEditor.jointUnderMouse.Position : clothEditor.jointGrabbed.Position;
+			Vector2 positionToDrawTo = clothEditor.jointGrabbed == null ? clothEditor.jointUnderMouse.position : clothEditor.jointGrabbed.position;
 			DrawLine(
 				Simulation.MousePosition,
 				positionToDrawTo,
@@ -80,7 +80,7 @@ public partial class Overlay : Control
 				// Draw start connection indicator
 				if (clothEditor.jointUnderMouse != null && clothEditor.connectionSelected == null) {
 					DrawCircle(
-						clothEditor.jointUnderMouse.Position,
+						clothEditor.jointUnderMouse.position,
 						clothEditor.jointUnderMouse.parent.jointRadius * 1.5f,
 						new Color(Colors.Green, ToolTransparency)
 					);
@@ -93,8 +93,8 @@ public partial class Overlay : Control
 					if (clothEditor.connectionSelected != null) {
 						attachedPosition = clothEditor.connectionSelected.GetCenterPosition();
 						DrawLine(
-							clothEditor.connectionSelected.firstJoint.Position,
-							clothEditor.connectionSelected.secondJoint.Position,
+							clothEditor.connectionSelected.firstJoint.position,
+							clothEditor.connectionSelected.secondJoint.position,
 							new Color(toolColor, ToolTransparency),
 							2.5f
 						);
@@ -111,7 +111,7 @@ public partial class Overlay : Control
 			} else {
 				// Draw inserting new connection
 				DrawLine(
-					clothEditor.connectionInserting.firstJoint.Position,
+					clothEditor.connectionInserting.firstJoint.position,
 					Simulation.MousePosition,
 					new Color(Colors.Green, ToolTransparency),
 					Connection.DrawThickness
@@ -123,7 +123,7 @@ public partial class Overlay : Control
 					&& clothEditor.jointUnderMouse != clothEditor.connectionInserting.firstJoint
 				) {
 					DrawCircle(
-						clothEditor.jointUnderMouse.Position,
+						clothEditor.jointUnderMouse.position,
 						clothEditor.jointUnderMouse.parent.jointRadius * 1.5f,
 						new Color(Colors.Green, ToolTransparency)
 					);

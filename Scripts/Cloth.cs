@@ -13,7 +13,7 @@ public partial class Cloth : Node2D
 	public bool visualizeStress = false;
 	public Random rng = new Random();
 	public int jointRadius = 10;
-	public bool drawJoints = false;
+	public bool drawJoints = true;
 	public bool breakUnderStress = false;
 	private GenerationSettings generationSettings;
 	private int jointSeparation = 50;
@@ -48,7 +48,7 @@ public partial class Cloth : Node2D
 			joints[index].Simulate(delta);
 
 			// Dispose of
-			float distanceFromMouse = joints[index].Position.DistanceTo(Simulation.MousePosition);
+			float distanceFromMouse = joints[index].position.DistanceTo(Simulation.MousePosition);
 			if (distanceFromMouse > DisposalDistance) RemoveJointAt(index);
 		}
 
@@ -75,6 +75,40 @@ public partial class Cloth : Node2D
 				continue;
 			}
 		}
+
+		// Queue redraw
+		QueueRedraw();
+	}
+
+	// Draw
+	public override void _Draw() {
+		// Draw connections
+		Color conectionColor = Palette.connectionColor;
+		foreach (Connection connection in connections) {
+			// Get stress
+			if (visualizeStress) {
+				float stressClamped = Mathf.Clamp(connection.stress, 0, 1);
+				float inverseStressClamped = 1.0f - connection.stress;
+				conectionColor = new Color(stressClamped, inverseStressClamped, 0.0f);
+			}
+			
+			// Draw self
+			DrawLine(
+				connection.firstJoint.position,
+				connection.secondJoint.position,
+				conectionColor,
+				Connection.DrawThickness
+			);
+		}
+
+		// Draw joints
+		if (drawJoints) {
+			foreach (Joint joint in joints) {
+				// Decide to draw fixed or loose colors
+				if (joint.isFixed) DrawCircle(joint.position, jointRadius, Palette.fixedJointColor);
+				else DrawCircle(joint.position, jointRadius, Palette.jointColor);
+			}
+		}
 	}
 
 	// Add a connection
@@ -89,9 +123,6 @@ public partial class Cloth : Node2D
 		int listPosition = rng.Next(0, connections.Count);
 		connections.Insert(listPosition, connection);
 
-		// Add to simulation
-		AddChild(connection);
-
 		// Return connection
 		return connection;
 	}
@@ -103,16 +134,12 @@ public partial class Cloth : Node2D
 		int listPosition = rng.Next(0, joints.Count);
 		joints.Insert(listPosition, newJoint);
 
-		// Put into tree
-		AddChild(newJoint);
-
 		// Return joint
 		return newJoint;
 	}
 
 	// Remove connection at
 	public void RemoveConnectionAt(int connectionIndex) {
-		connections[connectionIndex].QueueFree();
 		connections.RemoveAt(connectionIndex);
 	}
 
@@ -122,16 +149,8 @@ public partial class Cloth : Node2D
 		Joint joint = joints[jointIndex];
 
 		// Remove self
-		joint.QueueFree();
 		joint.hasBeenRemoved = true;
 		joints.RemoveAt(jointIndex);
-	}
-
-	// Redraw connections
-	public void RedrawConnections() {
-		foreach (Connection connection in connections) {
-			connection.QueueRedraw();
-		}
 	}
 
 	// Get closest joint
@@ -139,7 +158,7 @@ public partial class Cloth : Node2D
 		Joint closestJoint = null;
 		float closestJointDistance = Mathf.Inf;
 		foreach (Joint joint in joints) {
-			float distanceToJoint = position.DistanceTo(joint.Position);
+			float distanceToJoint = position.DistanceTo(joint.position);
 			if (distanceToJoint < closestJointDistance) {
 				closestJoint = joint;
 				closestJointDistance = distanceToJoint;
@@ -168,13 +187,6 @@ public partial class Cloth : Node2D
 			&& closestConnectionDistance >= maximumDistance
 		) closestConnection = null;
 		return closestConnection;
-	}
-
-	// Redraw joints
-	public void RedrawJoints() {
-		foreach (Joint joint in joints) {
-			joint.QueueRedraw();
-		}
 	}
 
 	// Generate cloth

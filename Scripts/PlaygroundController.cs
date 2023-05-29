@@ -75,14 +75,14 @@ public partial class PlaygroundController : Node2D
 	public void VisualizeStress(bool visualizeStress) {
 		this.visualizeStress = visualizeStress;
 		cloth.visualizeStress = visualizeStress;
-		cloth.RedrawConnections();
+		cloth.QueueRedraw();
 	}
 
 	// Hide joints
 	public void DrawJoints(bool drawJoints) {
 		this.drawJoints = drawJoints;
 		cloth.drawJoints = drawJoints;
-		cloth.RedrawJoints();
+		cloth.QueueRedraw();
 	}
 
 	// Set start empty
@@ -93,8 +93,7 @@ public partial class PlaygroundController : Node2D
 	// Set palette
 	public void SetPalette(int index) {
 		Palette.Set((Palette.Theme)index);
-		cloth.RedrawConnections();
-		cloth.RedrawJoints();
+		cloth.QueueRedraw();
 		RenderingServer.SetDefaultClearColor(Palette.backgroundColor);
 	}
 

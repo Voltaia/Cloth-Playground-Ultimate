@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 
 // Cloth joint
-public partial class Joint : Node2D
+public partial class Joint
 {
 	// Variables
+	public Vector2 position;
 	public Vector2 previousPosition;
 	public Cloth parent;
 	public bool hasBeenRemoved = false;
@@ -15,8 +16,7 @@ public partial class Joint : Node2D
 		get { return _isFixed; }
 		set {
 			_isFixed = value;
-			previousPosition = Position;
-			QueueRedraw();
+			previousPosition = position;
 		}
 	}
 
@@ -24,11 +24,9 @@ public partial class Joint : Node2D
 	public Joint(Cloth parent, Vector2 position, bool isFixed) {
 		// Set up
 		this.parent = parent;
-		Position = position;
+		this.position = position;
 		previousPosition = position;
 		this._isFixed = isFixed;
-		Name = "Joint";
-		ZIndex = -1;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,29 +36,21 @@ public partial class Joint : Node2D
 		if (isFixed || parent.simulationPaused) return;
 
 		// Movement
-		Vector2 velocity = Position - previousPosition;
-		previousPosition = Position;
-		Position = Position + velocity;
-		Position = Position + Vector2.Down * PlaygroundController.gravity;
-	}
-
-	// Draw
-	public override void _Draw()
-	{
-		if (!parent.drawJoints) return;
-		if (isFixed) DrawCircle(Vector2.Zero, parent.jointRadius, Palette.fixedJointColor);
-		else DrawCircle(Vector2.Zero, parent.jointRadius, Palette.jointColor);
+		Vector2 velocity = position - previousPosition;
+		previousPosition = position;
+		position = position + velocity;
+		position = position + Vector2.Down * PlaygroundController.gravity;
 	}
 
 	// Collides with point
 	public bool CollidesWithPoint(Vector2 pointPosition) {
-		float distance = pointPosition.DistanceTo(Position);
+		float distance = pointPosition.DistanceTo(position);
 		return distance < parent.jointRadius;
 	}
 
 	// Collides with circle
 	public bool CollidesWithCircle(Vector2 circlePosition, float circleRadius) {
-		float distance = circlePosition.DistanceTo(Position);
+		float distance = circlePosition.DistanceTo(position);
 		return distance < parent.jointRadius + circleRadius;
 	}
 }

@@ -50,7 +50,7 @@ public partial class ClothEditor : Node2D
 		connectionUnderMouse = cloth.GetClosestConnection(Simulation.MousePosition, ConnectionDistanceTolerance);
 
 		// Grabbing logic
-		if (jointGrabbed != null) jointGrabbed.Position = Simulation.MousePosition + jointGrabbedOffset;
+		if (jointGrabbed != null) jointGrabbed.position = Simulation.MousePosition + jointGrabbedOffset;
 
 		// Cutting logic
 		if (isCutting) {
@@ -116,7 +116,7 @@ public partial class ClothEditor : Node2D
 	public void AttemptGrabJoint() {
 		if (jointUnderMouse == null) return;
 		jointGrabbed = jointUnderMouse;
-		jointGrabbedOffset = jointGrabbed.Position - Simulation.MousePosition;
+		jointGrabbedOffset = jointGrabbed.position - Simulation.MousePosition;
 		overlay.Update();
 	}
 	
