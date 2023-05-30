@@ -83,7 +83,6 @@ grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_2s0s4")
 
 [node name="Default Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
-clip_contents = false
 custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
 size_flags_vertical = 8
@@ -101,7 +100,6 @@ shortcut_keys_enabled = false
 
 [node name="Create Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
-clip_contents = false
 custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
 size_flags_vertical = 8
@@ -117,7 +115,6 @@ shortcut_keys_enabled = false
 
 [node name="Destroy Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
-clip_contents = false
 custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
 size_flags_vertical = 8
@@ -131,7 +128,6 @@ shortcut_keys_enabled = false
 
 [node name="Default Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
-clip_contents = false
 custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
 size_flags_vertical = 8
@@ -146,7 +142,6 @@ shortcut_keys_enabled = false
 
 [node name="Create Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
-clip_contents = false
 custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
 size_flags_vertical = 8
@@ -161,7 +156,6 @@ shortcut_keys_enabled = false
 
 [node name="Destroy Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
-clip_contents = false
 custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
 size_flags_vertical = 8
@@ -175,7 +169,6 @@ shortcut_keys_enabled = false
 
 [node name="Create Adjust Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
-clip_contents = false
 custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
 size_flags_vertical = 8
