@@ -276,8 +276,7 @@ custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Edit Properties")
 focus_neighbor_bottom = NodePath("../New Window")
-text = "New Custom Cloth
-"
+text = "New Custom Cloth"
 flat = true
 
 [node name="New Window" type="Button" parent="Menu/Menu Panel/Pause Menu"]
@@ -293,8 +292,7 @@ custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 focus_neighbor_top = NodePath("../New Window")
 focus_neighbor_bottom = NodePath("../Clear Cloth")
-text = "Regenerate Cloth
-"
+text = "Regenerate Cloth"
 flat = true
 
 [node name="Clear Cloth" type="Button" parent="Menu/Menu Panel/Pause Menu"]
