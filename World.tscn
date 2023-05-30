@@ -94,9 +94,6 @@ LMB: [color=blue]Grab Joint[/color]
 RMB: [color=blue]Freeze / Release Joint[/color]
 SPACE: [color=orange]Freeze Simulation[/color]"
 fit_content = true
-scroll_active = false
-autowrap_mode = 0
-shortcut_keys_enabled = false
 
 [node name="Create Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
@@ -109,9 +106,6 @@ text = "LMB: [color=green]Create Fixed Joint[/color]
 LMB & Drag: [color=green]Start Connection[/color]
 Hold RMB: [color=green]Select Connection[/color]"
 fit_content = true
-scroll_active = false
-autowrap_mode = 0
-shortcut_keys_enabled = false
 
 [node name="Destroy Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
@@ -122,9 +116,6 @@ theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "LMB: [color=red]Cut Cloth[/color]"
 fit_content = true
-scroll_active = false
-autowrap_mode = 0
-shortcut_keys_enabled = false
 
 [node name="Default Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
@@ -136,9 +127,6 @@ bbcode_enabled = true
 text = "Drag: [color=blue]Move Joint[/color]
 RMB: [color=blue]Freeze / Release Joint[/color]"
 fit_content = true
-scroll_active = false
-autowrap_mode = 0
-shortcut_keys_enabled = false
 
 [node name="Create Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
@@ -150,9 +138,6 @@ bbcode_enabled = true
 text = "Release LMB: [color=green]End Connection[/color]
 RMB: [color=green]Insert Loose Joint[/color]"
 fit_content = true
-scroll_active = false
-autowrap_mode = 0
-shortcut_keys_enabled = false
 
 [node name="Destroy Drag Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
@@ -163,9 +148,6 @@ theme_override_font_sizes/normal_font_size = 0
 bbcode_enabled = true
 text = "Drag: [color=red]Cut Through Cloth[/color]"
 fit_content = true
-scroll_active = false
-autowrap_mode = 0
-shortcut_keys_enabled = false
 
 [node name="Create Adjust Tool Tip" type="RichTextLabel" parent="Overlay/Tool Tips"]
 visible = false
@@ -177,9 +159,6 @@ bbcode_enabled = true
 text = "Scroll Up: [color=green]Increase Length[/color]
 Scroll Down: [color=green]Decrease Length[/color]"
 fit_content = true
-scroll_active = false
-autowrap_mode = 0
-shortcut_keys_enabled = false
 
 [node name="Destruction Trail" type="Line2D" parent="Overlay"]
 points = PackedVector2Array(752, 737)
