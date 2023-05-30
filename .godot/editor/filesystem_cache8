@@ -1,12 +1,13 @@
 2a60927148abd1d33b818b535e306557
-::res://::1685398285
+::res://::1685401909
 icon.svg::CompressedTexture2D::7113119411859120856::1677977129::1679527472::1::::<><>::
 Menu Theme.tres::Theme::8475817082081397983::1683667751::0::1::::<><>::
-World.tscn::PackedScene::4123599811340916521::1685389649::0::1::::<><>::res://Scripts/Simulation.cs<>res://Scripts/PlaygroundController.cs<>res://Scripts/Menu.cs<>res://Scripts/InputHandler.cs<>res://Scripts/ClothEditor.cs<>res://Scripts/Overlay.cs<>uid://ds00p7f7j24nj
-::res://Scripts/::1685389440
+World.tscn::PackedScene::4123599811340916521::1685401777::0::1::::<><>::res://Scripts/Simulation.cs<>res://Scripts/PlaygroundController.cs<>res://Scripts/Menu.cs<>res://Scripts/InputHandler.cs<>res://Scripts/ClothEditor.cs<>res://Scripts/Overlay.cs<>uid://ds00p7f7j24nj<>res://Scripts/FixFocusHighlight.cs
+::res://Scripts/::1685399777
 Cloth.cs::CSharpScript::-1::1685389440::0::1::::<><>::
 ClothEditor.cs::CSharpScript::-1::1685386788::0::1::::<><>::
 Connection.cs::CSharpScript::-1::1685386836::0::1::::<><>::
+FixFocusHighlight.cs::CSharpScript::-1::1685401871::0::1::::<><>::
 InputHandler.cs::CSharpScript::-1::1684976188::0::1::::<><>::
 Joint.cs::CSharpScript::-1::1685386803::0::1::::<><>::
 Menu.cs::CSharpScript::-1::1684791622::0::1::::<><>::
